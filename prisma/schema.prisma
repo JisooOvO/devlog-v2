@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Series {
+  id        String  @id @default(cuid())
+  thumbnail String?
+  title     String
+  posts     Post[]
+}
+
+model Comment {
+  id      String  @id @default(cuid())
+  userId  String
+  content String
+  postId  String?
+  post    Post?   @relation(fields: [postId], references: [id])
+}
+
+model Post {
+  id        String    @id @default(cuid())
+  thumbnail String?
+  seriesId  String?
+  series    Series?   @relation(fields: [seriesId], references: [id])
+  title     String
+  content   String
+  comments  Comment[]
+  tags      String?
+  likes     Int       @default(0)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+  deletedAt DateTime?
+}
+
+model Blog {
+  id         String  @id
+  title      String?
+  categories String?
+}
