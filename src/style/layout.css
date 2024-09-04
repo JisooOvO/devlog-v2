@@ -1,0 +1,71 @@
+:root{
+  --available-width : calc(100vw - 5rem);
+  --header-height : 3rem;
+  --header-y-padding : 2rem;
+  --header-margin-bottom : 2rem;
+  --default-padding : 1rem;
+  --background-color : #fff;
+  --text-color : #000;
+  --shadow-sm : 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.dark {
+  --background-color : #000;
+  --text-color : #fff;
+
+}
+
+body {
+  margin: 0;
+  padding: 0rem 2rem;
+  width: var(--available-width);
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  all: unset;
+  cursor: pointer;
+}
+
+header {
+  width: var(--available-width);
+  height: var(--header-height);
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: var(--default-padding) var(--header-y-padding);
+  margin-bottom: var(--header-margin-bottom);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--background-color);
+}
+
+.header-line {
+  box-shadow: var(--shadow-sm);
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: bold;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.contents {
+  margin-top: calc(calc(var(--header-height) + var(--header-margin-bottom)) + var(--header-y-padding));
+}

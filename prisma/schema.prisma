@@ -36,9 +36,3 @@ model Post {
   updatedAt DateTime  @default(now())
   deletedAt DateTime?
 }
-
-model Blog {
-  id         String  @id
-  title      String?
-  categories String?
-}
