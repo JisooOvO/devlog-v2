@@ -1,10 +1,16 @@
-import Link from "next/link";
+export default function HomePage() {
+  // API 로 분리해야겠음..
+  // const directoryPath = path.join(process.cwd(), "src/app");
+  // const directories = fs
+  //   .readdirSync(directoryPath, { withFileTypes: true })
+  //   .filter((dirent) => dirent.isDirectory())
+  //   .filter((dirent) => dirent.name !== "api")
+  //   .map((dirent) => dirent.name);
 
-export default async function HomePage() {
   return (
     <>
-      <Link href={"post"}>POST</Link>
-      <Link href={"write"}>WRITE</Link>
+      <p>메인이올시다</p>
+      <div style={{ height: "200vh" }}></div>
     </>
   );
 }
