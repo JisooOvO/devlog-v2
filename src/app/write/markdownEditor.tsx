@@ -119,7 +119,6 @@ const MarkdownEditor: React.FC<mardownProps> = ({ markdown, setMarkdown }) => {
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
           rehypePlugins={[rehypeRaw]}
-          children={markdown}
           components={{
             code({ node, inline, className, children, ...props }: any) {
               const match = /language-(\w+)/.exec(className || "");
@@ -142,7 +141,9 @@ const MarkdownEditor: React.FC<mardownProps> = ({ markdown, setMarkdown }) => {
               );
             },
           }}
-        />
+        >
+          {markdown}
+        </ReactMarkdown>
       </div>
     </div>
   );
