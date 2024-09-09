@@ -32,7 +32,7 @@ const WriteButton = () => {
     setLoginState(true);
   }, []);
 
-  if (loginState) return <Link href={"write"}>WRITE</Link>;
+  if (loginState) return <Link href={"/write"}>WRITE</Link>;
   else return <></>;
 };
 

@@ -1,20 +1,18 @@
-:root{
-  --available-width : calc(100vw - 5rem);
-  --header-height : 3rem;
-  --header-y-padding : 2rem;
-  --header-margin-bottom : 2rem;
-  --default-padding : 1rem;
-  --background-color : #fff;
-  --text-color : #000;
-  --shadow-sm : 0 1px 4px 0 rgba(0, 0, 0, 0.05);
+:root {
+  --available-width: calc(100vw - 5rem);
+  --header-height: 3rem;
+  --header-y-padding: 2rem;
+  --header-margin-bottom: 2rem;
+  --default-padding: 1rem;
+  --background-color: #fff;
+  --text-color: #000;
+  --shadow-sm: 0 1px 4px 0 rgba(0, 0, 0, 0.05);
   --bgColor-neutral-muted: #818b981f;
-
 }
 
 .dark {
-  --background-color : #000;
-  --text-color : #fff;
-
+  --background-color: #000;
+  --text-color: #fff;
 }
 
 body {
@@ -34,7 +32,8 @@ a {
   color: inherit;
 }
 
-textarea:focus-visible, input:focus-visible {
+textarea:focus-visible,
+input:focus-visible {
   outline: none;
 }
 
@@ -73,26 +72,29 @@ nav {
 }
 
 .contents {
-  margin-top: calc(calc(var(--header-height) + var(--header-margin-bottom)) + var(--header-y-padding));
+  margin-top: calc(
+    calc(var(--header-height) + var(--header-margin-bottom)) +
+      var(--header-y-padding)
+  );
 }
 
-.write-form{
+.write-form {
   height: 100%;
 }
 
-.write-title{
+.write-title {
   width: var(--available-width);
   margin-bottom: 2rem;
   box-sizing: border-box;
   border: none;
   border-bottom: 1px solid var(--bgColor-neutral-muted);
-  padding: .5rem;
+  padding: 0.5rem;
   font-size: 2rem;
 }
 
-.write-button{
+.write-button {
   margin: 1rem 0 2rem 0;
-  padding: 1rem .5rem;
+  padding: 1rem 0.5rem;
   width: 5rem;
   border: 1px solid var(--bgColor-neutral-muted);
   border-radius: 0.75rem;
@@ -118,7 +120,7 @@ nav {
   background-color: #f8f8f8;
 }
 
-.preview > h1:first-child{
+.preview > h1:first-child {
   margin-top: 0;
 }
 
@@ -162,3 +164,38 @@ blockquote {
   border-radius: 6px;
 }
 
+.post-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  padding: 0.5rem;
+}
+
+.post {
+  border: 1px solid #000;
+  border-radius: 0.75rem;
+}
+
+.post-link {
+  display: block;
+  padding: 1rem;
+}
+
+@media (max-width: 1200px) {
+  .post-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .post-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 400px) {
+  .post-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

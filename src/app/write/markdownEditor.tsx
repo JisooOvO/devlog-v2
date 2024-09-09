@@ -1,3 +1,4 @@
+import MarkdownView from "@/lib/components/markdownView";
 import {
   Dispatch,
   KeyboardEventHandler,
@@ -5,11 +6,6 @@ import {
   useEffect,
   useState,
 } from "react";
-import ReactMarkdown from "react-markdown";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { vscDarkPlus } from "react-syntax-highlighter/dist/cjs/styles/prism";
-import rehypeRaw from "rehype-raw";
-import remarkGfm from "remark-gfm";
 
 let backtickCount = 0;
 
@@ -116,34 +112,7 @@ const MarkdownEditor: React.FC<mardownProps> = ({ markdown, setMarkdown }) => {
         placeholder="여기에 마크다운을 입력하세요..."
       />
       <div className="preview">
-        <ReactMarkdown
-          remarkPlugins={[remarkGfm]}
-          rehypePlugins={[rehypeRaw]}
-          components={{
-            code({ node, inline, className, children, ...props }: any) {
-              const match = /language-(\w+)/.exec(className || "");
-              return !inline && match ? (
-                <SyntaxHighlighter
-                  style={vscDarkPlus}
-                  customStyle={{ borderRadius: "10px" }}
-                  showLineNumbers
-                  PreTag="div"
-                  language={match[1]}
-                  wrapLines
-                  {...props}
-                >
-                  {String(children).replace(/\n$/, "")}
-                </SyntaxHighlighter>
-              ) : (
-                <code className={`inline-code ${className}`} {...props}>
-                  {children}
-                </code>
-              );
-            },
-          }}
-        >
-          {markdown}
-        </ReactMarkdown>
+        <MarkdownView markdown={markdown} />
       </div>
     </div>
   );
