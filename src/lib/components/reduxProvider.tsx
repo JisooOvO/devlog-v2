@@ -3,8 +3,8 @@
 import { Provider } from "react-redux";
 import store from "../store";
 import BlogHeader from "./blogHeader";
-import ClientCategoryMaker from "./clientCategoryMaker";
-import ClientScrollMaker from "./clientScrollMaker";
+import ClientCategoryMaker from "./client/clientCategoryMaker";
+import ClientScrollMaker from "./client/clientScrollMaker";
 
 type Props = {
   children: React.ReactNode;

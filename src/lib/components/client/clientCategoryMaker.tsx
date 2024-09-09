@@ -2,8 +2,11 @@
 
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { categoryAction, categoryActionType } from "../store/categoryReducer";
-import { AppDispatch } from "../store";
+import {
+  categoryAction,
+  categoryActionType,
+} from "../../store/categoryReducer";
+import { AppDispatch } from "../../store";
 
 const ClientCategoryMaker = () => {
   // const dispatch = useDispatch<AppDispatch>();

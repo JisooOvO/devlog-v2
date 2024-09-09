@@ -1,17 +1,11 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { useState } from "react";
-
-const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
+import MarkdownEditor from "./markdownEditor";
 
 const WritePage = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-
-  const handleContentChange = (value?: string) => {
-    setContent(value || "");
-  };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -34,30 +28,23 @@ const WritePage = () => {
   };
 
   return (
-    <div>
-      <h1>Write a New Blog Post</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="title">Title:</label>
-          <input
-            type="text"
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="content">Content:</label>
-          <MDEditor
-            value={content}
-            onChange={handleContentChange}
-            preview="edit"
-          />
-        </div>
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+    <form className="write-form" onSubmit={handleSubmit}>
+      <div>
+        <label htmlFor="title"></label>
+        <input
+          type="text"
+          className="write-title"
+          value={title}
+          placeholder="제목"
+          onChange={(e) => setTitle(e.target.value)}
+          required
+        />
+      </div>
+      <MarkdownEditor markdown={content} setMarkdown={setContent} />
+      <button className="write-button" type="submit">
+        SAVE
+      </button>
+    </form>
   );
 };
 

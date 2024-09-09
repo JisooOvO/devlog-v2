@@ -6,7 +6,9 @@
   --default-padding : 1rem;
   --background-color : #fff;
   --text-color : #000;
-  --shadow-sm : 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-sm : 0 1px 4px 0 rgba(0, 0, 0, 0.05);
+  --bgColor-neutral-muted: #818b981f;
+
 }
 
 .dark {
@@ -30,6 +32,10 @@ p {
 a {
   text-decoration: none;
   color: inherit;
+}
+
+textarea:focus-visible, input:focus-visible {
+  outline: none;
 }
 
 button {
@@ -69,3 +75,90 @@ nav {
 .contents {
   margin-top: calc(calc(var(--header-height) + var(--header-margin-bottom)) + var(--header-y-padding));
 }
+
+.write-form{
+  height: 100%;
+}
+
+.write-title{
+  width: var(--available-width);
+  margin-bottom: 2rem;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 1px solid var(--bgColor-neutral-muted);
+  padding: .5rem;
+  font-size: 2rem;
+}
+
+.write-button{
+  margin: 1rem 0 2rem 0;
+  padding: 1rem .5rem;
+  width: 5rem;
+  border: 1px solid var(--bgColor-neutral-muted);
+  border-radius: 0.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.markdown {
+  display: flex;
+  height: 60vh;
+  border: 1px solid var(--bgColor-neutral-muted);
+  box-shadow: var(--shadow-sm);
+}
+
+.preview {
+  padding: 1rem;
+  width: 50%;
+  height: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+  background-color: #f8f8f8;
+}
+
+.preview > h1:first-child{
+  margin-top: 0;
+}
+
+textarea {
+  border: none;
+  resize: none;
+  padding: 1rem;
+  box-sizing: border-box;
+  width: 50%;
+  height: 100%;
+  font-size: 1rem;
+}
+
+ul {
+  padding-inline-start: 1.5rem;
+}
+
+li {
+  line-height: 1.7;
+}
+
+ol {
+  padding-inline-start: 1.5rem;
+}
+
+blockquote {
+  margin: 0;
+  margin-block: 0;
+  padding: 0.5rem;
+  padding-left: 1rem;
+  white-space: break-spaces;
+  background-color: var(--bgColor-neutral-muted);
+  border-radius: 6px;
+  /* 뭔가 멋진걸 만들어야함 */
+}
+
+.inline-code {
+  padding: 0.2rem 0.4rem;
+  white-space: break-spaces;
+  background-color: var(--bgColor-neutral-muted);
+  border-radius: 6px;
+}
+

@@ -1,8 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useSelector } from "react-redux";
-import { RootState } from "../store";
+import { useEffect, useState } from "react";
 
 export default function BlogHeader() {
   return (
@@ -10,26 +9,31 @@ export default function BlogHeader() {
       <Link className="title" href={"/"}>
         {process.env.NEXT_PUBLIC_TITLE}
       </Link>
-      <NavConatiner />
-      <DarkModeButton />
+      <nav>
+        <WriteButton />
+        <DarkModeButton />
+      </nav>
     </header>
   );
 }
 
 // --------------------------------------------------------------------------
 
-const NavConatiner = () => {
-  const categoryState = useSelector((state: RootState) => state.category);
+const WriteButton = () => {
+  const [loginState, setLoginState] = useState(false);
 
-  const categoryList = categoryState.map((category, index) => {
-    return (
-      <Link key={`category-${index}`} href={`${category}`}>
-        {category.toLocaleUpperCase()}
-      </Link>
-    );
-  });
+  useEffect(() => {
+    const username = localStorage.getItem("username");
+    const password = localStorage.getItem("password");
 
-  return <nav>{categoryList}</nav>;
+    if (username !== process.env.NEXT_PUBLIC_USERNAME) return;
+    if (password !== process.env.NEXT_PUBLIC_PASSWORD) return;
+
+    setLoginState(true);
+  }, []);
+
+  if (loginState) return <Link href={"write"}>WRITE</Link>;
+  else return <></>;
 };
 
 // --------------------------------------------------------------------------
