@@ -26,6 +26,9 @@ const WriteButton = () => {
     const username = localStorage.getItem("username");
     const password = localStorage.getItem("password");
 
+    console.log(process.env.NEXT_PUBLIC_USERNAME);
+    console.log(process.env.NEXT_PUBLIC_PASSWORD);
+
     if (username !== process.env.NEXT_PUBLIC_USERNAME) return;
     if (password !== process.env.NEXT_PUBLIC_PASSWORD) return;
 
