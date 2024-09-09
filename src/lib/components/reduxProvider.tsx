@@ -13,6 +13,7 @@ const ReduxProvider = ({ children }: RootLayoutProps) => {
       <ClientCategoryMaker />
       <ClientScrollMaker />
       <BlogHeader />
+      {children}
     </Provider>
   );
 };
