@@ -10,15 +10,17 @@ export const metadata: Metadata = {
   description: "블로그 설명",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
+export interface RootLayoutProps {
   children: React.ReactNode;
-}>) {
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="ko">
       <body className={inter.className}>
-        <ReduxProvider children={children} />
+        <ReduxProvider>
+          <div className="contents">{children}</div>
+        </ReduxProvider>
       </body>
     </html>
   );
