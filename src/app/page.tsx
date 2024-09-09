@@ -6,11 +6,11 @@ interface PostIDAndTitle {
   content: string;
 }
 
-export async function getPosts() {
+const getPosts = async () => {
   return await prisma.post.findMany({
     select: { title: true, content: true },
   });
-}
+};
 
 const HomePage: React.FC = async () => {
   const posts = await getPosts();
