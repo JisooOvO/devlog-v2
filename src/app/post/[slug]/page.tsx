@@ -1,20 +1,26 @@
 import MarkdownView from "@/lib/components/markdownView";
 import prisma from "@/lib/prisma";
+import { GetStaticProps } from "next";
 import { notFound } from "next/navigation";
 
 interface Params {
   slug: string;
 }
 
-export async function generateStaticParams() {
+export const getStaticProps: GetStaticProps = async () => {
   const posts = await prisma.post.findMany({
     select: { id: true, title: true },
   });
 
-  return posts.map((post) => ({
+  const slug = posts.map((post) => ({
     slug: post.title.replace(/\s+/g, "-"),
   }));
-}
+
+  return {
+    props: { slug },
+    revalidate: 10,
+  };
+};
 
 const PostPage: React.FC<{ params: Params }> = async ({ params }) => {
   const title = params.slug.replace(/-/g, " ");
