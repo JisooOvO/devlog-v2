@@ -1,4 +1,4 @@
-import ReduxProvider from "@/lib/components/reduxProvider";
+import ClientProvider from "@/lib/components/provider/clientProvider";
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -23,11 +23,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="ko">
       <body className={inter.className}>
-        <ReduxProvider>
-          <div className="contents">{children}</div>
+        <ClientProvider>
           <Analytics />
           <SpeedInsights />
-        </ReduxProvider>
+          {children}
+        </ClientProvider>
       </body>
     </html>
   );

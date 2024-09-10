@@ -8,7 +8,7 @@ import {
 } from "../../store/categoryReducer";
 import { AppDispatch } from "../../store";
 
-const ClientCategoryMaker = () => {
+const ClientCategoryProvider = () => {
   // const dispatch = useDispatch<AppDispatch>();
   // const categoryAction: categoryAction = {
   //   type: categoryActionType.SET,
@@ -22,4 +22,4 @@ const ClientCategoryMaker = () => {
   return <></>;
 };
 
-export default ClientCategoryMaker;
+export default ClientCategoryProvider;

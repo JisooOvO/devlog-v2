@@ -62,6 +62,7 @@ const WritePage = () => {
           onChange={(e) => setTitle(e.target.value)}
           onKeyDown={handleKeydown}
           pattern="[a-zA-Z0-9ㄱ-ㅣ가-힣\s,.?!@#$%^&\(\)\{\}\[\]]{5,30}$"
+          spellCheck={false}
           required
         />
       </div>
