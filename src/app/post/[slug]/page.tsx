@@ -6,7 +6,7 @@ interface Params {
   slug: string;
 }
 
-export const generateStaticProps = async () => {
+export const generateStaticParams = async () => {
   const posts = await prisma.post.findMany({
     select: { id: true, title: true },
   });
