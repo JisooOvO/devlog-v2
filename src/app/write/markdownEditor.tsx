@@ -10,13 +10,18 @@ import {
 let backtickCount = 0;
 
 interface mardownProps {
+  isWrite: boolean;
+  setIsWrite: Dispatch<SetStateAction<boolean>>;
   markdown: string;
   setMarkdown: Dispatch<SetStateAction<string>>;
 }
 
-const MarkdownEditor: React.FC<mardownProps> = ({ markdown, setMarkdown }) => {
-  const [isWrite, setIsWrite] = useState(false);
-
+const MarkdownEditor: React.FC<mardownProps> = ({
+  isWrite,
+  setIsWrite,
+  markdown,
+  setMarkdown,
+}) => {
   useEffect(() => {
     const dragEndCallback = (event: DragEvent) => {
       event.preventDefault();
@@ -83,6 +88,8 @@ const MarkdownEditor: React.FC<mardownProps> = ({ markdown, setMarkdown }) => {
   const handleKeyUp: KeyboardEventHandler = (event) => {
     const textarea = event.target as HTMLTextAreaElement;
 
+    setIsWrite(true);
+
     if (isWrite && event.code === "Tab") {
       const start = textarea.selectionStart;
       const end = textarea.selectionEnd;
@@ -105,7 +112,6 @@ const MarkdownEditor: React.FC<mardownProps> = ({ markdown, setMarkdown }) => {
     <div className="markdown">
       <textarea
         spellCheck={false}
-        onFocus={() => setIsWrite(true)}
         onBlur={() => setIsWrite(false)}
         onKeyDown={handleKeyDown}
         onKeyUp={handleKeyUp}
