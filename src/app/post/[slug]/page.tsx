@@ -11,14 +11,9 @@ export const generateStaticParams = async () => {
     select: { id: true, title: true },
   });
 
-  const slug = posts.map((post) => ({
+  return posts.map((post) => ({
     slug: post.title.replace(/\s+/g, "-"),
   }));
-
-  return {
-    props: { slug },
-    revalidate: 10,
-  };
 };
 
 const PostPage: React.FC<{ params: Params }> = async ({ params }) => {
