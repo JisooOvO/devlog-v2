@@ -12,7 +12,7 @@ export async function generateStaticParams() {
   });
 
   return posts.map((post) => ({
-    slug: post.title.replace(/\s+/g, "-").toLowerCase(),
+    slug: post.title.replace(/\s+/g, "-"),
   }));
 }
 
@@ -22,8 +22,15 @@ const PostPage: React.FC<{ params: Params }> = async ({ params }) => {
   const decodedTitle = decodeURIComponent(title);
 
   const post = await prisma.post.findFirst({
-    where: { title: decodedTitle },
+    where: {
+      title: {
+        equals: decodedTitle,
+        mode: "insensitive",
+      },
+    },
   });
+
+  console.log(decodedTitle);
 
   if (!post) {
     notFound();

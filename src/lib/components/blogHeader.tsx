@@ -7,7 +7,7 @@ export default function BlogHeader() {
   return (
     <header>
       <Link className="title" href={"/"}>
-        {process.env.NEXT_PUBLIC_TITLE}
+        기술블로그
       </Link>
       <nav>
         <WriteButton />
@@ -20,20 +20,7 @@ export default function BlogHeader() {
 // --------------------------------------------------------------------------
 
 const WriteButton = () => {
-  const [loginState, setLoginState] = useState(false);
-
-  useEffect(() => {
-    const username = localStorage.getItem("username");
-    const password = localStorage.getItem("password");
-
-    if (username !== process.env.NEXT_PUBLIC_USERNAME) return;
-    if (password !== process.env.NEXT_PUBLIC_PASSWORD) return;
-
-    setLoginState(true);
-  }, []);
-
-  if (loginState) return <Link href={"/write"}>WRITE</Link>;
-  else return <></>;
+  return <Link href={"/write"}>WRITE</Link>;
 };
 
 // --------------------------------------------------------------------------
