@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-const ClientScrollMaker = () => {
+const ClientScrollProvider = () => {
   useEffect(() => {
     const callback = () => {
       const scrollY = window.scrollY;
@@ -24,4 +24,4 @@ const ClientScrollMaker = () => {
   return <></>;
 };
 
-export default ClientScrollMaker;
+export default ClientScrollProvider;
