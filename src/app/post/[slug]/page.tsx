@@ -1,13 +1,12 @@
 import MarkdownView from "@/lib/components/markdownView";
 import prisma from "@/lib/prisma";
-import { GetStaticProps } from "next";
 import { notFound } from "next/navigation";
 
 interface Params {
   slug: string;
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const generateStaticProps = async () => {
   const posts = await prisma.post.findMany({
     select: { id: true, title: true },
   });
@@ -35,8 +34,6 @@ const PostPage: React.FC<{ params: Params }> = async ({ params }) => {
       },
     },
   });
-
-  console.log(decodedTitle);
 
   if (!post) {
     notFound();
