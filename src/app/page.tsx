@@ -7,6 +7,7 @@ interface PostIDAndTitle {
 }
 
 export const revalidate = 10;
+export const dynamicParams = true;
 
 const getPosts = async () => {
   return await prisma.post.findMany({
