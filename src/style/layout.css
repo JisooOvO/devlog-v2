@@ -1,9 +1,9 @@
 :root {
-  --available-width: calc(100vw - 5rem);
-  --header-height: 3rem;
-  --header-y-padding: 2rem;
-  --header-margin-bottom: 2rem;
-  --default-padding: 1rem;
+  --available-width: calc(100vw - calc(2 * var(--default-x-padding)));
+  --header-height: 5rem;
+  --header-margin-bottom: 1rem;
+  --default-x-padding: 8rem;
+  --default-y-padding: 1rem;
   --background-color: #fff;
   --text-color: #000;
   --shadow-sm: 0 1px 4px 0 rgba(0, 0, 0, 0.05);
@@ -17,7 +17,6 @@
 
 body {
   margin: 0;
-  padding: 0rem 2rem;
   width: var(--available-width);
   background-color: var(--background-color);
   color: var(--text-color);
@@ -43,12 +42,13 @@ button {
 }
 
 header {
-  width: var(--available-width);
+  width: 100%;
   height: var(--header-height);
+  box-sizing: border-box;
   position: fixed;
   top: 0;
   left: 0;
-  padding: var(--default-padding) var(--header-y-padding);
+  padding: var(--default-y-padding) var(--default-x-padding);
   margin-bottom: var(--header-margin-bottom);
   display: flex;
   justify-content: space-between;
@@ -72,9 +72,12 @@ nav {
 }
 
 .contents {
+  width: var(--available-width);
+  box-sizing: border-box;
+  margin: 0 var(--default-x-padding);
   margin-top: calc(
-    calc(var(--header-height) + var(--header-margin-bottom)) +
-      var(--header-y-padding)
+    calc(var(--header-height) + var(--header-margin-bottom)) + 
+    var(--default-y-padding)
   );
 }
 
@@ -165,7 +168,6 @@ blockquote {
 }
 
 .post-container {
-  width: 100%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
