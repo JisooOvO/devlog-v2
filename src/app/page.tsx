@@ -6,6 +6,8 @@ interface PostIDAndTitle {
   content: string;
 }
 
+export const revalidate = 10;
+
 const getPosts = async () => {
   return await prisma.post.findMany({
     select: { title: true, content: true },
