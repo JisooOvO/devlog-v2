@@ -18,10 +18,13 @@ export async function POST(request: Request) {
         content,
       },
     });
-    return NextResponse.json(newPost, { status: 200 });
+    return NextResponse.json(
+      { message: "Save completed", newPost },
+      { status: 200 }
+    );
   } catch (error) {
     return NextResponse.json(
-      { message: "Error creating post.", error },
+      { message: "Error creating post", error },
       { status: 500 }
     );
   }
