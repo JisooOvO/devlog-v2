@@ -1,17 +1,28 @@
 "use client";
 
+import { Session } from "next-auth";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import HighLightButton from "./buttons/HighlightButton";
+import { useRouter } from "next/navigation";
+
+interface NextAuthStatus {
+  session?: Session | null;
+  status: "unauthenticated" | "authenticated" | "loading";
+}
 
 export default function BlogHeader() {
+  const { data: session, status } = useSession();
+
   return (
     <header>
       <Link className="title" href={"/"}>
         기술블로그
       </Link>
       <nav>
-        <WriteButton />
-        <DarkModeButton />
+        <LoginButton session={session} status={status} />
+        <WriteButton status={status} />
+        {/* <DarkModeButton /> */}
       </nav>
     </header>
   );
@@ -19,8 +30,37 @@ export default function BlogHeader() {
 
 // --------------------------------------------------------------------------
 
-const WriteButton = () => {
-  return <Link href={"/write"}>WRITE</Link>;
+const LoginButton: React.FC<NextAuthStatus> = ({ session, status }) => {
+  switch (status) {
+    case "authenticated":
+      return (
+        <>
+          <div className="header-user-container">
+            <img src={session?.user?.image ?? undefined} />
+            <p>{session?.user?.name}</p>
+          </div>
+          <HighLightButton onClick={() => signOut()} title="LOGOUT" />
+        </>
+      );
+    case "unauthenticated":
+      return <HighLightButton onClick={() => signIn("github")} title="LOGIN" />;
+    default:
+      return <></>;
+  }
+};
+
+// --------------------------------------------------------------------------
+
+const WriteButton: React.FC<NextAuthStatus> = ({ status }) => {
+  const router = useRouter();
+  switch (status) {
+    case "authenticated":
+      return (
+        <HighLightButton onClick={() => router.push("/write")} title="WRITE" />
+      );
+    default:
+      return <></>;
+  }
 };
 
 // --------------------------------------------------------------------------
@@ -30,5 +70,5 @@ const DarkModeButton = () => {
     document.querySelector("body")?.classList.toggle("dark");
   };
 
-  return <button onClick={toggleDarkMode}>DARK</button>;
+  return <HighLightButton onClick={toggleDarkMode} title="DARK" />;
 };
