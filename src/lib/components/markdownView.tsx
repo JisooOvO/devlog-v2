@@ -3,7 +3,9 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import remarkGfm from "remark-gfm";
 
-const MarkdownView: React.FC<{ markdown: string }> = ({ markdown }) => {
+const MarkdownView: React.FC<{ markdown: string | undefined }> = ({
+  markdown,
+}) => {
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
