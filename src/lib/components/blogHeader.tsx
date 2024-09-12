@@ -38,7 +38,12 @@ const LoginButton: React.FC<NextAuthStatus> = ({ session, status }) => {
         <>
           <div className="header-user-container">
             {session?.user?.image ? (
-              <Image src={session?.user?.image} alt="user image" />
+              <Image
+                src={session?.user?.image}
+                alt="user image"
+                width={200}
+                height={200}
+              />
             ) : (
               <></>
             )}
