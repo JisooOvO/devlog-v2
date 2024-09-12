@@ -8,6 +8,7 @@
   --text-color: #000;
   --shadow-sm: 0 1px 4px 0 rgba(0, 0, 0, 0.05);
   --bgColor-neutral-muted: #818b981f;
+  --highlight-color : #FFA500;
 }
 
 .dark {
@@ -20,6 +21,12 @@ body {
   width: var(--available-width);
   background-color: var(--background-color);
   color: var(--text-color);
+  box-sizing: border-box;
+  margin: 0 var(--default-x-padding);
+  margin-top: calc(
+    calc(var(--header-height) + var(--header-margin-bottom)) + 
+    var(--default-y-padding)
+  );
 }
 
 p {
@@ -60,25 +67,28 @@ header {
   box-shadow: var(--shadow-sm);
 }
 
+.header-user-container{
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.header-user-container img{
+  width: 2rem;
+  height: 2rem;
+  object-fit: fill;
+  border-radius: 50%;
+}
+
 .title {
   font-size: 1.75rem;
-  font-weight: bold;
+  color: var(--highlight-color);
 }
 
 nav {
   display: flex;
   align-items: center;
   gap: 1rem;
-}
-
-.contents {
-  width: var(--available-width);
-  box-sizing: border-box;
-  margin: 0 var(--default-x-padding);
-  margin-top: calc(
-    calc(var(--header-height) + var(--header-margin-bottom)) + 
-    var(--default-y-padding)
-  );
 }
 
 .write-form {
@@ -182,6 +192,35 @@ blockquote {
 .post-link {
   display: block;
   padding: 1rem;
+}
+
+.highlight-button {
+  border-bottom: 1px solid var(--background-color);
+}
+
+.highlight-button:hover{
+  color: var(--highlight-color);
+  border-bottom: 1px solid var(--highlight-color);
+}
+
+.unauthorized-container{
+  height: calc(100vh - calc(3 * var(--header-height)));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.unauthorized-container > p {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.unauthorized-container > button {
+  font-size: 1.5rem;
+  padding: .1rem;
+  color: var(--highlight-color);
+  border-bottom: 1px solid var(--highlight-color);
 }
 
 @media (max-width: 1200px) {

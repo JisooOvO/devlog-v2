@@ -57,16 +57,17 @@ model VerificationToken {
 }
 
 model Post {
-  id        String    @id @default(cuid())
-  thumbnail String?
-  title     String
-  content   String
-  author    User?     @relation(fields: [authorId], references: [id])
-  authorId  String?
-  published Boolean   @default(false)
-  tags      String?
-  likes     Int       @default(0)
-  createdAt DateTime  @default(now()) @map(name: "created_at")
-  updatedAt DateTime  @default(now()) @map(name: "updated_at")
-  deletedAt DateTime? @map(name: "deleted_at")
+  id          String    @id @default(cuid())
+  thumbnail   String?
+  description String
+  title       String
+  content     String
+  author      User?     @relation(fields: [authorId], references: [id])
+  authorId    String?
+  published   Boolean   @default(false)
+  tags        String?
+  likes       Int       @default(0)
+  createdAt   DateTime  @default(now()) @map(name: "created_at")
+  updatedAt   DateTime  @default(now()) @map(name: "updated_at")
+  deletedAt   DateTime? @map(name: "deleted_at")
 }
