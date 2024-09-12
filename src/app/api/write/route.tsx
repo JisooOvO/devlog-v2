@@ -15,6 +15,7 @@ export async function POST(request: Request) {
     const newPost = await prisma.post.create({
       data: {
         title,
+        description: "설명이 필요한가",
         content,
       },
     });

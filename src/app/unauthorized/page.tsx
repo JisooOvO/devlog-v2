@@ -2,9 +2,8 @@
 
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
-const unauthorizedPage = () => {
+const UnauthorizedPage = () => {
   const router = useRouter();
   const { status } = useSession();
 
@@ -25,4 +24,4 @@ const unauthorizedPage = () => {
   );
 };
 
-export default unauthorizedPage;
+export default UnauthorizedPage;
