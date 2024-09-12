@@ -2,8 +2,6 @@ import { getToken } from "next-auth/jwt";
 import { MiddlewareConfig, NextRequest, NextResponse } from "next/server";
 
 const middleware = async (req: NextRequest) => {
-  console.log("this is middleware");
-
   if (req.nextUrl.pathname.startsWith("/api/auth")) {
     return NextResponse.next();
   }
