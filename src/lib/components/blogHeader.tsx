@@ -5,6 +5,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import HighLightButton from "./buttons/HighlightButton";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface NextAuthStatus {
   session?: Session | null;
@@ -36,7 +37,11 @@ const LoginButton: React.FC<NextAuthStatus> = ({ session, status }) => {
       return (
         <>
           <div className="header-user-container">
-            <img src={session?.user?.image ?? undefined} />
+            {session?.user?.image ? (
+              <Image src={session?.user?.image} alt="user image" />
+            ) : (
+              <></>
+            )}
             <p>{session?.user?.name}</p>
           </div>
           <HighLightButton onClick={() => signOut()} title="LOGOUT" />
