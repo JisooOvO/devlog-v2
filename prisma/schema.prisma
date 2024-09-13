@@ -60,7 +60,7 @@ model Post {
   id          String    @id @default(cuid())
   thumbnail   String?
   description String
-  title       String
+  title       String    @unique
   content     String
   author      User?     @relation(fields: [authorId], references: [id])
   authorId    String?
