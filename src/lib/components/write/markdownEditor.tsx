@@ -1,4 +1,5 @@
 import MarkdownView from "@/lib/components/markdownView";
+import { PostAction, PostActionType } from "@/lib/store/postReducer";
 import {
   Dispatch,
   KeyboardEventHandler,
@@ -10,17 +11,17 @@ import {
 let backtickCount = 0;
 
 interface mardownProps {
+  markdown: string | undefined;
+  dispatch: Dispatch<PostAction>;
   isWrite: boolean;
   setIsWrite: Dispatch<SetStateAction<boolean>>;
-  markdown: string;
-  setMarkdown: Dispatch<SetStateAction<string>>;
 }
 
 const MarkdownEditor: React.FC<mardownProps> = ({
   isWrite,
   setIsWrite,
   markdown,
-  setMarkdown,
+  dispatch,
 }) => {
   useEffect(() => {
     const dragEndCallback = (event: DragEvent) => {
@@ -105,7 +106,10 @@ const MarkdownEditor: React.FC<mardownProps> = ({
       }
     }
 
-    setMarkdown(textarea.value);
+    dispatch({
+      type: PostActionType.SET_CONTENTS,
+      payload: { content: textarea.value },
+    });
   };
 
   return (
