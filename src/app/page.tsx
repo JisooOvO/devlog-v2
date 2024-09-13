@@ -1,18 +1,12 @@
 import prisma from "@/lib/prisma";
+import { Post } from "@prisma/client";
 import Link from "next/link";
-
-interface PostIDAndTitle {
-  title: string;
-  content: string;
-}
 
 export const revalidate = 10;
 export const dynamicParams = true;
 
 const getPosts = async () => {
-  return await prisma.post.findMany({
-    select: { title: true, content: true },
-  });
+  return await prisma.post.findMany();
 };
 
 const HomePage: React.FC = async () => {
@@ -20,7 +14,7 @@ const HomePage: React.FC = async () => {
 
   return (
     <div className="post-container">
-      {posts.map((post: PostIDAndTitle, index: number) => {
+      {posts.map((post: Post, index: number) => {
         const formattedTitle = post.title.replace(/\s+/g, "-").toLowerCase();
 
         return (

@@ -8,12 +8,17 @@ const WritePage = () => {
   const router = useRouter();
 
   const [isWrite, setIsWrite] = useState(false);
+  const [isClick, setIsClick] = useState(false);
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (isClick) return;
+
+    setIsClick(true);
 
     const response = await fetch("/api/write", {
       method: "POST",
@@ -40,8 +45,11 @@ const WritePage = () => {
 
       router.push("/");
     } else {
+      // 타이틀이 같으면 분기처리
       alert("Failed to create post.");
     }
+
+    setIsClick(false);
   };
 
   const handleKeydown: KeyboardEventHandler = (event) => {
