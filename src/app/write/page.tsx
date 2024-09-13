@@ -13,6 +13,7 @@ import { Dispatch } from "@reduxjs/toolkit";
 const WritePage = () => {
   const newPost = useSelector((state: RootState) => state.post);
   const [isWrite, setIsWrite] = useState(false);
+  const [isClick, setIsClick] = useState(false);
   const dispatch: Dispatch<PostAction> = useDispatch();
   const router = useRouter();
 
@@ -46,12 +47,6 @@ const WritePage = () => {
     } else {
       // 타이틀이 같으면 분기처리
       alert("Failed to create post.");
-    }
-  };
-
-  const handleKeydown: KeyboardEventHandler = (event) => {
-    if (event.code === "Tab") {
-      setIsWrite(false);
     }
   };
 
