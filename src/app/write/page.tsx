@@ -1,17 +1,20 @@
 "use client";
 
-import { KeyboardEventHandler, useState } from "react";
-import MarkdownEditor from "./markdownEditor";
+import { useState } from "react";
+import MarkdownEditor from "../../lib/components/write/markdownEditor";
 import { useRouter } from "next/navigation";
+import TitleInput from "@/lib/components/write/titleInput";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { RootState } from "@/lib/store";
+import { PostAction, PostActionType } from "@/lib/store/postReducer";
+import { Dispatch } from "@reduxjs/toolkit";
 
 const WritePage = () => {
-  const router = useRouter();
-
+  const newPost = useSelector((state: RootState) => state.post);
   const [isWrite, setIsWrite] = useState(false);
-  const [isClick, setIsClick] = useState(false);
-
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const dispatch: Dispatch<PostAction> = useDispatch();
+  const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -25,10 +28,7 @@ const WritePage = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        title,
-        content,
-      }),
+      body: JSON.stringify(newPost),
     });
 
     if (response.ok) {
@@ -38,8 +38,7 @@ const WritePage = () => {
         textarea.value = "";
       }
 
-      setTitle("");
-      setContent("");
+      dispatch({ type: PostActionType.CLEAR });
 
       alert("Post created successfully!");
 
@@ -48,8 +47,6 @@ const WritePage = () => {
       // 타이틀이 같으면 분기처리
       alert("Failed to create post.");
     }
-
-    setIsClick(false);
   };
 
   const handleKeydown: KeyboardEventHandler = (event) => {
@@ -60,25 +57,16 @@ const WritePage = () => {
 
   return (
     <form className="write-form" onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="title"></label>
-        <input
-          type="text"
-          className="write-title"
-          value={title}
-          placeholder="제목"
-          onChange={(e) => setTitle(e.target.value)}
-          onKeyDown={handleKeydown}
-          pattern="[a-zA-Z0-9ㄱ-ㅣ가-힣\s,.?!@#$%^&\(\)\{\}\[\]]{2,30}$"
-          spellCheck={false}
-          required
-        />
-      </div>
+      <TitleInput
+        title={newPost.title}
+        dispatch={dispatch}
+        setIsWrite={setIsWrite}
+      />
       <MarkdownEditor
+        markdown={newPost.content}
+        dispatch={dispatch}
         isWrite={isWrite}
         setIsWrite={setIsWrite}
-        markdown={content}
-        setMarkdown={setContent}
       />
       <button className="write-button" type="submit">
         SAVE
