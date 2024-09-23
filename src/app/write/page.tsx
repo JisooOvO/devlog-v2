@@ -163,7 +163,7 @@ const TopicSection: React.FC<TopicProps> = ({
   }, [type]);
 
   return (
-    <div className="topic-container">
+    <div>
       <p>{title}</p>
       <div className="topic-selector">
         <select
