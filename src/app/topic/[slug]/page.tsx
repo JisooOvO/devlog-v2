@@ -14,11 +14,19 @@ const TopicPage: React.FC<TopicProps> = async ({ params }) => {
     where: {
       name: topicName,
     },
+    include: {
+      series: true,
+    },
   });
+
   return (
     <>
       <Topics topicName={topicName} />
-      <Posts topicId={topic?.id} />
+      {topic?.series.map((s, index) => {
+        return (
+          <Posts key={`post-${index}`} seriesName={s.name} seriesId={s.id} />
+        );
+      })}
     </>
   );
 };

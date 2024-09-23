@@ -2,13 +2,14 @@ import prisma from "../prisma";
 import PostContainer from "./post";
 
 interface Props {
-  topicId?: string | undefined;
+  seriesName?: string | undefined;
+  seriesId?: string | undefined;
 }
 
-const Posts: React.FC<Props> = async ({ topicId }) => {
+const Posts: React.FC<Props> = async ({ seriesName, seriesId }) => {
   const posts = await prisma.post.findMany({
     where: {
-      topicId: topicId,
+      seriesId: seriesId,
     },
     include: {
       thumbnail: true,
@@ -17,21 +18,24 @@ const Posts: React.FC<Props> = async ({ topicId }) => {
   });
 
   return (
-    <div className="post-container">
-      {posts.map(async (post, index: number) => {
-        const formattedTitle = post.title.replace(/\s+/g, "-").toLowerCase();
+    <div className="post-layout">
+      {seriesName ? <p>{`# ${seriesName}`}</p> : <p># 전체보기</p>}
+      <div className="post-container">
+        {posts.map(async (post, index: number) => {
+          const formattedTitle = post.title.replace(/\s+/g, "-").toLowerCase();
 
-        return (
-          <PostContainer
-            key={`post-${index}`}
-            index={index}
-            title={formattedTitle}
-            post={post}
-            thumbnail={post.thumbnail}
-            author={post.author}
-          />
-        );
-      })}
+          return (
+            <PostContainer
+              key={`post-${index}`}
+              index={index}
+              title={formattedTitle}
+              post={post}
+              thumbnail={post.thumbnail}
+              author={post.author}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };

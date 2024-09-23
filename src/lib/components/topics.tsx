@@ -16,7 +16,6 @@ const Topics: React.FC<TopicProps> = async ({ topicName }) => {
         #전체보기
       </Link>
       {topics.map((topic, index) => {
-        console.log(topic.name, topicName);
         return (
           <Link
             className={`topic ${topic.name === topicName ? "highlight" : ""}`}
