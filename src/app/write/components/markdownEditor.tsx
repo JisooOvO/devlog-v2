@@ -115,15 +115,13 @@ const MarkdownEditor: React.FC<mardownProps> = ({
   return (
     <div className="markdown">
       <textarea
+        className="markdown-area"
         spellCheck={false}
         onBlur={() => setIsWrite(false)}
         onKeyDown={handleKeyDown}
         onKeyUp={handleKeyUp}
         placeholder="여기에 마크다운을 입력하세요..."
       />
-      <div className="preview">
-        <MarkdownView markdown={markdown} />
-      </div>
     </div>
   );
 };

@@ -3,7 +3,7 @@
 import { Session } from "next-auth";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import HighLightButton from "./buttons/HighlightButton";
+import HighLightButton from "./highlightButton";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
