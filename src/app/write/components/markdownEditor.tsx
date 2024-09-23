@@ -1,4 +1,4 @@
-import MarkdownView from "@/lib/components/markdownView";
+import MarkdownView from "@/lib/components/contentsView";
 import { PostAction, PostActionType } from "@/lib/store/postReducer";
 import {
   Dispatch,
@@ -120,7 +120,7 @@ const MarkdownEditor: React.FC<mardownProps> = ({
         onBlur={() => setIsWrite(false)}
         onKeyDown={handleKeyDown}
         onKeyUp={handleKeyUp}
-        placeholder="여기에 마크다운을 입력하세요..."
+        placeholder="글을 작성하세요."
       />
     </div>
   );

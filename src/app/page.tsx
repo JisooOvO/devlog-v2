@@ -1,12 +1,18 @@
+import PostContainer from "@/lib/components/post";
 import prisma from "@/lib/prisma";
-import { Post } from "@prisma/client";
+import { Post, Thumbnail, User } from "@prisma/client";
 import Link from "next/link";
 
 export const revalidate = 10;
 export const dynamicParams = true;
 
 const getPosts = async () => {
-  return await prisma.post.findMany();
+  return await prisma.post.findMany({
+    include: {
+      thumbnail: true,
+      author: true,
+    },
+  });
 };
 
 const HomePage: React.FC = async () => {
@@ -14,15 +20,18 @@ const HomePage: React.FC = async () => {
 
   return (
     <div className="post-container">
-      {posts.map((post: Post, index: number) => {
+      {posts.map(async (post, index: number) => {
         const formattedTitle = post.title.replace(/\s+/g, "-").toLowerCase();
 
         return (
-          <div key={`post-${index}`} className="post">
-            <Link className="post-link" href={`/post/${formattedTitle}`}>
-              <p>{post.title}</p>
-            </Link>
-          </div>
+          <PostContainer
+            key={`post-${index}`}
+            index={index}
+            title={formattedTitle}
+            post={post}
+            thumbnail={post.thumbnail}
+            author={post.author}
+          />
         );
       })}
       {/* <div style={{ height: "200vh" }}></div> */}

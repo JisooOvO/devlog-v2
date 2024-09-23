@@ -5,6 +5,7 @@ import {
   SetStateAction,
   useState,
   MouseEventHandler,
+  useEffect,
 } from "react";
 import MarkdownEditor from "./components/markdownEditor";
 import { useRouter } from "next/navigation";
@@ -15,7 +16,9 @@ import { PostAction, PostActionType } from "@/lib/store/postReducer";
 import { Dispatch } from "@reduxjs/toolkit";
 import handleSubmit from "./func/submitFunc";
 import CustomModal from "@/lib/components/customModal";
-import MarkdownView from "@/lib/components/markdownView";
+import ContentsView from "@/lib/components/contentsView";
+import changeTopic from "./func/changeTopic";
+import { useSession } from "next-auth/react";
 
 const WritePage = () => {
   const newPost = useSelector((state: RootState) => state.post);
@@ -24,6 +27,20 @@ const WritePage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch: Dispatch<PostAction> = useDispatch();
   const router = useRouter();
+  const { data, status } = useSession();
+
+  useEffect(() => {
+    const email = data?.user?.email;
+
+    if (status === "authenticated" && email) {
+      dispatch({
+        type: PostActionType.SET_AUTHOR,
+        payload: {
+          authorId: email,
+        },
+      });
+    }
+  }, [data, status]);
 
   return (
     <>
@@ -46,8 +63,18 @@ const WritePage = () => {
             dispatch={dispatch}
             setIsWrite={setIsWrite}
           />
-          <TopicSection title="주제" />
-          <TopicSection title="시리즈" />
+          <TopicSection
+            title="주제"
+            type="topics"
+            dispatch={dispatch}
+            actionType={PostActionType.SET_TOPIC}
+          />
+          <TopicSection
+            title="시리즈"
+            type="series"
+            dispatch={dispatch}
+            actionType={PostActionType.SET_SERIES}
+          />
           <MarkdownEditor
             markdown={newPost.content}
             dispatch={dispatch}
@@ -57,7 +84,7 @@ const WritePage = () => {
           <WriteButton setIsOpen={setIsOpen} />
         </form>
         <div className="preview">
-          <MarkdownView markdown={newPost.content} />
+          <ContentsView post={newPost} />
         </div>
       </div>
       <CustomModal isOpen={isOpen} setIsOpen={setIsOpen} />
@@ -107,30 +134,69 @@ const TitleInput: React.FC<TitleProps> = ({ title, dispatch, setIsWrite }) => {
 
 interface TopicProps {
   title: string;
+  type: "topics" | "series";
+  dispatch: Dispatch<PostAction>;
+  actionType: PostActionType.SET_TOPIC | PostActionType.SET_SERIES;
 }
 
-const TopicSection: React.FC<TopicProps> = ({ title }) => {
+interface Topic extends Object {
+  name: string;
+}
+
+const TopicSection: React.FC<TopicProps> = ({
+  title,
+  type,
+  dispatch,
+  actionType,
+}) => {
+  const [topics, setTopics] = useState<Array<Topic>>([]);
   const ADDTOPIC = "add-topic";
+
+  useEffect(() => {
+    const fetchTopics = async () => {
+      const response = await fetch(`/api/${type}`);
+      const jsonData = await response.json();
+      const data = jsonData[type];
+      setTopics(data);
+    };
+    fetchTopics();
+  }, []);
+
   return (
     <div className="topic-container">
       <p>{title}</p>
       <div className="topic-selector">
         <select
+          defaultValue={""}
           onChange={(event) => {
-            const textarea = event.target.nextElementSibling;
-            if (event.target.value == ADDTOPIC) {
-              textarea?.classList.remove("hidden");
-            } else {
-              textarea?.classList.add("hidden");
+            const inputTag = event.target.nextElementSibling;
+
+            switch (event.target.value) {
+              case ADDTOPIC:
+                inputTag?.classList.remove("hidden");
+                break;
+              default:
+                inputTag?.classList.add("hidden");
+                changeTopic({ event, actionType, dispatch });
+                break;
             }
           }}
         >
-          <option>{"뭔갈 넣어야함"}</option>
+          <option disabled value={""}>
+            {title}를 선택하세요.
+          </option>
+          {topics.map((topic, index) => (
+            <option key={`topic-${index}`} value={topic.name}>
+              {topic.name}
+            </option>
+          ))}
           <option value={ADDTOPIC}>직접 입력</option>
         </select>
-        <textarea
+        <input
+          type="text"
           className="hidden"
-          placeholder="직접 입력"
+          onChange={(event) => changeTopic({ event, actionType, dispatch })}
+          placeholder={`${title}를 입력하세요.`}
           spellCheck={false}
         />
       </div>
@@ -152,10 +218,10 @@ const WriteButton: React.FC<WriteButtonProps> = ({ setIsOpen }) => {
 
   return (
     <div className="write-button-container">
-      <button className="write-button" onClick={handleClick}>
+      <button className="custom-button" onClick={handleClick}>
         임시저장
       </button>
-      <button className="write-button" onClick={handleClick}>
+      <button className="custom-button" onClick={handleClick}>
         발행하기
       </button>
     </div>
