@@ -215,7 +215,7 @@ nav {
   margin-bottom: 3rem;
 }
 
-.post-layout p {
+.post-layout > p {
   margin-bottom: 0.5rem;
 }
 
