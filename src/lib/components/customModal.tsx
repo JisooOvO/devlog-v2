@@ -3,6 +3,7 @@ import { RootState } from "@/lib/store";
 import { NewPost, PostAction, PostActionType } from "@/lib/store/postReducer";
 import { Thumbnail } from "@prisma/client";
 import { Dispatch } from "@reduxjs/toolkit";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import {
   Dispatch as SetState,
@@ -14,13 +15,8 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
 interface CustomModalProps {
-  isOpen: boolean;
+  isOpen?: boolean;
   setIsOpen: SetState<SetStateAction<boolean>>;
-}
-
-interface Props {
-  post: NewPost;
-  dispatch: Dispatch<PostAction>;
 }
 
 const CustomModal: React.FC<CustomModalProps> = ({ isOpen, setIsOpen }) => {
@@ -35,10 +31,7 @@ const CustomModal: React.FC<CustomModalProps> = ({ isOpen, setIsOpen }) => {
           <h2>글 저장하기</h2>
           <Thumbnail post={post} dispatch={dispatch} />
           <Description post={post} dispatch={dispatch} />
-          <div className="modal-button">
-            <button onClick={() => setIsOpen(false)}>CLOSE</button>
-            <button onClick={() => {}}>SAVE</button>
-          </div>
+          <ButtonConatiner post={post} setIsOpen={setIsOpen} />
         </form>
       </div>
     </div>
@@ -46,6 +39,11 @@ const CustomModal: React.FC<CustomModalProps> = ({ isOpen, setIsOpen }) => {
 };
 
 // --------------------------------------------------------------------------
+
+interface Props {
+  post: NewPost;
+  dispatch: Dispatch<PostAction>;
+}
 
 const Thumbnail: React.FC<Props> = ({ post, dispatch }) => {
   const [thumbnails, setThumbnails] = useState<Set<string>>(new Set());
@@ -79,8 +77,8 @@ const Thumbnail: React.FC<Props> = ({ post, dispatch }) => {
             });
           }}
         >
-          <option selected disabled value={""}>
-            select thumbnail
+          <option disabled value={""}>
+            Thumbnail
           </option>
           {Array.from(thumbnails).map((path, index) => (
             <option key={`option${index}`} value={path}>
@@ -122,11 +120,11 @@ const Thumbnail: React.FC<Props> = ({ post, dispatch }) => {
 const Description: React.FC<Props> = ({ post, dispatch }) => {
   return (
     <div className="description-container">
-      <p>글 설명</p>
+      <p>소개</p>
       <textarea
         id="description"
         name="description"
-        placeholder="글 설명을 입력하세요."
+        placeholder="글을 간략히 소개하세요."
         required
         value={post.description}
         spellCheck={false}
@@ -137,6 +135,48 @@ const Description: React.FC<Props> = ({ post, dispatch }) => {
           });
         }}
       />
+    </div>
+  );
+};
+
+// --------------------------------------------------------------------------
+
+interface ButtonProps {
+  post: NewPost;
+  setIsOpen: SetState<SetStateAction<boolean>>;
+}
+
+const ButtonConatiner: React.FC<ButtonProps> = ({ post, setIsOpen }) => {
+  return (
+    <div className="modal-button">
+      <button
+        className="custom-button"
+        onClick={(e) => {
+          e.preventDefault();
+          const fetchData = async () => {
+            const response = await fetch("/api/write", {
+              method: "post",
+              body: JSON.stringify({ post }),
+            });
+
+            const jsonData = await response.json();
+
+            console.log(jsonData);
+          };
+          fetchData();
+        }}
+      >
+        발행하기
+      </button>
+      <button
+        className="custom-button"
+        onClick={(e) => {
+          e.preventDefault();
+          setIsOpen(false);
+        }}
+      >
+        취소하기
+      </button>
     </div>
   );
 };

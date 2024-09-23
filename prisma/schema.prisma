@@ -66,10 +66,10 @@ model Post {
   author      User       @relation(fields: [authorId], references: [id])
   authorId    String
   published   Boolean    @default(false)
-  thesisId    String
-  thesis      Thesis     @relation(fields: [thesisId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   topicId     String
   topic       Topic      @relation(fields: [topicId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  seriesId    String
+  series      Series     @relation(fields: [seriesId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   likes       Int        @default(0)
   createdAt   DateTime   @default(now()) @map(name: "created_at")
   updatedAt   DateTime   @default(now()) @map(name: "updated_at")
@@ -79,16 +79,7 @@ model Post {
 model Thumbnail {
   id        String    @id @default(cuid())
   name      String
-  path      String
-  posts     Post[]
-  createdAt DateTime  @default(now()) @map(name: "created_at")
-  updatedAt DateTime  @default(now()) @map(name: "updated_at")
-  deletedAt DateTime? @map(name: "deleted_at")
-}
-
-model Thesis {
-  id        String    @id @default(cuid())
-  name      String
+  path      String    @unique
   posts     Post[]
   createdAt DateTime  @default(now()) @map(name: "created_at")
   updatedAt DateTime  @default(now()) @map(name: "updated_at")
@@ -97,7 +88,16 @@ model Thesis {
 
 model Topic {
   id        String    @id @default(cuid())
-  name      String
+  name      String    @unique
+  posts     Post[]
+  createdAt DateTime  @default(now()) @map(name: "created_at")
+  updatedAt DateTime  @default(now()) @map(name: "updated_at")
+  deletedAt DateTime? @map(name: "deleted_at")
+}
+
+model Series {
+  id        String    @id @default(cuid())
+  name      String    @unique
   posts     Post[]
   createdAt DateTime  @default(now()) @map(name: "created_at")
   updatedAt DateTime  @default(now()) @map(name: "updated_at")

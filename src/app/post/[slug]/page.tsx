@@ -1,4 +1,4 @@
-import MarkdownView from "@/lib/components/markdownView";
+import MarkdownView from "@/lib/components/contentsView";
 import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
 
@@ -34,12 +34,7 @@ const PostPage: React.FC<{ params: Params }> = async ({ params }) => {
     notFound();
   }
 
-  return (
-    <div>
-      <h1>{post.title}</h1>
-      <MarkdownView markdown={post.content} />
-    </div>
-  );
+  return <MarkdownView post={post} />;
 };
 
 export default PostPage;
