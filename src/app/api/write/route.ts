@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
 export async function POST(request: Request) {
-  const { title, content } = await request.json();
+  const { post } = await request.json();
 
-  if (!title || !content) {
+  if (!post.title || !post.content) {
     return NextResponse.json(
       { message: "Title and content are required." },
       { status: 400 }
@@ -13,11 +13,7 @@ export async function POST(request: Request) {
 
   try {
     const newPost = await prisma.post.create({
-      data: {
-        title,
-        description: "desc",
-        content,
-      },
+      data: post,
     });
     return NextResponse.json(
       { message: "Save completed", newPost },
