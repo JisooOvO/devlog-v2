@@ -27,7 +27,7 @@ const PostContainer: React.FC<Props> = ({
             fill
             sizes="100%, 10rem"
             placeholder="blur"
-            blurDataURL="/thumbnails/download-8.jpg"
+            blurDataURL="/placeholder/placeholder.jpg"
           />
         </div>
         <div className="post-contents">

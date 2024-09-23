@@ -51,6 +51,7 @@ export async function POST(request: NextRequest) {
     if (series === null) {
       series = await prisma.series.create({
         data: {
+          topicId: topic.id,
           name: post.series as string,
         },
       });
@@ -74,7 +75,10 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
-    return NextResponse.json({ message: "Save failed" }, { status: 500 });
+    return NextResponse.json(
+      { message: "Save failed", error },
+      { status: 500 }
+    );
   }
 }
 

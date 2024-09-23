@@ -3,7 +3,6 @@ import { RootState } from "@/lib/store";
 import { NewPost, PostAction, PostActionType } from "@/lib/store/postReducer";
 import { Thumbnail } from "@prisma/client";
 import { Dispatch } from "@reduxjs/toolkit";
-import { useSession } from "next-auth/react";
 import Image from "next/image";
 import {
   Dispatch as SetState,
@@ -29,7 +28,7 @@ const CustomModal: React.FC<CustomModalProps> = ({ isOpen, setIsOpen }) => {
       <div className="modal-container" onClick={(e) => e.stopPropagation()}>
         <form>
           <h2>글 저장하기</h2>
-          <Thumbnail post={post} dispatch={dispatch} />
+          <ThumbnailContainer post={post} dispatch={dispatch} />
           <Description post={post} dispatch={dispatch} />
           <ButtonConatiner post={post} setIsOpen={setIsOpen} />
         </form>
@@ -45,7 +44,7 @@ interface Props {
   dispatch: Dispatch<PostAction>;
 }
 
-const Thumbnail: React.FC<Props> = ({ post, dispatch }) => {
+const ThumbnailContainer: React.FC<Props> = ({ post, dispatch }) => {
   const [thumbnails, setThumbnails] = useState<Set<string>>(new Set());
 
   // TODO : API를 더 일찍 호출
