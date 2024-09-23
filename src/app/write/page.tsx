@@ -40,7 +40,7 @@ const WritePage = () => {
         },
       });
     }
-  }, [data, status]);
+  }, [data, status, dispatch]);
 
   return (
     <>
@@ -160,7 +160,7 @@ const TopicSection: React.FC<TopicProps> = ({
       setTopics(data);
     };
     fetchTopics();
-  }, []);
+  }, [type]);
 
   return (
     <div className="topic-container">
