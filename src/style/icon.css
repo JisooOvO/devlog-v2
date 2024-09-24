@@ -22,7 +22,7 @@
 }
 
 .icon-button:hover .icon-button-description {
-  visibility:visible;
+  visibility: visible;
   opacity: 1;
 }
 

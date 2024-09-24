@@ -4,6 +4,9 @@
 
 .post-layout > p {
   margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-style: italic;
 }
 
 .post-container {
@@ -21,10 +24,6 @@
 .post:hover {
   transform: translateY(-8px);
   box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.05);
-}
-
-.post hr {
-  border: 1px solid var(--bgColor-neutral-muted);
 }
 
 .post-thumbnail {

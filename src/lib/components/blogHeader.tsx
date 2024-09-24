@@ -3,7 +3,6 @@
 import { Session } from "next-auth";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import HighLightButton from "./highlightButton";
 import { useRouter } from "next/navigation";
 // import Image from "next/image";
 import IconButton from "./iconButton";
@@ -89,10 +88,10 @@ const WriteButton: React.FC<NextAuthStatus> = ({ status }) => {
 
 // --------------------------------------------------------------------------
 
-const DarkModeButton = () => {
-  const toggleDarkMode = () => {
-    document.querySelector("body")?.classList.toggle("dark");
-  };
+// const DarkModeButton = () => {
+//   const toggleDarkMode = () => {
+//     document.querySelector("body")?.classList.toggle("dark");
+//   };
 
-  return <HighLightButton onClick={toggleDarkMode} title="DARK" />;
-};
+//   return <HighLightButton onClick={toggleDarkMode} title="DARK" />;
+// };

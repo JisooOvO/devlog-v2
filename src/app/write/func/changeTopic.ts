@@ -14,7 +14,9 @@ const changeTopic = ({ event, actionType, dispatch }: Props) => {
       dispatch({
         type: actionType,
         payload: {
-          topic: event.target.value,
+          topic: {
+            name: event.target.value,
+          },
         },
       });
       break;
@@ -22,7 +24,9 @@ const changeTopic = ({ event, actionType, dispatch }: Props) => {
       dispatch({
         type: actionType,
         payload: {
-          series: event.target.value,
+          series: {
+            name: event.target.value,
+          },
         },
       });
   }

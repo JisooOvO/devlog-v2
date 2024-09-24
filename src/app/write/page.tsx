@@ -19,6 +19,7 @@ import CustomModal from "@/lib/components/customModal";
 import ContentsView from "@/lib/components/contentsView";
 import changeTopic from "./func/changeTopic";
 import { useSession } from "next-auth/react";
+import "@/style/write.css";
 
 const WritePage = () => {
   const newPost = useSelector((state: RootState) => state.post);
@@ -36,7 +37,10 @@ const WritePage = () => {
       dispatch({
         type: PostActionType.SET_AUTHOR,
         payload: {
-          authorId: email,
+          author: {
+            name: email,
+            image: "",
+          },
         },
       });
     }
@@ -59,7 +63,7 @@ const WritePage = () => {
           }
         >
           <TitleInput
-            title={newPost.title}
+            title={newPost?.title}
             dispatch={dispatch}
             setIsWrite={setIsWrite}
           />
@@ -76,7 +80,7 @@ const WritePage = () => {
             actionType={PostActionType.SET_SERIES}
           />
           <MarkdownEditor
-            markdown={newPost.content}
+            markdown={newPost?.content}
             dispatch={dispatch}
             isWrite={isWrite}
             setIsWrite={setIsWrite}

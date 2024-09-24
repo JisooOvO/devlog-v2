@@ -1,14 +1,5 @@
 import { UnknownAction } from "@reduxjs/toolkit";
-
-export interface NewPost {
-  title?: string;
-  thumbnail?: string | ArrayBuffer | null | undefined;
-  description?: string;
-  content?: string;
-  topic?: string;
-  series?: string;
-  authorId?: string | null;
-}
+import { Content } from "../components/constant/postProps";
 
 export enum PostActionType {
   CLEAR = "clear",
@@ -23,20 +14,29 @@ export enum PostActionType {
 
 export interface PostAction extends UnknownAction {
   type: string;
-  payload?: NewPost;
+  payload?: Content;
 }
 
-export const initState: NewPost = {
+export const initState: Content = {
   title: "",
-  thumbnail: "",
-  description: "",
   content: "",
-  topic: "",
-  series: "",
-  authorId: "",
+  description: "",
+  thumbnail: {
+    path: "",
+  },
+  topic: {
+    name: "",
+  },
+  series: {
+    name: "",
+  },
+  author: {
+    name: "",
+    image: "",
+  },
 };
 
-const postReducer = (state = initState, action: PostAction): NewPost => {
+const postReducer = (state = initState, action: PostAction): Content => {
   switch (action.type) {
     case PostActionType.CLEAR:
       return initState;
@@ -53,7 +53,7 @@ const postReducer = (state = initState, action: PostAction): NewPost => {
     case PostActionType.SET_SERIES:
       return { ...state, series: action.payload?.series };
     case PostActionType.SET_AUTHOR:
-      return { ...state, authorId: action.payload?.authorId };
+      return { ...state, author: action.payload?.author };
     default:
       return state;
   }
