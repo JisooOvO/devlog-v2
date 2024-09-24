@@ -1,6 +1,6 @@
 import handleOnChange from "@/app/write/func/uploadThumbnailFunc";
 import { RootState } from "@/lib/store";
-import { NewPost, PostAction, PostActionType } from "@/lib/store/postReducer";
+import { PostAction, PostActionType } from "@/lib/store/postReducer";
 import { Thumbnail } from "@prisma/client";
 import { Dispatch } from "@reduxjs/toolkit";
 import Image from "next/image";
@@ -12,6 +12,7 @@ import {
 } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { Content } from "./constant/postProps";
 
 interface CustomModalProps {
   isOpen?: boolean;
@@ -40,7 +41,7 @@ const CustomModal: React.FC<CustomModalProps> = ({ isOpen, setIsOpen }) => {
 // --------------------------------------------------------------------------
 
 interface Props {
-  post: NewPost;
+  post: Content;
   dispatch: Dispatch<PostAction>;
 }
 
@@ -59,19 +60,21 @@ const ThumbnailContainer: React.FC<Props> = ({ post, dispatch }) => {
       );
     };
     fetchThumbnails();
-  }, [post.thumbnail]);
+  }, [post?.thumbnail?.path]);
 
   return (
     <div className="thumbnail-container">
       <p>썸네일</p>
       <div className="thumbnail-selector">
         <select
-          value={post.thumbnail as string}
+          value={post?.thumbnail?.path}
           onChange={(e) => {
             dispatch({
               type: PostActionType.SET_THUMBNAIL,
               payload: {
-                thumbnail: e.target.value,
+                thumbnail: {
+                  path: e.target.value,
+                },
               },
             });
           }}
@@ -87,10 +90,10 @@ const ThumbnailContainer: React.FC<Props> = ({ post, dispatch }) => {
         </select>
       </div>
       <div className="thumbnail-preview">
-        {post.thumbnail ? (
+        {post?.thumbnail?.path ? (
           <Image
             className="post-thumbnail"
-            src={post.thumbnail as string}
+            src={post.thumbnail.path}
             alt="Thumbnail"
             width={100}
             height={100}
@@ -125,7 +128,7 @@ const Description: React.FC<Props> = ({ post, dispatch }) => {
         name="description"
         placeholder="글을 간략히 소개하세요."
         required
-        value={post.description}
+        value={post?.description}
         spellCheck={false}
         onChange={(event) => {
           dispatch({
@@ -141,7 +144,7 @@ const Description: React.FC<Props> = ({ post, dispatch }) => {
 // --------------------------------------------------------------------------
 
 interface ButtonProps {
-  post: NewPost;
+  post: Content;
   setIsOpen: SetState<SetStateAction<boolean>>;
 }
 
