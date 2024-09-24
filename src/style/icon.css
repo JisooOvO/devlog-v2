@@ -1,0 +1,38 @@
+.icon-button-container {
+  position: relative;
+}
+
+.icon-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.icon-button-description {
+  visibility: hidden;
+  position: absolute;
+  bottom: -15px;
+  left: 0;
+  text-align: start;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.icon-button:hover .icon-button-description {
+  visibility:visible;
+  opacity: 1;
+}
+
+.icon-signal-green {
+  position: absolute;
+  bottom: 2px;
+  right: -2px;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: var(--signal-green);
+  opacity: 10;
+}

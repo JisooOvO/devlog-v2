@@ -1,0 +1,39 @@
+.blog-footer-container {
+  margin: 8rem 0 2rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.blog-footer-content {
+  margin-bottom: 2rem;
+}
+
+.blog-footer-image {
+  width: 8rem;
+  height: 8rem;
+  position: relative;
+  margin-bottom: 1rem;
+  border-radius: 50%;
+}
+
+.blog-footer-image img {
+  border: 1px solid var(--bgColor-neutral-muted);
+  border-radius: 50%;
+}
+
+.blog-footer-description {
+  text-align: center;
+}
+
+.blog-footer-description > p {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.blog-footer-icons {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
