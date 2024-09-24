@@ -2,6 +2,8 @@ import Link from "next/link";
 import prisma from "../prisma";
 import Image from "next/image";
 import { PLACEHOLDER } from "./constant/imageProps";
+import "@/style/post.css";
+import getDateKoreanString from "./func/getDateKoreanString";
 
 interface Props {
   seriesName?: string | undefined;
@@ -9,13 +11,24 @@ interface Props {
 }
 
 const Posts: React.FC<Props> = async ({ seriesName, seriesId }) => {
+  // TODO : CSRF 토큰, Authorization 토큰
+  // 릴레이션 쿼리 필드 숨김 처리
   const posts = await prisma.post.findMany({
     where: {
       seriesId: seriesId,
     },
     include: {
-      thumbnail: true,
-      author: true,
+      thumbnail: {
+        select: {
+          path: true,
+        },
+      },
+      author: {
+        select: {
+          image: true,
+          name: true,
+        },
+      },
     },
   });
 
@@ -31,7 +44,11 @@ const Posts: React.FC<Props> = async ({ seriesName, seriesId }) => {
               <Link className="post-link" href={`/post/${formattedTitle}`}>
                 <div className="post-thumbnail">
                   <Image
-                    src={post.thumbnail?.path as string}
+                    src={
+                      typeof post.thumbnail?.path === "string"
+                        ? post.thumbnail?.path
+                        : PLACEHOLDER
+                    }
                     alt={`썸네일-${index}`}
                     fill
                     sizes="100%, 10rem"
@@ -45,7 +62,7 @@ const Posts: React.FC<Props> = async ({ seriesName, seriesId }) => {
                 </div>
                 <hr />
                 <div className="post-detail">
-                  <p>{post.createdAt.toLocaleDateString()}</p>
+                  <p>{getDateKoreanString(post.createdAt)}</p>
                   <p>{post.likes} likes</p>
                 </div>
                 <div className="post-author">

@@ -28,7 +28,7 @@
 
 .icon-signal-green {
   position: absolute;
-  bottom: 2px;
+  bottom: -2px;
   right: -2px;
   width: 0.5rem;
   height: 0.5rem;
