@@ -1,4 +1,5 @@
-import { NewPost, PostAction, PostActionType } from "@/lib/store/postReducer";
+import { Content } from "@/lib/components/constant/postProps";
+import { PostAction, PostActionType } from "@/lib/store/postReducer";
 import { Dispatch } from "@reduxjs/toolkit";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { Dispatch as SetState, SetStateAction } from "react";
@@ -8,7 +9,7 @@ interface SubmitProps {
   isClick: boolean;
   setIsClick: SetState<SetStateAction<boolean>>;
   router: AppRouterInstance;
-  newPost: NewPost;
+  newPost: Content;
   dispatch: Dispatch<PostAction>;
 }
 
