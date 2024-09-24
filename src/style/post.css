@@ -1,0 +1,85 @@
+.post-layout {
+  margin-bottom: 3rem;
+}
+
+.post-layout > p {
+  margin-bottom: 0.5rem;
+}
+
+.post-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  gap: 1rem;
+}
+
+.post {
+  border: 1px solid var(--bgColor-neutral-muted);
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.post:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.05);
+}
+
+.post hr {
+  border: 1px solid var(--bgColor-neutral-muted);
+}
+
+.post-thumbnail {
+  width: 100%;
+  height: 10rem;
+  margin-bottom: 1rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.post-thumbnail img {
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+  object-fit: cover;
+}
+
+.post-contents {
+  padding: 0 1rem;
+}
+
+.post-title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.post-description {
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.post-detail {
+  margin-bottom: 1rem;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.post-author {
+  padding: 0 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: end;
+}
+
+.post-author img {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+}

@@ -11,7 +11,7 @@ header {
   justify-content: space-between;
   align-items: center;
   background-color: var(--background-color);
-  z-index: 9999;
+  z-index: 1000;
 }
 
 nav {
