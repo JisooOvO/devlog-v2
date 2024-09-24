@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { NewPost } from "@/lib/store/postReducer";
+import { Content } from "@/lib/components/constant/postProps";
 
 interface Props {
-  post: NewPost;
+  post: Content;
 }
 
 export async function POST(request: NextRequest) {
@@ -20,22 +20,22 @@ export async function POST(request: NextRequest) {
     let [user, thumbnail, topic, series] = await prisma.$transaction([
       prisma.user.findFirst({
         where: {
-          email: post.authorId,
+          email: post?.author?.email,
         },
       }),
       prisma.thumbnail.findFirst({
         where: {
-          path: post.thumbnail as string,
+          path: post?.thumbnail?.path,
         },
       }),
       prisma.topic.findFirst({
         where: {
-          name: post.topic,
+          name: post?.topic?.name,
         },
       }),
       prisma.series.findFirst({
         where: {
-          name: post.series,
+          name: post?.series?.name,
         },
       }),
     ]);
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
     if (topic === null) {
       topic = await prisma.topic.create({
         data: {
-          name: post.topic as string,
+          name: post?.topic?.name as string,
         },
       });
     }
@@ -52,16 +52,16 @@ export async function POST(request: NextRequest) {
       series = await prisma.series.create({
         data: {
           topicId: topic.id,
-          name: post.series as string,
+          name: post?.series?.name as string,
         },
       });
     }
 
     const newPost = await prisma.post.create({
       data: {
-        title: post.title as string,
-        content: post.content as string,
-        description: post.description as string,
+        title: post?.title as string,
+        content: post?.content as string,
+        description: post?.description as string,
         authorId: user?.id as string,
         thumbnailId: thumbnail?.id,
         topicId: topic.id,
@@ -84,6 +84,7 @@ export async function POST(request: NextRequest) {
 
 //----------------------------------------------------------
 
-const checkPost = (post: NewPost) => {
-  return Object.values(post).every((value) => value !== "");
+const checkPost = (post: Content) => {
+  // TODO : 다시 만들기
+  return true;
 };
