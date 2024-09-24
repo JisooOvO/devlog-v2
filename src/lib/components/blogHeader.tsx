@@ -5,7 +5,13 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import HighLightButton from "./highlightButton";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+// import Image from "next/image";
+import IconButton from "./iconButton";
+import LoginIcon from "../icons/login";
+import WriteIcon from "../icons/write";
+import "@/style/blogHeader.css";
+
+const size = "2rem";
 
 interface NextAuthStatus {
   session?: Session | null;
@@ -36,7 +42,7 @@ const LoginButton: React.FC<NextAuthStatus> = ({ session, status }) => {
     case "authenticated":
       return (
         <>
-          <div className="header-user-container">
+          {/* <div className="header-user-container">
             {session?.user?.image ? (
               <Image
                 src={session?.user?.image}
@@ -48,12 +54,18 @@ const LoginButton: React.FC<NextAuthStatus> = ({ session, status }) => {
               <></>
             )}
             <p>{session?.user?.name}</p>
-          </div>
-          <HighLightButton onClick={() => signOut()} title="LOGOUT" />
+          </div> */}
+          <IconButton description="로그아웃" onClick={() => signOut()}>
+            <LoginIcon width={size} height={size} />
+          </IconButton>
         </>
       );
     case "unauthenticated":
-      return <HighLightButton onClick={() => signIn("github")} title="LOGIN" />;
+      return (
+        <IconButton description="로그인" onClick={() => signIn("github")}>
+          <LoginIcon width={size} height={size} />
+        </IconButton>
+      );
     default:
       return <></>;
   }
@@ -66,7 +78,9 @@ const WriteButton: React.FC<NextAuthStatus> = ({ status }) => {
   switch (status) {
     case "authenticated":
       return (
-        <HighLightButton onClick={() => router.push("/write")} title="WRITE" />
+        <IconButton description="글 쓰기" onClick={() => router.push("/write")}>
+          <WriteIcon width={size} height={size} />
+        </IconButton>
       );
     default:
       return <></>;

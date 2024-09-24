@@ -11,6 +11,7 @@
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --bgColor-neutral-muted: #818b981f;
   --highlight-color: #ffa500;
+  --signal-green: #33954f;
 }
 
 .dark {
@@ -101,53 +102,6 @@ select {
   margin-bottom: 2rem;
 }
 
-header {
-  width: 100%;
-  height: var(--header-height);
-  box-sizing: border-box;
-  position: fixed;
-  top: 0;
-  left: 0;
-  padding: var(--default-y-margin) var(--default-x-margin);
-  margin-bottom: var(--header-margin-bottom);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: var(--background-color);
-  z-index: 9999;
-}
-
-.header-line {
-  box-shadow: var(--shadow-sm);
-}
-
-.header-user-container {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.header-user-container img {
-  width: 1.5rem;
-  height: 1.5rem;
-  object-fit: fill;
-  border-radius: 50%;
-}
-
-.title {
-  font-size: 1.75rem;
-}
-
-.title:hover{
-  color: var(--highlight-color);
-}
-
-nav {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
 .write-container {
   display: flex;
   align-items: stretch;
@@ -231,7 +185,7 @@ nav {
   box-shadow: var(--shadow-sm);
 }
 
-.post:hover{
+.post:hover {
   transform: translateY(-8px);
   box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.05);
 }
@@ -257,7 +211,7 @@ nav {
 
 .post-title {
   font-weight: 600;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 .post-contents {
@@ -271,12 +225,12 @@ nav {
   justify-content: space-between;
 }
 
-.post-author{
+.post-author {
   padding: 0 1rem;
   margin-bottom: 1rem;
   display: flex;
   align-items: center;
-  gap: .5rem;
+  gap: 0.5rem;
   text-align: end;
 }
 
@@ -406,10 +360,10 @@ nav {
   flex-grow: 1;
 }
 
-.topic-container{
+.topic-container {
   margin-bottom: 3rem;
   display: flex;
-  gap: .5rem;
+  gap: 0.5rem;
 }
 
 .topic {
@@ -419,7 +373,7 @@ nav {
   box-shadow: var(--shadow-sm);
 }
 
-.topic:hover{
+.topic:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.05);
 }
@@ -438,8 +392,6 @@ nav {
   border: 1px solid var(--bgColor-neutral-muted);
   border-radius: 0.75rem;
 }
-
-
 
 .custom-button {
   margin: 1rem 0 2rem 0;
@@ -492,7 +444,7 @@ nav {
 }
 
 @media (max-width: 480px) {
-  .header-user-container{
+  .header-user-container {
     display: none;
   }
 

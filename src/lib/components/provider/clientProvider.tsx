@@ -6,6 +6,7 @@ import BlogHeader from "../blogHeader";
 import ClientScrollProvider from "./clientScrollProvider";
 import { RootLayoutProps } from "@/app/layout";
 import { SessionProvider } from "next-auth/react";
+import BlogFooter from "../blogFooter";
 
 const ClientProvider = ({ children }: RootLayoutProps) => {
   return (
@@ -14,6 +15,7 @@ const ClientProvider = ({ children }: RootLayoutProps) => {
         <ClientScrollProvider />
         <BlogHeader />
         <div className="contents">{children}</div>
+        <BlogFooter />
       </Provider>
     </SessionProvider>
   );
