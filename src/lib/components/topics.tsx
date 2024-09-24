@@ -1,5 +1,6 @@
 import Link from "next/link";
 import prisma from "../prisma";
+import "@/style/topic.css";
 
 interface TopicProps {
   topicName?: string;
@@ -13,7 +14,7 @@ const Topics: React.FC<TopicProps> = async ({ topicName }) => {
         className={`topic ${topicName === undefined ? "highlight" : ""}`}
         href={"/"}
       >
-        #전체보기
+        # 전체보기
       </Link>
       {topics.map((topic, index) => {
         return (
@@ -22,7 +23,7 @@ const Topics: React.FC<TopicProps> = async ({ topicName }) => {
             key={`topic-${index}`}
             href={`/topic/${topic.name}`}
           >
-            #{topic.name}
+            # {topic.name}
           </Link>
         );
       })}

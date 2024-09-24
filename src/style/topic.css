@@ -1,0 +1,12 @@
+.topic-container {
+  margin-bottom: 3rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.topic {
+  padding: 1rem;
+  border: 1px solid var(--bgCozlor-neutral-muted);
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-sm);
+}
