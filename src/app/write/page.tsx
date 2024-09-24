@@ -31,14 +31,16 @@ const WritePage = () => {
   const { data, status } = useSession();
 
   useEffect(() => {
+    const name = data?.user?.name;
     const email = data?.user?.email;
 
-    if (status === "authenticated" && email) {
+    if (status === "authenticated" && name && email) {
       dispatch({
         type: PostActionType.SET_AUTHOR,
         payload: {
           author: {
-            name: email,
+            name: name,
+            email: email,
             image: "",
           },
         },

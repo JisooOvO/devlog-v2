@@ -34,6 +34,7 @@ const PostPage: React.FC<{ params: Params }> = async ({ params }) => {
       author: {
         select: {
           name: true,
+          email: true,
           image: true,
         },
       },
