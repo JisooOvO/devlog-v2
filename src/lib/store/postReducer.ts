@@ -32,6 +32,7 @@ export const initState: Content = {
   },
   author: {
     name: "",
+    email: "",
     image: "",
   },
 };
