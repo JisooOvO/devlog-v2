@@ -4,6 +4,7 @@ import { Content } from "@/lib/components/constant/postProps";
 import IconButton from "@/lib/components/iconButton";
 import StarIcon from "@/lib/icons/star";
 import "@/style/content.css";
+import { Post } from "@prisma/client";
 import { useState } from "react";
 
 interface Props {

@@ -1,4 +1,6 @@
-const getDateKoreanString = (date: Date, showTime?: boolean) => {
+const getDateKoreanString = (date: Date | undefined, showTime?: boolean) => {
+  if (date === undefined) return "";
+
   let result = `${date.getFullYear()}년 ${
     date.getMonth() + 1
   }월 ${date.getDate()}일`;

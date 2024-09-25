@@ -5,6 +5,7 @@ import { PLACEHOLDER } from "./constant/imageProps";
 import "@/style/post.css";
 import getDateKoreanString from "./func/getDateKoreanString";
 import LikeContainer from "@/app/post/[slug]/components/likeContainer";
+import { Content } from "./constant/postProps";
 
 interface Props {
   seriesName?: string | undefined;
@@ -15,7 +16,7 @@ const size = "1rem";
 
 const Posts: React.FC<Props> = async ({ seriesName, seriesId }) => {
   // TODO : CSRF 토큰, Authorization 토큰
-  const posts = await prisma.post.findMany({
+  const posts: Array<Content> = await prisma.post.findMany({
     where: {
       seriesId: seriesId,
       published: true,
@@ -24,6 +25,11 @@ const Posts: React.FC<Props> = async ({ seriesName, seriesId }) => {
       createdAt: "asc",
     },
     include: {
+      _count: {
+        select: {
+          likes: true,
+        },
+      },
       thumbnail: {
         select: {
           path: true,
@@ -33,6 +39,7 @@ const Posts: React.FC<Props> = async ({ seriesName, seriesId }) => {
         select: {
           image: true,
           name: true,
+          email: true,
         },
       },
     },
@@ -43,7 +50,9 @@ const Posts: React.FC<Props> = async ({ seriesName, seriesId }) => {
       {seriesName ? <p>{`# ${seriesName}`}</p> : <p># 전체보기</p>}
       <div className="post-container">
         {posts.map(async (post, index: number) => {
-          const formattedTitle = post.title.replace(/\s+/g, "-").toLowerCase();
+          const formattedTitle = post?.title
+            ?.replace(/\s+/g, "-")
+            .toLowerCase();
 
           return (
             <div key={`post-${index}`} className="post">
@@ -51,8 +60,8 @@ const Posts: React.FC<Props> = async ({ seriesName, seriesId }) => {
                 <div className="post-thumbnail">
                   <Image
                     src={
-                      typeof post.thumbnail?.path === "string"
-                        ? post.thumbnail?.path
+                      typeof post?.thumbnail?.path === "string"
+                        ? post?.thumbnail?.path
                         : PLACEHOLDER
                     }
                     alt={`썸네일-${index}`}
@@ -63,22 +72,22 @@ const Posts: React.FC<Props> = async ({ seriesName, seriesId }) => {
                   />
                 </div>
                 <div className="post-contents">
-                  <p className="post-title">{post.title}</p>
-                  <p className="post-description">{post.description}</p>
+                  <p className="post-title">{post?.title}</p>
+                  <p className="post-description">{post?.description}</p>
                 </div>
                 <hr />
                 <div className="post-detail">
-                  <p>{getDateKoreanString(post.createdAt)}</p>
+                  <p>{getDateKoreanString(post?.createdAt)}</p>
                   <LikeContainer size={size} post={post} />
                 </div>
                 <div className="post-author">
                   <Image
-                    src={post.author.image as string}
+                    src={post?.author?.image as string}
                     alt={`글쓴이-${index}`}
                     width={100}
                     height={100}
                   />
-                  <p>by {post.author.name}</p>
+                  <p>by {post?.author?.name}</p>
                 </div>
               </Link>
             </div>
