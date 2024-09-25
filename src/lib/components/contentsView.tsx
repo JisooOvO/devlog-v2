@@ -28,6 +28,7 @@ const ContentsView: React.FC<Props> = ({ post }) => {
       <hr />
       <div className="content-meta">
         <div className="content-author-updated">
+          {post.author?.name?.length !== 0}
           <div className="content-author">
             <Image
               src={post.author?.image ? post.author.image : PLACEHOLDER}

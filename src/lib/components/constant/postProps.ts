@@ -34,7 +34,7 @@ export type Content = {
     | undefined;
   series?:
     | {
-        name: string;
+        name: string | undefined;
       }
     | null
     | undefined;

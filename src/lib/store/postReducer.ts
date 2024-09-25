@@ -3,10 +3,12 @@ import { Content } from "../components/constant/postProps";
 
 export enum PostActionType {
   CLEAR = "clear",
+  SET_POST = "set",
   SET_TITLE = "set_title",
   SET_CONTENTS = "set_contents",
   SET_THUMBNAIL = "set_thumbnail",
   SET_DESCRIPTION = "set_description",
+  SET_PUBLISHED = "set_published",
   SET_TOPIC = "set_topic",
   SET_SERIES = "set_series",
   SET_AUTHOR = "set_author",
@@ -21,6 +23,7 @@ export const initState: Content = {
   title: "",
   content: "",
   description: "",
+  published: false,
   thumbnail: {
     path: "",
   },
@@ -40,7 +43,9 @@ export const initState: Content = {
 const postReducer = (state = initState, action: PostAction): Content => {
   switch (action.type) {
     case PostActionType.CLEAR:
-      return initState;
+      return { ...initState };
+    case PostActionType.SET_POST:
+      return { ...action.payload };
     case PostActionType.SET_TITLE:
       return { ...state, title: action.payload?.title };
     case PostActionType.SET_CONTENTS:
@@ -49,6 +54,8 @@ const postReducer = (state = initState, action: PostAction): Content => {
       return { ...state, thumbnail: action.payload?.thumbnail };
     case PostActionType.SET_DESCRIPTION:
       return { ...state, description: action.payload?.description };
+    case PostActionType.SET_PUBLISHED:
+      return { ...state, published: action.payload?.published };
     case PostActionType.SET_TOPIC:
       return { ...state, topic: action.payload?.topic };
     case PostActionType.SET_SERIES:

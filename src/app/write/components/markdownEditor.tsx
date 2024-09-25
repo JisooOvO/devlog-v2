@@ -1,17 +1,16 @@
-import MarkdownView from "@/lib/components/contentsView";
+import { Content } from "@/lib/components/constant/postProps";
 import { PostAction, PostActionType } from "@/lib/store/postReducer";
 import {
   Dispatch,
   KeyboardEventHandler,
   SetStateAction,
   useEffect,
-  useState,
 } from "react";
 
 let backtickCount = 0;
 
 interface mardownProps {
-  markdown: string | undefined;
+  post: Content;
   dispatch: Dispatch<PostAction>;
   isWrite: boolean;
   setIsWrite: Dispatch<SetStateAction<boolean>>;
@@ -20,7 +19,7 @@ interface mardownProps {
 const MarkdownEditor: React.FC<mardownProps> = ({
   isWrite,
   setIsWrite,
-  markdown,
+  post,
   dispatch,
 }) => {
   useEffect(() => {
@@ -105,21 +104,23 @@ const MarkdownEditor: React.FC<mardownProps> = ({
         textarea.selectionStart = textarea.selectionEnd = start + 2;
       }
     }
-
-    dispatch({
-      type: PostActionType.SET_CONTENTS,
-      payload: { content: textarea.value },
-    });
   };
 
   return (
     <div className="markdown">
       <textarea
+        value={post?.content}
         className="markdown-area"
         spellCheck={false}
         onBlur={() => setIsWrite(false)}
         onKeyDown={handleKeyDown}
         onKeyUp={handleKeyUp}
+        onChange={(e) => {
+          dispatch({
+            type: PostActionType.SET_CONTENTS,
+            payload: { content: e.target.value },
+          });
+        }}
         placeholder="글을 작성하세요."
       />
     </div>

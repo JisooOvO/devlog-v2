@@ -6,8 +6,11 @@ import changeTopic from "../func/changeTopic";
 import { Topic } from "../page";
 import { Series } from "@prisma/client";
 import { useEffect, useState } from "react";
+import { Content } from "@/lib/components/constant/postProps";
 
 interface TopicProps {
+  post: Content;
+  type: "topic" | "series";
   title: string;
   dispatch: Dispatch<PostAction>;
   actionType: PostActionType.SET_TOPIC | PostActionType.SET_SERIES;
@@ -17,26 +20,29 @@ interface TopicProps {
 const ADDTOPIC = "add-topic";
 
 const TopicContainer: React.FC<TopicProps> = ({
+  post,
+  type,
   title,
   dispatch,
   actionType,
   topics,
 }) => {
-  const [selectValue, setSelectValue] = useState<string>("");
+  // const [selectValue, setSelectValue] = useState<string>("");
 
-  useEffect(() => {
-    setSelectValue("");
-  }, [topics]);
+  // useEffect(() => {
+  //   setSelectValue("");
+  // }, [topics]);
+
+  const target = post?.[type];
 
   return (
     <div>
       <p>{title}</p>
       <div className="topic-selector">
         <select
-          value={selectValue}
+          value={target?.name}
           onChange={(event) => {
             const inputTag = event.target.nextElementSibling;
-            setSelectValue(event.target.value);
 
             switch (event.target.value) {
               case ADDTOPIC:

@@ -2,6 +2,7 @@ import { Content } from "@/lib/components/constant/postProps";
 import ContentsView from "@/lib/components/contentsView";
 import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
+import PostController from "./components/postController";
 
 interface Params {
   slug: string;
@@ -20,6 +21,7 @@ const PostPage: React.FC<{ params: Params }> = async ({ params }) => {
       },
     },
     select: {
+      id: true,
       title: true,
       description: true,
       content: true,
@@ -55,13 +57,16 @@ const PostPage: React.FC<{ params: Params }> = async ({ params }) => {
     },
   });
 
-  console.log(content);
-
   if (!content) {
     notFound();
   }
 
-  return <ContentsView post={content} />;
+  return (
+    <>
+      <ContentsView post={content} />
+      <PostController post={content} />
+    </>
+  );
 };
 
 export default PostPage;

@@ -45,7 +45,7 @@ const Posts: React.FC<Props> = async ({ seriesName, seriesId }) => {
     },
   });
 
-  return (
+  return posts.length !== 0 ? (
     <div className="post-layout">
       {seriesName ? <p>{`# ${seriesName}`}</p> : <p># 전체보기</p>}
       <div className="post-container">
@@ -95,6 +95,6 @@ const Posts: React.FC<Props> = async ({ seriesName, seriesId }) => {
         })}
       </div>
     </div>
-  );
+  ) : null;
 };
 export default Posts;

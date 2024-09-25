@@ -76,6 +76,7 @@ const WriteButton: React.FC<NextAuthStatus> = ({ status }) => {
   const router = useRouter();
   switch (status) {
     case "authenticated":
+      // TODO : 인증된 사용자만 볼 수 있게
       return (
         <IconButton description="글 쓰기" onClick={() => router.push("/write")}>
           <WriteIcon width={size} height={size} />
