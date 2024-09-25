@@ -2,6 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import "@/style/unauthorized.css";
 
 const UnauthorizedPage = () => {
   const router = useRouter();

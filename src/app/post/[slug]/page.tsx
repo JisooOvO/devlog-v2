@@ -23,9 +23,13 @@ const PostPage: React.FC<{ params: Params }> = async ({ params }) => {
       title: true,
       description: true,
       content: true,
-      likes: true,
       createdAt: true,
       updatedAt: true,
+      _count: {
+        select: {
+          likes: true,
+        },
+      },
       thumbnail: {
         select: {
           path: true,
@@ -50,6 +54,8 @@ const PostPage: React.FC<{ params: Params }> = async ({ params }) => {
       },
     },
   });
+
+  console.log(content);
 
   if (!content) {
     notFound();

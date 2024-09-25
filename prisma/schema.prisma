@@ -43,6 +43,7 @@ model User {
   emailVerified DateTime?
   image         String?
   posts         Post[]
+  Likes         Likes[]
   accounts      Account[]
   sessions      Session[]
 }
@@ -70,10 +71,21 @@ model Post {
   topic       Topic      @relation(fields: [topicId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   seriesId    String
   series      Series     @relation(fields: [seriesId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  likes       Int        @default(0)
+  likes       Likes[]
   createdAt   DateTime   @default(now()) @map(name: "created_at")
   updatedAt   DateTime   @default(now()) @map(name: "updated_at")
   deletedAt   DateTime?  @map(name: "deleted_at")
+}
+
+model Likes {
+  id        String   @id @default(cuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@unique([postId, userId])
 }
 
 model Thumbnail {

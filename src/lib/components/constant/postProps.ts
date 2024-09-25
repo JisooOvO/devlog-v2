@@ -1,10 +1,17 @@
 export type Content = {
+  id?: string | undefined;
   title?: string | undefined;
   content?: string | undefined;
   description?: string | undefined;
-  likes?: number;
+  published?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
+  _count?:
+    | {
+        likes: number;
+      }
+    | null
+    | undefined;
   thumbnail?:
     | {
         path: string;

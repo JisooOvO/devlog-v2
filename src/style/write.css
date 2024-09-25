@@ -57,6 +57,7 @@
   box-sizing: border-box;
   box-shadow: var(--shadow-sm);
   overflow-y: auto;
+  pointer-events: none;
 }
 
 .preview > h1:first-child {
