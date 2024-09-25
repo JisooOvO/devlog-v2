@@ -8,6 +8,18 @@ interface Params {
   slug: string;
 }
 
+export async function generateStaticParams() {
+  const posts = await prisma.post.findMany({
+    select: {
+      title: true,
+    },
+  });
+
+  return posts.map((post) => ({
+    slug: post.title.replace(/\s+/g, "-"),
+  }));
+}
+
 const PostPage: React.FC<{ params: Params }> = async ({ params }) => {
   const title = params.slug.replace(/-/g, " ");
 
