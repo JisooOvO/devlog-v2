@@ -9,6 +9,7 @@ import { Dispatch as SetState, SetStateAction } from "react";
 import { Content } from "@/lib/components/constant/postProps";
 import Image from "next/image";
 import handleOnChange from "../func/uploadThumbnailFunc";
+import { useRouter } from "next/navigation";
 
 interface ModalWriteProps {
   setIsOpen: SetState<SetStateAction<boolean>>;
@@ -27,7 +28,7 @@ const ModalWrite: React.FC<ModalWriteProps> = ({ setIsOpen, thumbnails }) => {
         thumbnails={thumbnails}
       />
       <Description post={post} dispatch={dispatch} />
-      <ButtonConatiner post={post} setIsOpen={setIsOpen} />
+      <ButtonConatiner post={post} dispatch={dispatch} setIsOpen={setIsOpen} />
     </form>
   );
 };
@@ -133,10 +134,15 @@ const Description: React.FC<DescProps> = ({ post, dispatch }) => {
 
 interface ButtonProps {
   post: Content;
+  dispatch: Dispatch<PostAction>;
   setIsOpen: SetState<SetStateAction<boolean>>;
 }
 
-const ButtonConatiner: React.FC<ButtonProps> = ({ post, setIsOpen }) => {
+const ButtonConatiner: React.FC<ButtonProps> = ({
+  post,
+  dispatch,
+  setIsOpen,
+}) => {
   return (
     <div className="modal-button">
       <button
@@ -144,7 +150,7 @@ const ButtonConatiner: React.FC<ButtonProps> = ({ post, setIsOpen }) => {
         onClick={(e) => {
           e.preventDefault();
           const fetchData = async () => {
-            const response = await fetch("/api/write", {
+            const response = await fetch("/api/post", {
               method: "post",
               body: JSON.stringify({ post }),
             });
@@ -152,6 +158,10 @@ const ButtonConatiner: React.FC<ButtonProps> = ({ post, setIsOpen }) => {
             switch (response.status) {
               case 200:
                 alert("저장되었습니다.");
+                setIsOpen(false);
+                dispatch({ type: PostActionType.CLEAR });
+                const jsonData = await response.json();
+                window.location.href = `/post/${jsonData["title"]}`;
                 break;
               default:
                 alert("저장 안됨");
@@ -160,7 +170,12 @@ const ButtonConatiner: React.FC<ButtonProps> = ({ post, setIsOpen }) => {
           };
 
           if (post) {
-            post.published = true;
+            dispatch({
+              type: PostActionType.SET_PUBLISHED,
+              payload: {
+                published: true,
+              },
+            });
             fetchData();
           }
         }}

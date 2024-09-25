@@ -4,7 +4,6 @@ import {
   Dispatch as SetState,
   SetStateAction,
   useState,
-  MouseEventHandler,
   useEffect,
 } from "react";
 import MarkdownEditor from "./components/markdownEditor";
@@ -18,11 +17,11 @@ import handleSubmit from "./func/submitFunc";
 import CustomModal from "@/lib/components/customModal";
 import ContentsView from "@/lib/components/contentsView";
 import { useSession } from "next-auth/react";
-import "@/style/write.css";
 import TopicContainer from "./components/topicContainer";
 import { Content } from "@/lib/components/constant/postProps";
 import { Series, Thumbnail } from "@prisma/client";
 import ModalWrite from "./components/modalWrite";
+import "@/style/write.css";
 
 const WritePage = () => {
   const newPost = useSelector((state: RootState) => state.post);
@@ -33,7 +32,6 @@ const WritePage = () => {
   const router = useRouter();
   const { data, status } = useSession();
 
-  // 페이지 로드 전에 가져오는 법 찾기
   useEffect(() => {
     const name = data?.user?.name;
     const email = data?.user?.email;
@@ -65,6 +63,7 @@ const WritePage = () => {
           new Set([...Array.from(prev), ...thumbs.map((thumb) => thumb.path)])
       );
     };
+
     fetchThumbnails();
   }, [newPost?.thumbnail?.path]);
 
@@ -91,7 +90,7 @@ const WritePage = () => {
           />
           <TopicSection post={newPost} dispatch={dispatch} />
           <MarkdownEditor
-            markdown={newPost?.content}
+            post={newPost}
             dispatch={dispatch}
             isWrite={isWrite}
             setIsWrite={setIsWrite}
@@ -154,7 +153,7 @@ interface TopicProps {
   dispatch: Dispatch<PostAction>;
 }
 
-export interface Topic extends Object {
+export interface Topic {
   name: string;
   series: Array<Series>;
 }
@@ -176,27 +175,41 @@ const TopicSection: React.FC<TopicProps> = ({ post, dispatch }) => {
     topics.forEach((topic) => {
       if (topic.name === post?.topic?.name) {
         setSeries(topic.series);
+
+        let flag = false;
+
+        for (let i = 0; i < topic.series.length; i++) {
+          if (topic.series[i].name === post.series?.name) {
+            flag = true;
+            break;
+          }
+        }
+
+        dispatch({
+          type: PostActionType.SET_SERIES,
+          payload: {
+            series: {
+              name: flag ? post?.series?.name : "",
+            },
+          },
+        });
       }
     });
-    dispatch({
-      type: PostActionType.SET_SERIES,
-      payload: {
-        series: {
-          name: "",
-        },
-      },
-    });
-  }, [post?.topic]);
+  }, [post?.topic, dispatch, topics]);
 
   return (
     <>
       <TopicContainer
+        post={post}
         title="주제"
+        type="topic"
         dispatch={dispatch}
         actionType={PostActionType.SET_TOPIC}
         topics={topics}
       />
       <TopicContainer
+        post={post}
+        type="series"
         title="시리즈"
         dispatch={dispatch}
         actionType={PostActionType.SET_SERIES}
@@ -216,32 +229,34 @@ interface WriteButtonProps {
 const WriteButton: React.FC<WriteButtonProps> = ({ post, setIsOpen }) => {
   return (
     <div className="write-button-container">
-      <button
-        className="custom-button"
-        onClick={(e) => {
-          e.preventDefault();
+      {post?.id === undefined ? (
+        <button
+          className="custom-button"
+          onClick={(e) => {
+            e.preventDefault();
 
-          const fetchData = async () => {
-            const response = await fetch("/api/write", {
-              method: "post",
-              body: JSON.stringify({ post }),
-            });
+            const fetchData = async () => {
+              const response = await fetch("/api/write", {
+                method: "post",
+                body: JSON.stringify({ post }),
+              });
 
-            switch (response.status) {
-              case 200:
-                alert("임시 저장되었습니다.");
-                break;
-              default:
-                alert("저장 안됨");
-                break;
-            }
-          };
+              switch (response.status) {
+                case 200:
+                  alert("임시 저장되었습니다.");
+                  break;
+                default:
+                  alert("저장 안됨");
+                  break;
+              }
+            };
 
-          fetchData();
-        }}
-      >
-        임시저장
-      </button>
+            fetchData();
+          }}
+        >
+          임시저장
+        </button>
+      ) : null}
       <button
         className="custom-button"
         onClick={(event) => {

@@ -82,3 +82,17 @@
   height: 1.5rem;
   border-radius: 50%;
 }
+
+.post-controller {
+  padding: 1rem;
+  position : fixed;
+  bottom: 3rem;
+  right: 3rem;
+  display: flex;
+  gap: 0.5rem;
+  border: 1px solid var(--bgColor-neutral-muted);
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-sm);
+  background-color: var(--background-color);
+  z-index: 10;
+}
