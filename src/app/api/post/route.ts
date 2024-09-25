@@ -8,8 +8,8 @@ interface Props {
   post: Content;
 }
 
-export async function POST(request: NextRequest) {
-  const token = await getToken({ req: request });
+export async function POST(req: NextRequest) {
+  const token = await getToken({ req });
 
   if (token === null) {
     return NextResponse.json(
@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const { post }: Props = await request.json();
+  const { post }: Props = await req.json();
 
   if (!checkPost(post)) {
     return NextResponse.json(

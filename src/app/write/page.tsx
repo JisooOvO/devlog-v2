@@ -195,7 +195,7 @@ const TopicSection: React.FC<TopicProps> = ({ post, dispatch }) => {
         });
       }
     });
-  }, [post?.topic, dispatch, topics]);
+  }, [post?.series?.name, post?.topic, dispatch, topics]);
 
   return (
     <>
