@@ -8,8 +8,21 @@ interface TopicProps {
   };
 }
 
+export async function generateStaticParams() {
+  const topics = await prisma.topic.findMany({
+    select: {
+      name: true,
+    },
+  });
+
+  return topics.map((topic) => ({
+    slug: topic.name.replace(/\s+/g, "-"),
+  }));
+}
+
 const TopicPage: React.FC<TopicProps> = async ({ params }) => {
-  const topicName = decodeURIComponent(params.slug);
+  const topicName = decodeURIComponent(params.slug.replace(/-/g, " "));
+
   const topic = await prisma.topic.findFirst({
     where: {
       name: topicName,
