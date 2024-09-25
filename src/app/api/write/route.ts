@@ -1,12 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { Content } from "@/lib/components/constant/postProps";
+import { getToken } from "next-auth/jwt";
 
 interface Props {
   post: Content;
 }
 
 export async function POST(request: NextRequest) {
+  const token = await getToken({ req: request });
+
+  if (token === null) {
+    return NextResponse.json(
+      { message: "authorization failed" },
+      { status: 401 }
+    );
+  }
+
   const { post }: Props = await request.json();
 
   if (!checkPost(post)) {
@@ -66,7 +76,7 @@ export async function POST(request: NextRequest) {
         thumbnailId: thumbnail?.id,
         topicId: topic.id,
         seriesId: series.id,
-        published: true,
+        published: post?.published,
       },
     });
 

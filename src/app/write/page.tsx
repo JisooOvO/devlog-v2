@@ -17,9 +17,12 @@ import { Dispatch } from "@reduxjs/toolkit";
 import handleSubmit from "./func/submitFunc";
 import CustomModal from "@/lib/components/customModal";
 import ContentsView from "@/lib/components/contentsView";
-import changeTopic from "./func/changeTopic";
 import { useSession } from "next-auth/react";
 import "@/style/write.css";
+import TopicContainer from "./components/topicContainer";
+import { Content } from "@/lib/components/constant/postProps";
+import { Series, Thumbnail } from "@prisma/client";
+import ModalWrite from "./components/modalWrite";
 
 const WritePage = () => {
   const newPost = useSelector((state: RootState) => state.post);
@@ -30,23 +33,40 @@ const WritePage = () => {
   const router = useRouter();
   const { data, status } = useSession();
 
+  // 페이지 로드 전에 가져오는 법 찾기
   useEffect(() => {
     const name = data?.user?.name;
     const email = data?.user?.email;
+    const image = data?.user?.image;
 
-    if (status === "authenticated" && name && email) {
+    if (status === "authenticated" && name && email && image) {
       dispatch({
         type: PostActionType.SET_AUTHOR,
         payload: {
           author: {
             name: name,
             email: email,
-            image: "",
+            image: image,
           },
         },
       });
     }
   }, [data, status, dispatch]);
+
+  const [thumbnails, setThumbnails] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    const fetchThumbnails = async () => {
+      const response = await fetch("/api/thumbnails");
+      const data = await response.json();
+      const thumbs: Array<Thumbnail> = data.thumbnails;
+      setThumbnails(
+        (prev) =>
+          new Set([...Array.from(prev), ...thumbs.map((thumb) => thumb.path)])
+      );
+    };
+    fetchThumbnails();
+  }, [newPost?.thumbnail?.path]);
 
   return (
     <>
@@ -69,31 +89,22 @@ const WritePage = () => {
             dispatch={dispatch}
             setIsWrite={setIsWrite}
           />
-          <TopicSection
-            title="주제"
-            type="topics"
-            dispatch={dispatch}
-            actionType={PostActionType.SET_TOPIC}
-          />
-          <TopicSection
-            title="시리즈"
-            type="series"
-            dispatch={dispatch}
-            actionType={PostActionType.SET_SERIES}
-          />
+          <TopicSection post={newPost} dispatch={dispatch} />
           <MarkdownEditor
             markdown={newPost?.content}
             dispatch={dispatch}
             isWrite={isWrite}
             setIsWrite={setIsWrite}
           />
-          <WriteButton setIsOpen={setIsOpen} />
+          <WriteButton post={newPost} setIsOpen={setIsOpen} />
         </form>
         <div className="preview">
           <ContentsView post={newPost} />
         </div>
       </div>
-      <CustomModal isOpen={isOpen} setIsOpen={setIsOpen} />
+      <CustomModal isOpen={isOpen}>
+        <ModalWrite setIsOpen={setIsOpen} thumbnails={thumbnails} />
+      </CustomModal>
     </>
   );
 };
@@ -139,95 +150,105 @@ const TitleInput: React.FC<TitleProps> = ({ title, dispatch, setIsWrite }) => {
 //-------------------------------------------------------------------
 
 interface TopicProps {
-  title: string;
-  type: "topics" | "series";
+  post: Content;
   dispatch: Dispatch<PostAction>;
-  actionType: PostActionType.SET_TOPIC | PostActionType.SET_SERIES;
 }
 
-interface Topic extends Object {
+export interface Topic extends Object {
   name: string;
+  series: Array<Series>;
 }
 
-const TopicSection: React.FC<TopicProps> = ({
-  title,
-  type,
-  dispatch,
-  actionType,
-}) => {
+const TopicSection: React.FC<TopicProps> = ({ post, dispatch }) => {
   const [topics, setTopics] = useState<Array<Topic>>([]);
-  const ADDTOPIC = "add-topic";
+  const [series, setSeries] = useState<Array<Series>>([]);
 
   useEffect(() => {
     const fetchTopics = async () => {
-      const response = await fetch(`/api/${type}`);
+      const response = await fetch(`/api/topics`);
       const jsonData = await response.json();
-      const data = jsonData[type];
-      setTopics(data);
+      setTopics(jsonData["topics"]);
     };
     fetchTopics();
-  }, [type]);
+  }, []);
+
+  useEffect(() => {
+    topics.forEach((topic) => {
+      if (topic.name === post?.topic?.name) {
+        setSeries(topic.series);
+      }
+    });
+    dispatch({
+      type: PostActionType.SET_SERIES,
+      payload: {
+        series: {
+          name: "",
+        },
+      },
+    });
+  }, [post?.topic]);
 
   return (
-    <div>
-      <p>{title}</p>
-      <div className="topic-selector">
-        <select
-          defaultValue={""}
-          onChange={(event) => {
-            const inputTag = event.target.nextElementSibling;
-
-            switch (event.target.value) {
-              case ADDTOPIC:
-                inputTag?.classList.remove("hidden");
-                break;
-              default:
-                inputTag?.classList.add("hidden");
-                changeTopic({ event, actionType, dispatch });
-                break;
-            }
-          }}
-        >
-          <option disabled value={""}>
-            {title}를 선택하세요.
-          </option>
-          {topics.map((topic, index) => (
-            <option key={`topic-${index}`} value={topic.name}>
-              {topic.name}
-            </option>
-          ))}
-          <option value={ADDTOPIC}>직접 입력</option>
-        </select>
-        <input
-          type="text"
-          className="hidden"
-          onChange={(event) => changeTopic({ event, actionType, dispatch })}
-          placeholder={`${title}를 입력하세요.`}
-          spellCheck={false}
-        />
-      </div>
-    </div>
+    <>
+      <TopicContainer
+        title="주제"
+        dispatch={dispatch}
+        actionType={PostActionType.SET_TOPIC}
+        topics={topics}
+      />
+      <TopicContainer
+        title="시리즈"
+        dispatch={dispatch}
+        actionType={PostActionType.SET_SERIES}
+        topics={series}
+      />
+    </>
   );
 };
 
 //-------------------------------------------------------------------
 
 interface WriteButtonProps {
+  post: Content;
   setIsOpen: SetState<SetStateAction<boolean>>;
 }
 
-const WriteButton: React.FC<WriteButtonProps> = ({ setIsOpen }) => {
-  const handleClick: MouseEventHandler = (event) => {
-    event.preventDefault();
-    setIsOpen(true);
-  };
-
+const WriteButton: React.FC<WriteButtonProps> = ({ post, setIsOpen }) => {
   return (
     <div className="write-button-container">
-      <button className="custom-button" onClick={handleClick}>
+      <button
+        className="custom-button"
+        onClick={(e) => {
+          e.preventDefault();
+
+          const fetchData = async () => {
+            const response = await fetch("/api/write", {
+              method: "post",
+              body: JSON.stringify({ post }),
+            });
+
+            switch (response.status) {
+              case 200:
+                alert("임시 저장되었습니다.");
+                break;
+              default:
+                alert("저장 안됨");
+                break;
+            }
+          };
+
+          fetchData();
+        }}
+      >
         임시저장
       </button>
-      <button className="custom-button" onClick={handleClick}>
+      <button
+        className="custom-button"
+        onClick={(event) => {
+          event.preventDefault();
+          setIsOpen(true);
+        }}
+      >
         발행하기
       </button>
     </div>

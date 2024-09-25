@@ -4,18 +4,24 @@ import Image from "next/image";
 import { PLACEHOLDER } from "./constant/imageProps";
 import "@/style/post.css";
 import getDateKoreanString from "./func/getDateKoreanString";
+import LikeContainer from "@/app/post/[slug]/components/likeContainer";
 
 interface Props {
   seriesName?: string | undefined;
   seriesId?: string | undefined;
 }
 
+const size = "1rem";
+
 const Posts: React.FC<Props> = async ({ seriesName, seriesId }) => {
   // TODO : CSRF 토큰, Authorization 토큰
-  // 릴레이션 쿼리 필드 숨김 처리
   const posts = await prisma.post.findMany({
     where: {
       seriesId: seriesId,
+      published: true,
+    },
+    orderBy: {
+      createdAt: "asc",
     },
     include: {
       thumbnail: {
@@ -63,7 +69,7 @@ const Posts: React.FC<Props> = async ({ seriesName, seriesId }) => {
                 <hr />
                 <div className="post-detail">
                   <p>{getDateKoreanString(post.createdAt)}</p>
-                  <p>{post.likes} likes</p>
+                  <LikeContainer size={size} post={post} />
                 </div>
                 <div className="post-author">
                   <Image
