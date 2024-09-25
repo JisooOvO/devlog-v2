@@ -21,14 +21,10 @@ export async function generateStaticParams() {
 }
 
 const PostPage: React.FC<{ params: Params }> = async ({ params }) => {
-  const title = params.slug.replace(/-/g, " ");
-
-  const decodedTitle = decodeURIComponent(title);
-
   const content: Content = await prisma.post.findFirst({
     where: {
       title: {
-        equals: decodedTitle,
+        equals: decodeURIComponent(params.slug.replace(/-/g, " ")),
         mode: "insensitive",
       },
     },
