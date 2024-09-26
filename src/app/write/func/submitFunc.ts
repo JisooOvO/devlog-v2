@@ -1,4 +1,4 @@
-import { Content } from "@/lib/components/constant/postProps";
+import { Content } from "@/lib/constant/postProps";
 import { PostAction, PostActionType } from "@/lib/store/postReducer";
 import { Dispatch } from "@reduxjs/toolkit";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
