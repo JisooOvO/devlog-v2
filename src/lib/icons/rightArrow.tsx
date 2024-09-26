@@ -1,4 +1,4 @@
-import IconProps from "../components/constant/imageProps";
+import IconProps from "@/lib/constant/imageProps";
 
 const RightArrowIcon: React.FC<IconProps> = ({ width, height }) => {
   return (

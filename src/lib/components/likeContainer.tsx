@@ -1,10 +1,9 @@
 "use client";
 
-import { Content } from "@/lib/components/constant/postProps";
+import { Content } from "@/lib/constant/postProps";
 import IconButton from "@/lib/components/iconButton";
 import StarIcon from "@/lib/icons/star";
 import "@/style/content.css";
-import { Post } from "@prisma/client";
 import { useState } from "react";
 
 interface Props {
@@ -38,7 +37,7 @@ const LikeContainer: React.FC<Props> = ({ size, post }) => {
           fetchData();
         }}
       >
-        <StarIcon width={size} height={size} />
+        <StarIcon width={size} height={size} fill={"#ffa500"} />
       </IconButton>
       <p>{like ? like : 0}</p>
     </div>

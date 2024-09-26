@@ -1,5 +1,5 @@
 import { UnknownAction } from "@reduxjs/toolkit";
-import { Content } from "../components/constant/postProps";
+import { Content } from "@/lib/constant/postProps";
 
 export enum PostActionType {
   CLEAR = "clear",

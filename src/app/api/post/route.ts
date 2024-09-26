@@ -1,4 +1,4 @@
-import { Content } from "@/lib/components/constant/postProps";
+import { Content } from "@/lib/constant/postProps";
 import prisma from "@/lib/prisma";
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
   if (token === null) {
     return NextResponse.json(
       { message: "authorization failed" },
-      { status: 401 }
+      { status: 401 },
     );
   }
 
@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
   if (!checkPost(post)) {
     return NextResponse.json(
       { message: "Something is missing" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -84,12 +84,12 @@ export async function POST(req: NextRequest) {
 
       return NextResponse.json(
         { message: "Save completed", title: newPost.title },
-        { status: 200 }
+        { status: 200 },
       );
     } catch (error) {
       return NextResponse.json(
         { message: "Save failed", error },
-        { status: 500 }
+        { status: 500 },
       );
     }
   } else {
@@ -145,12 +145,12 @@ export async function POST(req: NextRequest) {
       });
       return NextResponse.json(
         { message: "Save completed", title: updatedPost.title },
-        { status: 200 }
+        { status: 200 },
       );
     } catch (error) {
       return NextResponse.json(
         { message: "Save failed", error },
-        { status: 500 }
+        { status: 500 },
       );
     }
   }
@@ -164,7 +164,7 @@ export async function PUT(req: NextRequest) {
   if (token === null) {
     return NextResponse.json(
       { message: "authorization failed" },
-      { status: 401 }
+      { status: 401 },
     );
   }
 
@@ -220,13 +220,13 @@ export async function PUT(req: NextRequest) {
 
     return NextResponse.json(
       { message: "Success to update likes", likes: post?._count.likes },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.log(error);
     return NextResponse.json(
       { message: "Failed to update likes" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -239,7 +239,7 @@ export async function DELETE(req: NextRequest) {
   if (token === null) {
     return NextResponse.json(
       { message: "authorization failed" },
-      { status: 401 }
+      { status: 401 },
     );
   }
 
@@ -258,12 +258,12 @@ export async function DELETE(req: NextRequest) {
 
     return NextResponse.json(
       { message: "Success delete post" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch {
     return NextResponse.json(
       { message: "Failed delete post" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

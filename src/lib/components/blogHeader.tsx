@@ -5,9 +5,9 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 // import Image from "next/image";
-import IconButton from "./iconButton";
-import LoginIcon from "../icons/login";
-import WriteIcon from "../icons/write";
+import IconButton from "@/lib/components/iconButton";
+import LoginIcon from "@/lib/icons/login";
+import WriteIcon from "@/lib/icons/write";
 import "@/style/blogHeader.css";
 
 const size = "2rem";

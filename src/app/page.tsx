@@ -8,7 +8,7 @@ const HomePage: React.FC = async () => {
   return (
     <>
       <Topics />
-      <Posts />
+      <Posts showSeries={true} />
     </>
   );
 };

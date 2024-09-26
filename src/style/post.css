@@ -10,6 +10,7 @@
 }
 
 .post-container {
+  margin-top: 1rem;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
   gap: 1rem;
@@ -95,4 +96,21 @@
   box-shadow: var(--shadow-sm);
   background-color: var(--background-color);
   z-index: 10;
+}
+
+.post-another-series{
+  margin: 3rem 0;
+}
+
+.post-other-link-container{
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.post-other-link-container > a {
+  display: flex;
+  align-items: center;
 }

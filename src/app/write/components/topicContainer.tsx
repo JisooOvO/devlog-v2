@@ -4,9 +4,8 @@ import { PostAction, PostActionType } from "@/lib/store/postReducer";
 import { Dispatch } from "@reduxjs/toolkit";
 import changeTopic from "../func/changeTopic";
 import { Topic } from "../page";
+import { Content } from "@/lib/constant/postProps";
 import { Series } from "@prisma/client";
-import { useEffect, useState } from "react";
-import { Content } from "@/lib/components/constant/postProps";
 
 interface TopicProps {
   post: Content;

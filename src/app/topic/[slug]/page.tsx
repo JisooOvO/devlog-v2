@@ -37,7 +37,12 @@ const TopicPage: React.FC<TopicProps> = async ({ params }) => {
       <Topics topicName={topicName} />
       {topic?.series.map((s, index) => {
         return (
-          <Posts key={`post-${index}`} seriesName={s.name} seriesId={s.id} />
+          <Posts
+            key={`post-${index}`}
+            seriesName={s.name}
+            seriesId={s.id}
+            showSeries={true}
+          />
         );
       })}
     </>

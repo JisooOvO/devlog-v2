@@ -1,9 +1,9 @@
-import IconProps from "../components/constant/imageProps";
+import IconProps from "@/lib/constant/imageProps";
 
-const StarIcon: React.FC<IconProps> = ({ width, height }) => {
+const StarIcon: React.FC<IconProps> = ({ width, height, fill }) => {
   return (
     <svg
-      fill="#000000"
+      fill={fill ? fill : "#000000"}
       width={width}
       height={height}
       viewBox="-1 0 19 19"

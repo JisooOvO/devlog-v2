@@ -15,6 +15,9 @@ const ClientProvider = ({ children }: RootLayoutProps) => {
         <ClientScrollProvider />
         <BlogHeader />
         <div className="contents">{children}</div>
+        <div>
+          <hr />
+        </div>
         <BlogFooter />
       </Provider>
     </SessionProvider>
