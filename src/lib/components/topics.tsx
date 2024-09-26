@@ -14,7 +14,7 @@ const Topics: React.FC<TopicProps> = async ({ topicName }) => {
         className={`topic ${topicName === undefined ? "highlight" : ""}`}
         href={"/"}
       >
-        # 전체보기
+        전체
       </Link>
       {topics.map((topic, index) => {
         return (
@@ -23,7 +23,7 @@ const Topics: React.FC<TopicProps> = async ({ topicName }) => {
             key={`topic-${index}`}
             href={`/topic/${topic.name}`}
           >
-            # {topic.name}
+            {topic.name}
           </Link>
         );
       })}

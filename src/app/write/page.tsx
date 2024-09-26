@@ -57,10 +57,10 @@ const WritePage = () => {
     const fetchThumbnails = async () => {
       const response = await fetch("/api/thumbnails");
       const data = await response.json();
-      const thumbs: Array<Thumbnail> = data.thumbnails;
+      const thumbs: Array<Thumbnail> = data.thumbnails ?? [];
       setThumbnails(
         (prev) =>
-          new Set([...Array.from(prev), ...thumbs.map((thumb) => thumb.path)]),
+          new Set([...Array.from(prev), ...thumbs?.map((thumb) => thumb.path)]),
       );
     };
 
@@ -172,7 +172,7 @@ const TopicSection: React.FC<TopicProps> = ({ post, dispatch }) => {
   }, []);
 
   useEffect(() => {
-    topics.forEach((topic) => {
+    topics?.forEach((topic) => {
       if (topic.name === post?.topic?.name) {
         setSeries(topic.series);
 

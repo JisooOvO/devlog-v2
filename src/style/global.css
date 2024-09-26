@@ -68,6 +68,10 @@ textarea {
   resize: none;
 }
 
+input,textarea,select {
+  font-family: "Pretendard-Regular", sans-serif;
+}
+
 input::placeholder {
   font-family: "Pretendard-Regular", sans-serif;
 }
