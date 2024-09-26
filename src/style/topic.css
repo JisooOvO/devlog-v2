@@ -1,6 +1,7 @@
 .topic-container {
   margin-bottom: 3rem;
   display: flex;
+  align-items: center;
   gap: 0.5rem;
 }
 
@@ -9,8 +10,6 @@
   border: 1px solid var(--bgCozlor-neutral-muted);
   border-radius: 0.75rem;
   box-shadow: var(--shadow-sm);
-  font-style: italic;
-  font-size: 1.25rem;
   font-weight: 700;
 }
 

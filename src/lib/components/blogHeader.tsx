@@ -9,6 +9,7 @@ import IconButton from "@/lib/components/iconButton";
 import LoginIcon from "@/lib/icons/login";
 import WriteIcon from "@/lib/icons/write";
 import "@/style/blogHeader.css";
+import SettingIcon from "../icons/setting";
 
 const size = "2rem";
 
@@ -27,7 +28,7 @@ export default function BlogHeader() {
       </Link>
       <nav>
         <LoginButton session={session} status={status} />
-        <WriteButton status={status} />
+        <ManageButton status={status} />
         {/* <DarkModeButton /> */}
       </nav>
     </header>
@@ -66,24 +67,35 @@ const LoginButton: React.FC<NextAuthStatus> = ({ session, status }) => {
         </IconButton>
       );
     default:
-      return <></>;
+      return null;
   }
 };
 
 // --------------------------------------------------------------------------
 
-const WriteButton: React.FC<NextAuthStatus> = ({ status }) => {
+const ManageButton: React.FC<NextAuthStatus> = ({ status }) => {
   const router = useRouter();
   switch (status) {
     case "authenticated":
       // TODO : 인증된 사용자만 볼 수 있게
       return (
-        <IconButton description="글 쓰기" onClick={() => router.push("/write")}>
-          <WriteIcon width={size} height={size} />
-        </IconButton>
+        <>
+          <IconButton
+            description="글 쓰기"
+            onClick={() => router.push("/write")}
+          >
+            <WriteIcon width={size} height={size} />
+          </IconButton>
+          <IconButton
+            description="블로그 관리"
+            onClick={() => router.push("/manage")}
+          >
+            <SettingIcon width={size} height={size} />
+          </IconButton>
+        </>
       );
     default:
-      return <></>;
+      return null;
   }
 };
 

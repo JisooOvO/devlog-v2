@@ -13,7 +13,7 @@ interface TopicProps {
   title: string;
   dispatch: Dispatch<PostAction>;
   actionType: PostActionType.SET_TOPIC | PostActionType.SET_SERIES;
-  topics: Array<Topic> | Array<Series>;
+  topics: Array<Topic> | Array<Series> | undefined;
 }
 
 const ADDTOPIC = "add-topic";
@@ -26,12 +26,6 @@ const TopicContainer: React.FC<TopicProps> = ({
   actionType,
   topics,
 }) => {
-  // const [selectValue, setSelectValue] = useState<string>("");
-
-  // useEffect(() => {
-  //   setSelectValue("");
-  // }, [topics]);
-
   const target = post?.[type];
 
   return (
@@ -57,7 +51,7 @@ const TopicContainer: React.FC<TopicProps> = ({
           <option disabled value={""}>
             {title}를 선택하세요.
           </option>
-          {topics.map((topic, index) => (
+          {topics?.map((topic, index) => (
             <option key={`topic-${index}`} value={topic.name}>
               {topic.name}
             </option>

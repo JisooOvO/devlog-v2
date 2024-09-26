@@ -16,12 +16,12 @@ const middleware = async (req: NextRequest) => {
   }
 
   return NextResponse.redirect(
-    new URL(`${process.env.SERVER_URL}/unauthorized`)
+    new URL(`${process.env.SERVER_URL}/unauthorized`),
   );
 };
 
 export const config: MiddlewareConfig = {
-  matcher: ["/api/:path*", "/write/:path*"],
+  matcher: ["/api/:path*", "/manage/:path*", "/write/:path*"],
 };
 
 // const middleware = () => {};
