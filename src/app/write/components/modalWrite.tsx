@@ -169,15 +169,7 @@ const ButtonConatiner: React.FC<ButtonProps> = ({
             }
           };
 
-          if (post) {
-            dispatch({
-              type: PostActionType.SET_PUBLISHED,
-              payload: {
-                published: true,
-              },
-            });
-            fetchData();
-          }
+          fetchData();
         }}
       >
         발행하기
