@@ -18,7 +18,7 @@ import CustomModal from "@/lib/components/customModal";
 import ContentsView from "@/lib/components/contentsView";
 import { useSession } from "next-auth/react";
 import TopicContainer from "./components/topicContainer";
-import { Content } from "@/lib/components/constant/postProps";
+import { Content } from "@/lib/constant/postProps";
 import { Series, Thumbnail } from "@prisma/client";
 import ModalWrite from "./components/modalWrite";
 import "@/style/write.css";
@@ -60,7 +60,7 @@ const WritePage = () => {
       const thumbs: Array<Thumbnail> = data.thumbnails;
       setThumbnails(
         (prev) =>
-          new Set([...Array.from(prev), ...thumbs.map((thumb) => thumb.path)])
+          new Set([...Array.from(prev), ...thumbs.map((thumb) => thumb.path)]),
       );
     };
 

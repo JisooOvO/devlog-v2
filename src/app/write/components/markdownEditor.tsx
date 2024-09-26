@@ -1,4 +1,4 @@
-import { Content } from "@/lib/components/constant/postProps";
+import { Content } from "@/lib/constant/postProps";
 import { PostAction, PostActionType } from "@/lib/store/postReducer";
 import {
   Dispatch,

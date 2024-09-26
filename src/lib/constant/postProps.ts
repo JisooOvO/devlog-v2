@@ -28,12 +28,14 @@ export type Content = {
     | undefined;
   topic?:
     | {
+        id?: string | undefined;
         name: string;
       }
     | null
     | undefined;
   series?:
     | {
+        id?: string | undefined;
         name: string | undefined;
       }
     | null

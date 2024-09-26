@@ -1,28 +1,44 @@
 import Link from "next/link";
 import prisma from "../prisma";
 import Image from "next/image";
-import { PLACEHOLDER } from "./constant/imageProps";
 import "@/style/post.css";
-import getDateKoreanString from "./func/getDateKoreanString";
-import LikeContainer from "@/app/post/[slug]/components/likeContainer";
-import { Content } from "./constant/postProps";
+import getDateKoreanString from "@/lib/func/getDateKoreanString";
+import LikeContainer from "@/lib/components/likeContainer";
+import { Content } from "@/lib/constant/postProps";
+import { PLACEHOLDER } from "@/lib/constant/imageProps";
 
 interface Props {
+  topicId?: string | undefined;
   seriesName?: string | undefined;
   seriesId?: string | undefined;
+  postId?: string | undefined;
+  showSeries: boolean;
 }
 
 const size = "1rem";
 
-const Posts: React.FC<Props> = async ({ seriesName, seriesId }) => {
-  // TODO : CSRF 토큰, Authorization 토큰
+const Posts: React.FC<Props> = async ({
+  topicId,
+  seriesName,
+  seriesId,
+  postId,
+  showSeries,
+}) => {
   const posts: Array<Content> = await prisma.post.findMany({
     where: {
-      seriesId: seriesId,
+      ...(topicId !== undefined && { topicId: topicId }),
       published: true,
+      ...(postId !== undefined && { id: { not: postId } }),
+      ...(seriesId !== undefined && {
+        OR: [
+          {
+            seriesId: topicId ? { not: seriesId } : seriesId,
+          },
+        ],
+      }),
     },
     orderBy: {
-      createdAt: "asc",
+      createdAt: "desc",
     },
     include: {
       _count: {
@@ -47,7 +63,17 @@ const Posts: React.FC<Props> = async ({ seriesName, seriesId }) => {
 
   return posts.length !== 0 ? (
     <div className="post-layout">
-      {seriesName ? <p>{`# ${seriesName}`}</p> : <p># 전체보기</p>}
+      {showSeries ? (
+        seriesName ? (
+          <p>{`# ${seriesName}`}</p>
+        ) : (
+          <p># 전체 포스트</p>
+        )
+      ) : topicId ? (
+        <p>관련 포스트</p>
+      ) : (
+        <p>{seriesName} 시리즈의 다른 포스트</p>
+      )}
       <div className="post-container">
         {posts.map(async (post, index: number) => {
           const formattedTitle = post?.title

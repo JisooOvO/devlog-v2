@@ -6,10 +6,9 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { Dispatch as SetState, SetStateAction } from "react";
-import { Content } from "@/lib/components/constant/postProps";
+import { Content } from "@/lib/constant/postProps";
 import Image from "next/image";
 import handleOnChange from "../func/uploadThumbnailFunc";
-import { useRouter } from "next/navigation";
 
 interface ModalWriteProps {
   setIsOpen: SetState<SetStateAction<boolean>>;

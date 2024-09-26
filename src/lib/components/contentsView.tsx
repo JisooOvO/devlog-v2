@@ -5,11 +5,11 @@ import remarkGfm from "remark-gfm";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import "@/style/content.css";
-import getDateKoreanString from "./func/getDateKoreanString";
-import { PLACEHOLDER } from "./constant/imageProps";
+import getDateKoreanString from "@/lib/func/getDateKoreanString";
+import { PLACEHOLDER } from "@/lib/constant/imageProps";
 import ContentCategory from "@/app/post/[slug]/components/contentCategory";
-import LikeContainer from "@/app/post/[slug]/components/likeContainer";
-import { Content } from "./constant/postProps";
+import LikeContainer from "@/lib//components/likeContainer";
+import { Content } from "@/lib/constant/postProps";
 
 interface Props {
   post: Content;

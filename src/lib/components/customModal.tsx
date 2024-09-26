@@ -1,4 +1,4 @@
-import { ReactElement, Dispatch as SetState, SetStateAction } from "react";
+import { ReactElement } from "react";
 
 interface CustomModalProps {
   isOpen?: boolean;
