@@ -151,21 +151,20 @@ const ButtonConatiner: React.FC<ButtonProps> = ({
           const fetchData = async () => {
             const response = await fetch("/api/post", {
               method: "post",
-              body: JSON.stringify({ post }),
+              body: JSON.stringify({ post, published: true }),
             });
+
+            const jsonData = await response.json();
 
             switch (response.status) {
               case 200:
                 setIsOpen(false);
                 dispatch({ type: PostActionType.CLEAR });
-                const jsonData = await response.json();
                 window.location.href = `/post/${jsonData["title"]}`;
-                alert("저장되었습니다.");
-                break;
-              default:
-                alert("저장 안됨");
                 break;
             }
+
+            alert(jsonData["message"]);
           };
 
           fetchData();
