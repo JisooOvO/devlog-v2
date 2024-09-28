@@ -1,3 +1,5 @@
+import { Series } from "@prisma/client";
+
 export type Content = {
   id?: string | undefined;
   title?: string | undefined;

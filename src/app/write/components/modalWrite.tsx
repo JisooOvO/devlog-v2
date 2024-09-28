@@ -19,7 +19,7 @@ const ModalWrite: React.FC<ModalWriteProps> = ({ setIsOpen, thumbnails }) => {
   const post = useSelector((state: RootState) => state.post);
   const dispatch: Dispatch<PostAction> = useDispatch();
   return (
-    <form>
+    <div>
       <h2>글 저장하기</h2>
       <ThumbnailContainer
         post={post}
@@ -28,7 +28,7 @@ const ModalWrite: React.FC<ModalWriteProps> = ({ setIsOpen, thumbnails }) => {
       />
       <Description post={post} dispatch={dispatch} />
       <ButtonConatiner post={post} dispatch={dispatch} setIsOpen={setIsOpen} />
-    </form>
+    </div>
   );
 };
 
@@ -156,11 +156,11 @@ const ButtonConatiner: React.FC<ButtonProps> = ({
 
             switch (response.status) {
               case 200:
-                alert("저장되었습니다.");
                 setIsOpen(false);
                 dispatch({ type: PostActionType.CLEAR });
                 const jsonData = await response.json();
                 window.location.href = `/post/${jsonData["title"]}`;
+                alert("저장되었습니다.");
                 break;
               default:
                 alert("저장 안됨");
