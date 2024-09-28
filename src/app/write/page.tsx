@@ -225,19 +225,14 @@ const WriteButton: React.FC<WriteButtonProps> = ({ post, setIsOpen }) => {
             e.preventDefault();
 
             const fetchData = async () => {
-              const response = await fetch("/api/write", {
+              const response = await fetch("/api/post", {
                 method: "post",
-                body: JSON.stringify({ post }),
+                body: JSON.stringify({ post, published: false }),
               });
 
-              switch (response.status) {
-                case 200:
-                  alert("임시 저장되었습니다.");
-                  break;
-                default:
-                  alert("저장 안됨");
-                  break;
-              }
+              const jsonData = await response.json();
+
+              alert(jsonData["message"]);
             };
 
             fetchData();

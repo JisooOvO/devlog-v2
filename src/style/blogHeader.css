@@ -24,10 +24,8 @@ nav {
   font-style: italic;
   font-size: 1.75rem;
   font-weight: 700;
-}
-
-.title:hover {
   color: var(--highlight-color);
+
 }
 
 .header-line {
