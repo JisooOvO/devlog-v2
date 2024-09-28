@@ -1,21 +1,20 @@
 import { PostAction, PostActionType } from "@/lib/store/postReducer";
 import { Dispatch } from "@reduxjs/toolkit";
-import { ChangeEvent } from "react";
 
 interface Props {
-  event: ChangeEvent<HTMLSelectElement | HTMLInputElement>;
+  topicName: string;
   dispatch: Dispatch<PostAction>;
   actionType: PostActionType.SET_TOPIC | PostActionType.SET_SERIES;
 }
 
-const changeTopic = ({ event, actionType, dispatch }: Props) => {
+const changeTopic = ({ topicName, actionType, dispatch }: Props) => {
   switch (actionType) {
     case PostActionType.SET_TOPIC:
       dispatch({
         type: actionType,
         payload: {
           topic: {
-            name: event.target.value,
+            name: topicName,
           },
         },
       });
@@ -25,10 +24,11 @@ const changeTopic = ({ event, actionType, dispatch }: Props) => {
         type: actionType,
         payload: {
           series: {
-            name: event.target.value,
+            name: topicName,
           },
         },
       });
+      break;
   }
 };
 

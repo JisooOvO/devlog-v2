@@ -80,7 +80,6 @@ const PostPage: React.FC<{ params: Params }> = async ({ params }) => {
     <>
       <ContentsView post={content} />
       <LinkToOtherPost currentPost={content} />
-      <hr />
       <div className="post-another-series">
         <Posts
           seriesName={content.series?.name}
@@ -138,28 +137,33 @@ const LinkToOtherPost: React.FC<Props> = async ({ currentPost }) => {
   });
 
   return (
-    <div className="post-other-link-container">
-      {previousPost ? (
-        <Link href={`/post/${previousPost.title}`}>
-          <IconButton description="">
-            <LeftArrowIcon width={size} height={size} />
-          </IconButton>
-          {previousPost.title}
-        </Link>
-      ) : (
-        <div></div>
-      )}
-      {nextPost ? (
-        <Link href={`/post/${nextPost.title}`}>
-          {nextPost.title}
-          <IconButton description="">
-            <RightArrowIcon width={size} height={size} />
-          </IconButton>
-        </Link>
-      ) : (
-        <div></div>
-      )}
-    </div>
+    <>
+      <div className="post-other-link-container">
+        {previousPost ? (
+          <Link href={`/post/${previousPost.title}`}>
+            <IconButton description="">
+              <LeftArrowIcon width={size} height={size} />
+            </IconButton>
+            {previousPost.title}
+          </Link>
+        ) : (
+          <div></div>
+        )}
+        {nextPost ? (
+          <Link href={`/post/${nextPost.title}`}>
+            {nextPost.title}
+            <IconButton description="">
+              <RightArrowIcon width={size} height={size} />
+            </IconButton>
+          </Link>
+        ) : (
+          <div></div>
+        )}
+      </div>
+      <div>
+        <hr />
+      </div>
+    </>
   );
 };
 

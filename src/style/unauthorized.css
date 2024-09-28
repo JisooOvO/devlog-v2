@@ -11,7 +11,11 @@
   margin-bottom: 1rem;
 }
 
-.unauthorized-container > button {
+.not-found p {
+  margin-bottom: 2rem;
+}
+
+.back-button {
   font-size: 1.5rem;
   padding: 0.1rem;
   color: var(--highlight-color);

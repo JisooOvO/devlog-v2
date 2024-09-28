@@ -2,18 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
 import prisma from "@/lib/prisma";
-import { getToken } from "next-auth/jwt";
 
 export async function POST(request: NextRequest) {
-  const token = await getToken({ req: request });
-
-  if (token === null) {
-    return NextResponse.json(
-      { message: "authorization failed" },
-      { status: 401 }
-    );
-  }
-
   const formData = await request.formData();
   const image = formData.get("image") as File | null;
 
@@ -37,18 +27,18 @@ export async function POST(request: NextRequest) {
           message: "File uploaded successfully",
           path: `/thumbnails/${image.name}`,
         },
-        { status: 200 }
+        { status: 200 },
       );
     } catch (err) {
       return NextResponse.json(
         { message: "File save failed" },
-        { status: 500 }
+        { status: 500 },
       );
     }
   }
 
   return NextResponse.json(
     { message: "File is not in image format" },
-    { status: 400 }
+    { status: 400 },
   );
 }

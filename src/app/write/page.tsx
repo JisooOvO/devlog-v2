@@ -22,6 +22,7 @@ import { Content } from "@/lib/constant/postProps";
 import { Series, Thumbnail } from "@prisma/client";
 import ModalWrite from "./components/modalWrite";
 import "@/style/write.css";
+import changeTopic from "./func/changeTopic";
 
 const WritePage = () => {
   const newPost = useSelector((state: RootState) => state.post);
@@ -96,14 +97,14 @@ const WritePage = () => {
             setIsWrite={setIsWrite}
           />
           <WriteButton post={newPost} setIsOpen={setIsOpen} />
+          <CustomModal isOpen={isOpen}>
+            <ModalWrite setIsOpen={setIsOpen} thumbnails={thumbnails} />
+          </CustomModal>
         </form>
         <div className="preview">
           <ContentsView post={newPost} />
         </div>
       </div>
-      <CustomModal isOpen={isOpen}>
-        <ModalWrite setIsOpen={setIsOpen} thumbnails={thumbnails} />
-      </CustomModal>
     </>
   );
 };
@@ -140,7 +141,6 @@ const TitleInput: React.FC<TitleProps> = ({ title, dispatch, setIsWrite }) => {
         }}
         pattern="[a-zA-Z0-9ㄱ-ㅣ가-힣\s,.?!@#$%^&\(\)\{\}\[\]]{2,30}$"
         spellCheck={false}
-        required
       />
     </>
   );
@@ -160,7 +160,7 @@ export interface Topic {
 
 const TopicSection: React.FC<TopicProps> = ({ post, dispatch }) => {
   const [topics, setTopics] = useState<Array<Topic>>([]);
-  const [series, setSeries] = useState<Array<Series>>([]);
+  const [index, setIndex] = useState<number>(-1);
 
   useEffect(() => {
     const fetchTopics = async () => {
@@ -172,48 +172,37 @@ const TopicSection: React.FC<TopicProps> = ({ post, dispatch }) => {
   }, []);
 
   useEffect(() => {
-    topics?.forEach((topic) => {
-      if (topic.name === post?.topic?.name) {
-        setSeries(topic.series);
+    if (post?.topic?.name.length === 0) {
+      changeTopic({
+        topicName: "",
+        actionType: PostActionType.SET_SERIES,
+        dispatch,
+      });
+    }
 
-        let flag = false;
-
-        for (let i = 0; i < topic.series.length; i++) {
-          if (topic.series[i].name === post.series?.name) {
-            flag = true;
-            break;
-          }
-        }
-
-        dispatch({
-          type: PostActionType.SET_SERIES,
-          payload: {
-            series: {
-              name: flag ? post?.series?.name : "",
-            },
-          },
-        });
+    for (let i = 0; i < topics.length; i++) {
+      if (post?.topic?.name === topics[i].name) {
+        setIndex(i);
+        break;
+      } else {
+        setIndex(-1);
       }
-    });
-  }, [post?.series?.name, post?.topic, dispatch, topics]);
+    }
+  }, [topics, post?.topic, dispatch]);
 
   return (
     <>
       <TopicContainer
-        post={post}
         title="주제"
-        type="topic"
         dispatch={dispatch}
         actionType={PostActionType.SET_TOPIC}
         topics={topics}
       />
       <TopicContainer
-        post={post}
-        type="series"
         title="시리즈"
         dispatch={dispatch}
         actionType={PostActionType.SET_SERIES}
-        topics={series}
+        topics={topics[index]?.series}
       />
     </>
   );

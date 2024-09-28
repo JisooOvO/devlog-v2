@@ -127,7 +127,8 @@ select {
 }
 
 .contents {
-  /* margin-bottom: 2rem; */
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
 }
 
@@ -253,6 +254,14 @@ select {
 
 .hidden {
   display: none !important;
+}
+
+.not-found{
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 @media (max-width: 1200px) {

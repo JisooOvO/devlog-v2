@@ -9,15 +9,6 @@ interface Props {
 }
 
 export async function POST(req: NextRequest) {
-  const token = await getToken({ req });
-
-  if (token === null) {
-    return NextResponse.json(
-      { message: "authorization failed" },
-      { status: 401 },
-    );
-  }
-
   const { post }: Props = await req.json();
 
   if (!checkPost(post)) {
@@ -78,7 +69,7 @@ export async function POST(req: NextRequest) {
           thumbnailId: thumbnail?.id,
           topicId: topic.id,
           seriesId: series.id,
-          published: post?.published,
+          published: true,
         },
       });
 
