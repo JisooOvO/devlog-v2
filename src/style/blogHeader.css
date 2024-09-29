@@ -25,7 +25,6 @@ nav {
   font-size: 1.75rem;
   font-weight: 700;
   color: var(--highlight-color);
-
 }
 
 .header-line {
@@ -39,8 +38,13 @@ nav {
 }
 
 .header-user-container img {
-  width: 1.5rem;
-  height: 1.5rem;
-  object-fit: fill;
   border-radius: 50%;
+}
+
+.heaeder-user-info {
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 1px solid var(--bgColor-neutral-muted);
 }

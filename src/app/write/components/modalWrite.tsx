@@ -9,6 +9,9 @@ import { Dispatch as SetState, SetStateAction } from "react";
 import { Content } from "@/lib/constant/postProps";
 import Image from "next/image";
 import handleOnChange from "../func/uploadThumbnailFunc";
+import "@/style/writeModal.css";
+import IconButton from "@/lib/components/iconButton";
+import UploadIcon from "@/lib/icons/upload";
 
 interface ModalWriteProps {
   setIsOpen: SetState<SetStateAction<boolean>>;
@@ -33,6 +36,8 @@ const ModalWrite: React.FC<ModalWriteProps> = ({ setIsOpen, thumbnails }) => {
 };
 
 // --------------------------------------------------------------------------
+
+const size = "2rem";
 
 interface ThumbProps {
   post: Content;
@@ -63,13 +68,14 @@ const ThumbnailContainer: React.FC<ThumbProps> = ({
           }}
         >
           <option disabled value={""}>
-            Thumbnail
+            썸네일을 선택하세요.
           </option>
           {Array.from(thumbnails).map((path, index) => (
             <option key={`option${index}`} value={path}>
               {path.replace("/thumbnails/", "")}
             </option>
           ))}
+          <option value={""}>썸네일 없음</option>
         </select>
       </div>
       <div className="thumbnail-preview">
@@ -78,13 +84,15 @@ const ThumbnailContainer: React.FC<ThumbProps> = ({
             className="post-thumbnail"
             src={post.thumbnail.path}
             alt="Thumbnail"
-            width={100}
-            height={100}
+            fill
           />
         ) : (
           <>
             <label htmlFor="thumbnail">
-              <p>Upload or Select</p>
+              <IconButton description="">
+                <UploadIcon width={size} height={size} />
+              </IconButton>
+              <p>Upload</p>
               <p>Thumbnail</p>
             </label>
             <input

@@ -10,6 +10,11 @@ interface TopicProps {
 
 export async function generateStaticParams() {
   const topics = await prisma.topic.findMany({
+    where: {
+      name: {
+        not: "",
+      },
+    },
     select: {
       name: true,
     },

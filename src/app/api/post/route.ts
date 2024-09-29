@@ -46,21 +46,23 @@ export async function POST(req: NextRequest) {
       }),
     ]);
 
-    if (topic === null) {
-      topic = await prisma.topic.create({
-        data: {
-          name: post?.topic?.name as string,
-        },
-      });
-    }
+    if (published) {
+      if (topic === null) {
+        topic = await prisma.topic.create({
+          data: {
+            name: post?.topic?.name as string,
+          },
+        });
+      }
 
-    if (series === null) {
-      series = await prisma.series.create({
-        data: {
-          topicId: topic.id,
-          name: post?.series?.name as string,
-        },
-      });
+      if (series === null) {
+        series = await prisma.series.create({
+          data: {
+            topicId: topic.id,
+            name: post?.series?.name as string,
+          },
+        });
+      }
     }
 
     // 새로 생성
@@ -72,8 +74,8 @@ export async function POST(req: NextRequest) {
           description: post?.description as string,
           authorId: user?.id as string,
           thumbnailId: thumbnail?.id,
-          topicId: topic.id,
-          seriesId: series.id,
+          topicId: topic?.id,
+          seriesId: series?.id,
           published: published,
         },
       });
@@ -90,9 +92,9 @@ export async function POST(req: NextRequest) {
         data: {
           title: post.title,
           description: post.description,
-          thumbnailId: thumbnail?.id,
-          topicId: topic.id,
-          seriesId: series.id,
+          thumbnailId: thumbnail?.id ? thumbnail.id : null,
+          topicId: topic?.id,
+          seriesId: series?.id,
           content: post.content,
           updatedAt: new Date(),
         },
@@ -178,16 +180,9 @@ export async function PUT(req: NextRequest) {
       }),
     ]);
 
-    return NextResponse.json(
-      { message: "좋아요 수정에 성공하였습니다.", likes: post?._count.likes },
-      { status: 200 },
-    );
+    return NextResponse.json({ likes: post?._count.likes }, { status: 200 });
   } catch (error) {
-    console.log(error);
-    return NextResponse.json(
-      { message: "좋아요 수정에 실패하였습니다." },
-      { status: 500 },
-    );
+    return NextResponse.json({ error }, { status: 500 });
   }
 }
 

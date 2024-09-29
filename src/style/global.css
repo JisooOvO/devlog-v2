@@ -18,6 +18,7 @@
   --text-color: #000;
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --bgColor-neutral-muted: #818b981f;
+  --bgColor-soft-grey: #f8f9fa;
   --highlight-color: #ffa500;
   --signal-green: #33954f;
 }
@@ -68,7 +69,9 @@ textarea {
   resize: none;
 }
 
-input,textarea,select {
+input,
+textarea,
+select {
   font-family: "Pretendard-Regular", sans-serif;
 }
 
@@ -106,15 +109,34 @@ ol {
   padding-inline-start: 1.5rem;
 }
 
+table {
+  margin: 1rem 0;
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+th {
+  background-color: var(--bgColor-soft-grey);
+}
+
+th,
+td {
+  padding: 1rem;
+  text-align: center;
+  border: 1px solid var(--bgColor-neutral-muted);
+}
+
 blockquote {
-  margin: 0;
-  margin-block: 0;
-  padding: 0.5rem;
-  padding-left: 1rem;
-  white-space: break-spaces;
-  background-color: var(--bgColor-neutral-muted);
-  border-radius: 6px;
-  /* 뭔가 멋진걸 만들어야함 */
+  margin: 1rem 0;
+  padding: 2rem;
+  white-space: "break-spaces";
+  background-color: var(--bgColor-soft-grey);
+  border-left: 5px solid var(--highlight-color);
+}
+
+.token {
+  font-family: "Pretendard-Regular", sans-serif;
 }
 
 select {
@@ -126,6 +148,10 @@ select {
   box-shadow: var(--shadow-sm);
 }
 
+select:hover {
+  cursor: pointer;
+}
+
 .contents {
   display: flex;
   flex-direction: column;
@@ -135,8 +161,9 @@ select {
 .inline-code {
   padding: 0.2rem 0.4rem;
   white-space: break-spaces;
-  background-color: var(--bgColor-neutral-muted);
+  background-color: var(--bgColor-soft-grey);
   border-radius: 6px;
+  font-family: "Pretendard-Regular", sans-serif;
 }
 
 .highlight-button {
@@ -146,97 +173,6 @@ select {
 .highlight-button:hover {
   color: var(--highlight-color);
   border-bottom: 1px solid var(--highlight-color);
-}
-
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modal-container {
-  background-color: white;
-  padding: 2rem 3rem;
-  border-radius: 8px;
-  max-width: 500px;
-  width: 100%;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  z-index: 1001;
-}
-
-.modal-container h2 {
-  margin-top: 0;
-  margin-bottom: 2rem;
-}
-
-.modal-button {
-  width: 100%;
-  display: flex;
-  flex-direction: row-reverse;
-  gap: 1rem;
-}
-
-.thumbnail-container {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  margin-bottom: 2rem;
-}
-
-.thumbnail-preview {
-  height: 15rem;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid var(--bgColor-neutral-muted);
-  border-radius: 0.75rem;
-}
-
-.thumbnail-preview {
-  text-align: center;
-}
-
-.thumbnail-preview label {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.thumbnail-preview label:hover {
-  cursor: pointer;
-}
-
-.thumbnail-selector {
-  display: flex;
-  gap: 1rem;
-}
-
-.thumbnail-selector select {
-  flex-grow: 1;
-}
-
-.description-container {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-}
-
-.description-container textarea {
-  padding: 1rem;
-  flex-grow: 1;
 }
 
 .custom-button {
@@ -252,11 +188,16 @@ select {
   box-shadow: var(--shadow-sm);
 }
 
+.custom-button:hover {
+  background-color: var(--highlight-color);
+  color: var(--background-color);
+}
+
 .hidden {
   display: none !important;
 }
 
-.not-found{
+.not-found {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -277,19 +218,9 @@ select {
   header {
     padding: var(--default-y-margin) var(--mobile-x-margin);
   }
-
-  .preview {
-    display: none !important;
-  }
 }
 
 @media (max-width: 600px) {
-  .markdown-area {
-    flex-grow: 1;
-  }
-}
-
-@media (max-width: 480px) {
   .header-user-container {
     display: none;
   }

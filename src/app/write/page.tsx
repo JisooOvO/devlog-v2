@@ -5,6 +5,7 @@ import {
   SetStateAction,
   useState,
   useEffect,
+  useRef,
 } from "react";
 import MarkdownEditor from "./components/markdownEditor";
 import { useRouter } from "next/navigation";
@@ -96,7 +97,7 @@ const WritePage = () => {
             isWrite={isWrite}
             setIsWrite={setIsWrite}
           />
-          <WriteButton post={newPost} setIsOpen={setIsOpen} />
+          <WriteButton setIsOpen={setIsOpen} />
           <CustomModal isOpen={isOpen}>
             <ModalWrite setIsOpen={setIsOpen} thumbnails={thumbnails} />
           </CustomModal>
@@ -118,6 +119,12 @@ interface TitleProps {
 }
 
 const TitleInput: React.FC<TitleProps> = ({ title, dispatch, setIsWrite }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
   return (
     <>
       <label htmlFor="title"></label>
@@ -125,6 +132,7 @@ const TitleInput: React.FC<TitleProps> = ({ title, dispatch, setIsWrite }) => {
         type="text"
         id="title"
         name="title"
+        ref={inputRef}
         className="write-title"
         value={title}
         placeholder="제목"
@@ -211,36 +219,12 @@ const TopicSection: React.FC<TopicProps> = ({ post, dispatch }) => {
 //-------------------------------------------------------------------
 
 interface WriteButtonProps {
-  post: Content;
   setIsOpen: SetState<SetStateAction<boolean>>;
 }
 
-const WriteButton: React.FC<WriteButtonProps> = ({ post, setIsOpen }) => {
+const WriteButton: React.FC<WriteButtonProps> = ({ setIsOpen }) => {
   return (
     <div className="write-button-container">
-      {post?.id === undefined ? (
-        <button
-          className="custom-button"
-          onClick={(e) => {
-            e.preventDefault();
-
-            const fetchData = async () => {
-              const response = await fetch("/api/post", {
-                method: "post",
-                body: JSON.stringify({ post, published: false }),
-              });
-
-              const jsonData = await response.json();
-
-              alert(jsonData["message"]);
-            };
-
-            fetchData();
-          }}
-        >
-          임시저장
-        </button>
-      ) : null}
       <button
         className="custom-button"
         onClick={(event) => {
