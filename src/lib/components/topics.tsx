@@ -7,7 +7,13 @@ interface TopicProps {
 }
 
 const Topics: React.FC<TopicProps> = async ({ topicName }) => {
-  const topics = await prisma.topic.findMany();
+  const topics = await prisma.topic.findMany({
+    where: {
+      name: {
+        not: "",
+      },
+    },
+  });
   return (
     <div className="topic-container">
       <Link

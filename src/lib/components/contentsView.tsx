@@ -1,15 +1,17 @@
+import "@/style/content.css";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
+import rehypeSanitize from "rehype-sanitize";
+import Image from "next/image";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/cjs/styles/prism";
-import remarkGfm from "remark-gfm";
 import { notFound } from "next/navigation";
-import Image from "next/image";
-import "@/style/content.css";
-import getDateKoreanString from "@/lib/func/getDateKoreanString";
+import { Content } from "@/lib/constant/postProps";
 import { PLACEHOLDER } from "@/lib/constant/imageProps";
 import ContentCategory from "@/app/post/[slug]/components/contentCategory";
 import LikeContainer from "@/lib//components/likeContainer";
-import { Content } from "@/lib/constant/postProps";
+import getDateKoreanString from "@/lib/func/getDateKoreanString";
 
 interface Props {
   post: Content;
@@ -72,6 +74,39 @@ const MarkdownRender: React.FC<Props> = ({ post }) => {
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
+      rehypePlugins={[
+        rehypeRaw,
+        [
+          rehypeSanitize,
+          {
+            tagNames: [
+              "div",
+              "span",
+              "p",
+              "h1",
+              "h2",
+              "h3",
+              "ul",
+              "ol",
+              "li",
+              "a",
+              "strong",
+              "em",
+              "br",
+              "img",
+              "table",
+              "thead",
+              "tbody",
+              "th",
+              "tr",
+              "td",
+              "pre",
+              "code",
+              "blockquote",
+            ],
+          },
+        ],
+      ]}
       components={{
         code({ node, inline, className, children, ...props }: any) {
           const match = /language-(\w+)/.exec(className || "");
@@ -88,7 +123,7 @@ const MarkdownRender: React.FC<Props> = ({ post }) => {
               {String(children).replace(/\n$/, "")}
             </SyntaxHighlighter>
           ) : (
-            <code className={`inline-code ${className}`} {...props}>
+            <code className={`inline-code`} {...props}>
               {children}
             </code>
           );

@@ -1,13 +1,9 @@
 import { Content } from "@/lib/constant/postProps";
 import { PostAction, PostActionType } from "@/lib/store/postReducer";
-import {
-  Dispatch,
-  KeyboardEventHandler,
-  SetStateAction,
-  useEffect,
-} from "react";
-
-let backtickCount = 0;
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import handleKeyUp from "../func/handleKeyUp";
+import handleKeyDown from "../func/handleKeyDown";
+import dragEndCallback, { MARKDOWNAREA } from "../func/dragEndCallback";
 
 interface mardownProps {
   post: Content;
@@ -22,99 +18,47 @@ const MarkdownEditor: React.FC<mardownProps> = ({
   post,
   dispatch,
 }) => {
+  const [img, setImg] = useState<string>("");
+
   useEffect(() => {
-    const dragEndCallback = (event: DragEvent) => {
-      event.preventDefault();
+    const handleDrop = (event: Event) =>
+      dragEndCallback(event as DragEvent, setImg);
+    const handleDragover = (event: Event) => event.preventDefault();
 
-      const fileList = event.dataTransfer?.files;
-
-      if (fileList && fileList.length > 0) {
-        const file = fileList[0];
-
-        if (file.type.startsWith("image/")) {
-          // TODO : 이미지 저장 로직 만들기
-        }
-      }
-    };
-
-    const handleDrop = (event: Event) => dragEndCallback(event as DragEvent);
-
-    const app = document.querySelector(".App");
-
-    if (app) {
-      app.addEventListener("drop", handleDrop);
-      app.addEventListener("dragover", handleDrop);
-    }
+    window.addEventListener("drop", handleDrop);
+    window.addEventListener("dragover", handleDragover);
 
     return () => {
-      if (app) {
-        app.removeEventListener("drop", handleDrop);
-        app.removeEventListener("dragover", handleDrop);
-      }
+      window.removeEventListener("drop", handleDrop);
+      window.removeEventListener("dragover", handleDragover);
     };
   }, []);
 
-  const handleKeyDown: KeyboardEventHandler = (event) => {
-    const textarea = event.target as HTMLTextAreaElement;
+  useEffect(() => {
+    const textarea = document.querySelector(
+      `#${MARKDOWNAREA}`,
+    ) as HTMLTextAreaElement;
 
-    switch (event.key) {
-      case "Tab":
-        if (isWrite) event.preventDefault();
-        break;
-      case "`":
-        backtickCount++;
-        if (backtickCount === 3) {
-          event.preventDefault();
-          const JAVASCRIPT = "javascript";
-          const start = textarea.selectionStart;
-          const end = textarea.selectionEnd;
-          const value = textarea.value;
-
-          textarea.value =
-            value.substring(0, start) +
-            `\`${JAVASCRIPT}\n\n\`\`\`` +
-            value.substring(end);
-
-          textarea.selectionStart = textarea.selectionEnd =
-            start + JAVASCRIPT.length + 2;
-          backtickCount = 0;
-        }
-        break;
-      default:
-        backtickCount = 0;
+    if (img.length !== 0) {
+      textarea.value += `<img src="${img}" alt="글 이미지"/>`;
+      dispatch({
+        type: PostActionType.SET_CONTENTS,
+        payload: { content: textarea.value },
+      });
+      setImg("");
     }
-  };
-
-  const handleKeyUp: KeyboardEventHandler = (event) => {
-    const textarea = event.target as HTMLTextAreaElement;
-
-    setIsWrite(true);
-
-    if (isWrite && event.code === "Tab") {
-      const start = textarea.selectionStart;
-      const end = textarea.selectionEnd;
-      const value = textarea.value;
-
-      if (event.shiftKey) {
-        // TODO : 쉬프트 탭 기능 구현
-      } else {
-        //  뭔가 버그가 있음..
-        textarea.value =
-          value.substring(0, start) + "  " + value.substring(end);
-        textarea.selectionStart = textarea.selectionEnd = start + 2;
-      }
-    }
-  };
+  }, [img, dispatch]);
 
   return (
     <div className="markdown">
       <textarea
         value={post?.content}
+        id={MARKDOWNAREA}
         className="markdown-area"
         spellCheck={false}
         onBlur={() => setIsWrite(false)}
-        onKeyDown={handleKeyDown}
-        onKeyUp={handleKeyUp}
+        onKeyDown={(event) => handleKeyDown(event, isWrite)}
+        onKeyUp={(event) => handleKeyUp(event, isWrite, setIsWrite)}
         onChange={(e) => {
           dispatch({
             type: PostActionType.SET_CONTENTS,

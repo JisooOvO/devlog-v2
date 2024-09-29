@@ -13,27 +13,34 @@ const handleOnChange = async ({ event, dispatch }: Props) => {
   if (target.files) {
     const targetFile = target.files[0];
     if (!targetFile?.type.startsWith("image/")) {
-      alert("이미지를 업로드하세요.");
+      alert("이미지 형식이 아닙니다.");
       return;
     }
 
     const formData = new FormData();
     formData.append("image", targetFile);
+    formData.append("directory", "thumbnails");
 
     const response = await fetch("/api/upload", {
       method: "POST",
       body: formData,
     });
 
-    if (response.status === 200) {
-      const data = await response.json();
-      const path = data.path;
-      dispatch({
-        type: PostActionType.SET_THUMBNAIL,
-        payload: {
-          thumbnail: path,
-        },
-      });
+    switch (response.status) {
+      case 200:
+        const data = await response.json();
+        const path = data.path;
+        dispatch({
+          type: PostActionType.SET_THUMBNAIL,
+          payload: {
+            thumbnail: path,
+          },
+        });
+        break;
+      default:
+        const jsonData = await response.json();
+        alert(jsonData["message"]);
+        break;
     }
   }
 };

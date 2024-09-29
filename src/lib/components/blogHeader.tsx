@@ -4,7 +4,7 @@ import { Session } from "next-auth";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-// import Image from "next/image";
+import Image from "next/image";
 import IconButton from "@/lib/components/iconButton";
 import LoginIcon from "@/lib/icons/login";
 import WriteIcon from "@/lib/icons/write";
@@ -42,19 +42,16 @@ const LoginButton: React.FC<NextAuthStatus> = ({ session, status }) => {
     case "authenticated":
       return (
         <>
-          {/* <div className="header-user-container">
+          <div className="header-user-container">
             {session?.user?.image ? (
-              <Image
-                src={session?.user?.image}
-                alt="user image"
-                width={200}
-                height={200}
-              />
+              <div className="heaeder-user-info">
+                <Image src={session?.user?.image} alt="user image" fill />
+              </div>
             ) : (
               <></>
             )}
             <p>{session?.user?.name}</p>
-          </div> */}
+          </div>
           <IconButton description="로그아웃" onClick={() => signOut()}>
             <LoginIcon width={size} height={size} />
           </IconButton>

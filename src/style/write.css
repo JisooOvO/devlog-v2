@@ -46,6 +46,7 @@
   border: 1px solid var(--bgColor-neutral-muted);
   border-radius: 0.75rem;
   box-shadow: var(--shadow-sm);
+  min-height: 60vh;
 }
 
 .preview {
@@ -57,6 +58,10 @@
   box-sizing: border-box;
   box-shadow: var(--shadow-sm);
   overflow-y: auto;
+}
+
+.preview .content-meta,
+.preview .content-category {
   pointer-events: none;
 }
 
@@ -71,4 +76,10 @@
   box-sizing: border-box;
   height: 100%;
   font-size: 1rem;
+}
+
+@media (max-width: 1200px) {
+  .preview {
+    display: none !important;
+  }
 }
