@@ -10,6 +10,8 @@ import LoginIcon from "@/lib/icons/login";
 import WriteIcon from "@/lib/icons/write";
 import "@/style/blogHeader.css";
 import SettingIcon from "../icons/setting";
+import checkAuth from "../func/checkAuth";
+import { useEffect, useState } from "react";
 
 const size = "2rem";
 
@@ -28,7 +30,7 @@ export default function BlogHeader() {
       </Link>
       <nav>
         <LoginButton session={session} status={status} />
-        <ManageButton status={status} />
+        <ManageButton session={session} status={status} />
         {/* <DarkModeButton /> */}
       </nav>
     </header>
@@ -75,30 +77,40 @@ const LoginButton: React.FC<NextAuthStatus> = ({ session, status }) => {
 
 // --------------------------------------------------------------------------
 
-const ManageButton: React.FC<NextAuthStatus> = ({ status }) => {
+const ManageButton: React.FC<NextAuthStatus> = ({ session, status }) => {
+  const [element, setElement] = useState<JSX.Element | null>(null);
   const router = useRouter();
-  switch (status) {
-    case "authenticated":
-      // TODO : 인증된 사용자만 볼 수 있게
-      return (
-        <>
-          <IconButton
-            description="글 쓰기"
-            onClick={() => router.push("/write")}
-          >
-            <WriteIcon width={size} height={size} />
-          </IconButton>
-          <IconButton
-            description="블로그 관리"
-            onClick={() => router.push("/manage")}
-          >
-            <SettingIcon width={size} height={size} />
-          </IconButton>
-        </>
-      );
-    default:
-      return null;
-  }
+
+  useEffect(() => {
+    const authElement = async () => {
+      switch (status) {
+        case "authenticated":
+          if (await checkAuth(session?.user?.email)) {
+            setElement(
+              <>
+                <IconButton
+                  description="글 쓰기"
+                  onClick={() => router.push("/write")}
+                >
+                  <WriteIcon width={size} height={size} />
+                </IconButton>
+                <IconButton
+                  description="블로그 관리"
+                  onClick={() => router.push("/manage")}
+                >
+                  <SettingIcon width={size} height={size} />
+                </IconButton>
+              </>
+            );
+          }
+        default:
+          return null;
+      }
+    };
+    authElement();
+  }, [session, status, router]);
+
+  return element;
 };
 
 // --------------------------------------------------------------------------
