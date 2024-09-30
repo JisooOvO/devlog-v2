@@ -42,10 +42,21 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  roleId        String?
+  role          Role?     @relation(fields: [roleId], references: [id])
   posts         Post[]
   Likes         Likes[]
   accounts      Account[]
   sessions      Session[]
+}
+
+model Role {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  User      User[]
+  createdAt DateTime  @default(now()) @map(name: "created_at")
+  updatedAt DateTime  @default(now()) @map(name: "updated_at")
+  deletedAt DateTime? @map(name: "deleted_at")
 }
 
 model VerificationToken {

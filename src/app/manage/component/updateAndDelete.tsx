@@ -103,9 +103,8 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
           return (
             <div key={propsKey}>
               <p className="update-key">{key}</p>
-              <input
+              <textarea
                 className="update-input"
-                type="text"
                 value={target[key as keyof Item]?.toString()}
                 onChange={(event) => {
                   if (typeof item[key as keyof Item] === "string") {

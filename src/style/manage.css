@@ -1,61 +1,56 @@
-.manage-table-container{
-    margin-bottom: 3rem;
+.manage-table-container {
+  margin-bottom: 3rem;
 }
 
-.manage-table-title{
-    margin-bottom: 1rem;
-    font-size: 1.25rem;
-    font-weight: 700;
+.manage-table-title {
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  font-weight: 700;
 }
 
-.manage-table-header{
-    background-color: var(--bgColor-soft-grey);
+.manage-table-header {
+  background-color: var(--bgColor-soft-grey);
 }
 
 .manage-table-header,
 .manage-table {
-    display: flex;
+  display: flex;
 }
 
 .manage-table-header > p,
-.manage-table > p{
-    padding: 1rem;
-    width: 100%;
-    flex-grow: 1;
-    text-align: center;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    border: 1px solid var(--bgColor-neutral-muted);
+.manage-table > p {
+  padding: 1rem;
+  width: 100%;
+  flex-grow: 1;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  border: 1px solid var(--bgColor-neutral-muted);
 }
 
 .manage-table-header .icon-button-container,
-.manage-table .icon-button-container{
-    padding: 1rem;
-    width: 100%;
-    flex-grow: 1;
-    text-align: center;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    border: 1px solid var(--bgColor-neutral-muted);
-}
-
-.manage-table-header > p:hover,
-.manage-table > p:hover {
-    overflow:visible;
+.manage-table .icon-button-container {
+  padding: 1rem;
+  width: 100%;
+  flex-grow: 1;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  border: 1px solid var(--bgColor-neutral-muted);
 }
 
 .update-container {
-    margin-bottom: 3rem;
+  margin-bottom: 3rem;
 }
 
 .update-key {
-    margin: 1rem 0;
-    font-weight: 600;
+  margin: 1rem 0;
+  font-weight: 600;
 }
 
-.update-input{
+.update-input {
   width: 100%;
   padding: 1rem;
   display: block;
@@ -65,7 +60,7 @@
   border-radius: 0.75rem;
 }
 
-.update-button-container{
-    display: flex;
-    gap: 1rem;
+.update-button-container {
+  display: flex;
+  gap: 1rem;
 }

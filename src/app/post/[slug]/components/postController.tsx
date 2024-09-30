@@ -11,6 +11,7 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
 
 const size = "2rem";
 
@@ -20,8 +21,30 @@ interface Props {
 
 const PostController: React.FC<Props> = ({ post }) => {
   const { data } = useSession();
-  const dispatch: Dispatch<PostAction> = useDispatch();
   const router = useRouter();
+  const dispatch: Dispatch<PostAction> = useDispatch();
+
+  const [role, setRole] = useState("");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch("/api/auth/user", {
+        method: "POST",
+        body: JSON.stringify({ email: data?.user?.email }),
+      });
+
+      const jsonData = await response.json();
+
+      switch (response.status) {
+        case 200:
+          setRole(jsonData["role"]);
+          break;
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className="post-controller">
       <IconButton
@@ -36,7 +59,7 @@ const PostController: React.FC<Props> = ({ post }) => {
         <UpArrowIcon width={size} height={size} />
       </IconButton>
 
-      {data?.user?.email === post?.author?.email ? (
+      {role === "owner" || data?.user?.email === post?.author?.email ? (
         <>
           <IconButton
             description="수정하기"

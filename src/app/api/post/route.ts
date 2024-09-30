@@ -42,6 +42,9 @@ export async function POST(req: NextRequest) {
       prisma.series.findFirst({
         where: {
           name: post?.series?.name,
+          topic: {
+            name: post?.topic?.name,
+          },
         },
       }),
     ]);
@@ -108,10 +111,18 @@ export async function POST(req: NextRequest) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       switch (error.code) {
         case "P2002":
-          return NextResponse.json(
-            { message: "이미 사용 중인 제목입니다.", error },
-            { status: 500 }
-          );
+          switch (error.meta?.modelName) {
+            case "Post":
+              return NextResponse.json(
+                { message: "이미 사용 중인 제목입니다.", error },
+                { status: 500 }
+              );
+            case "Series":
+              return NextResponse.json(
+                { message: "이미 사용 중인 시리즈입니다.", error },
+                { status: 500 }
+              );
+          }
       }
     }
     return NextResponse.json(
@@ -197,8 +208,20 @@ export async function DELETE(req: NextRequest) {
 
   const { post }: { post: Content } = await req.json();
 
-  // TODO : 권한으로 판단
-  if (post?.author?.email !== token.email) {
+  const user = await prisma.user.findFirst({
+    where: {
+      email: token.email,
+    },
+    select: {
+      role: {
+        select: {
+          name: true,
+        },
+      },
+    },
+  });
+
+  if (user?.role?.name !== "owner" && post?.author?.email !== token.email) {
     return NextResponse.json(
       { message: "유저 정보가 일치하지 않습니다." },
       { status: 401 }
