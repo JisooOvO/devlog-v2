@@ -1,6 +1,6 @@
 import { getToken } from "next-auth/jwt";
 import { MiddlewareConfig, NextRequest, NextResponse } from "next/server";
-import checkAuth from "./lib/func/checkAuth";
+import checkAuth from "@/lib/func/checkAuth";
 
 const middleware = async (req: NextRequest) => {
   if (req.nextUrl.pathname.startsWith("/api/auth")) {
@@ -12,10 +12,7 @@ const middleware = async (req: NextRequest) => {
   if (token && token.email) {
     if (req.nextUrl.pathname.startsWith("/api")) {
       if (!checkAuth(token?.email)) {
-        return NextResponse.json(
-          { message: "authorization failed" },
-          { status: 401 },
-        );
+        return NextResponse.json({ message: "인증 실패" }, { status: 401 });
       }
     }
 
@@ -25,7 +22,7 @@ const middleware = async (req: NextRequest) => {
   }
 
   return NextResponse.redirect(
-    new URL(`${process.env.SERVER_URL}/unauthorized`),
+    new URL(`${process.env.SERVER_URL}/unauthorized`)
   );
 };
 
