@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
   if (published && !flag) {
     return NextResponse.json(
       { message: `${missingItem} 필수 입력 사항입니다.` },
-      { status: 400 },
+      { status: 400 }
     );
   }
 
@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
 
       return NextResponse.json(
         { message: "글 쓰기에 성공하였습니다.", title: newPost.title },
-        { status: 200 },
+        { status: 200 }
       );
     } else {
       const updatedPost = await prisma.post.update({
@@ -101,7 +101,7 @@ export async function POST(req: NextRequest) {
       });
       return NextResponse.json(
         { message: "글 수정에 성공하였습니다.", title: updatedPost.title },
-        { status: 200 },
+        { status: 200 }
       );
     }
   } catch (error) {
@@ -110,13 +110,13 @@ export async function POST(req: NextRequest) {
         case "P2002":
           return NextResponse.json(
             { message: "이미 사용 중인 제목입니다.", error },
-            { status: 500 },
+            { status: 500 }
           );
       }
     }
     return NextResponse.json(
       { message: "글 쓰기에 실패하였습니다.", error },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
@@ -197,10 +197,11 @@ export async function DELETE(req: NextRequest) {
 
   const { post }: { post: Content } = await req.json();
 
+  // TODO : 권한으로 판단
   if (post?.author?.email !== token.email) {
     return NextResponse.json(
       { message: "유저 정보가 일치하지 않습니다." },
-      { status: 401 },
+      { status: 401 }
     );
   }
 
@@ -213,12 +214,12 @@ export async function DELETE(req: NextRequest) {
 
     return NextResponse.json(
       { message: "성공적으로 글 삭제하였습니다." },
-      { status: 200 },
+      { status: 200 }
     );
   } catch {
     return NextResponse.json(
       { message: "글 삭제에 실패하였습니다." },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

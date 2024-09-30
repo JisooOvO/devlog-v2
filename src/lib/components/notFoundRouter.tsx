@@ -7,7 +7,7 @@ const NotFoundRouter = () => {
   useEffect(() => {
     notFound();
   });
-  return <div></div>;
+  return null;
 };
 
 export default NotFoundRouter;

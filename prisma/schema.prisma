@@ -61,8 +61,8 @@ model Post {
   id          String     @id @default(cuid())
   thumbnailId String?
   thumbnail   Thumbnail? @relation(fields: [thumbnailId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  description String
   title       String     @unique
+  description String
   content     String
   author      User       @relation(fields: [authorId], references: [id])
   authorId    String
