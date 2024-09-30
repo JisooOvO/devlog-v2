@@ -1,31 +1,15 @@
 import prisma from "@/lib/prisma";
-import { Topic } from "@prisma/client";
+import { Series } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest) {
-  const topics = await prisma.topic.findMany({
-    select: {
-      name: true,
-      series: {
-        select: {
-          name: true,
-        },
-      },
-    },
-  });
-  return NextResponse.json({ topics }, { status: 200 });
-}
-
-// --------------------------------------------------------------------------
-
 export async function DELETE(req: NextRequest) {
-  const { topics }: { topics: Topic } = await req.json();
+  const { series }: { series: Series } = await req.json();
 
   try {
-    if (topics) {
-      await prisma.topic.delete({
+    if (series) {
+      await prisma.series.delete({
         where: {
-          id: topics.id,
+          id: series.id,
         },
       });
 
@@ -45,16 +29,16 @@ export async function DELETE(req: NextRequest) {
 // --------------------------------------------------------------------------
 
 export async function PUT(req: NextRequest) {
-  const { topics }: { topics: Topic } = await req.json();
+  const { series }: { series: Series } = await req.json();
 
   try {
-    if (topics) {
-      await prisma.topic.update({
+    if (series) {
+      await prisma.series.update({
         where: {
-          id: topics.id,
+          id: series.id,
         },
         data: {
-          name: topics.name,
+          name: series.name,
           updatedAt: new Date(),
         },
       });
