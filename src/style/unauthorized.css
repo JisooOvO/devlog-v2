@@ -21,3 +21,7 @@
   color: var(--highlight-color);
   border-bottom: 1px solid var(--highlight-color);
 }
+
+.blog-footer-container {
+  display: none;
+}

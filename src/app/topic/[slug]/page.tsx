@@ -1,3 +1,4 @@
+import NotFoundRouter from "@/lib/components/notFoundRouter";
 import Posts from "@/lib/components/posts";
 import Topics from "@/lib/components/topics";
 import prisma from "@/lib/prisma";
@@ -30,7 +31,10 @@ const TopicPage: React.FC<TopicProps> = async ({ params }) => {
 
   const topic = await prisma.topic.findFirst({
     where: {
-      name: topicName,
+      name: {
+        equals: topicName,
+        mode: "insensitive",
+      },
     },
     include: {
       series: true,
@@ -39,17 +43,24 @@ const TopicPage: React.FC<TopicProps> = async ({ params }) => {
 
   return (
     <>
-      <Topics topicName={topicName} />
-      {topic?.series.map((s, index) => {
-        return (
-          <Posts
-            key={`post-${index}`}
-            seriesName={s.name}
-            seriesId={s.id}
-            showSeries={true}
-          />
-        );
-      })}
+      {topic ? (
+        <>
+          <Topics topicName={topicName} showSeries={true} />
+          {topic?.series.map((s, index) => {
+            return (
+              <Posts
+                key={`post-${index}`}
+                seriesName={s.name}
+                seriesId={s.id}
+                showSeries={true}
+                take={6}
+              />
+            );
+          })}
+        </>
+      ) : (
+        <NotFoundRouter />
+      )}
     </>
   );
 };
