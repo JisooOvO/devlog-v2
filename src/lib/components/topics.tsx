@@ -102,7 +102,7 @@ const SeriesContainer: React.FC<TopicProps> = ({
                 key={`series-${i}`}
                 href={`/series/${s.name}`}
               >
-                <p>#{s.name}</p>
+                <p># {s.name}</p>
               </Link>
             );
           });
