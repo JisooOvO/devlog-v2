@@ -1,11 +1,16 @@
-.topic-container {
+.topic-layout {
   margin-bottom: 3rem;
+}
+
+.topic-container {
+  margin-bottom: 0.5rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
 .topic {
+  display: block;
   padding: 1rem 2rem;
   border: 1px solid var(--highlight-color);
   border-radius: 1.5rem;
@@ -16,4 +21,26 @@
 .topic:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.05);
+}
+
+.series-container {
+  padding-left: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.series {
+  display: block;
+  padding: 1rem 0.5rem;
+}
+
+.series p {
+  padding-bottom: 0.2rem;
+  border-bottom: 1px solid var(--text-color);
+}
+
+.series-highlight p {
+  color: var(--highlight-color);
+  border-bottom: 1px solid var(--highlight-color);
 }

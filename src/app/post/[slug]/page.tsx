@@ -9,6 +9,9 @@ import IconButton from "@/lib/components/iconButton";
 import RightArrowIcon from "@/lib/icons/rightArrow";
 import LeftArrowIcon from "@/lib/icons/leftArrow";
 
+export const revalidate = 10;
+export const dynamicParams = true;
+
 interface Params {
   slug: string;
 }
@@ -86,12 +89,14 @@ const PostPage: React.FC<{ params: Params }> = async ({ params }) => {
           seriesId={content.series?.id}
           postId={content.id}
           showSeries={false}
+          take={3}
         />
         <Posts
           topicId={content.topic?.id}
           seriesId={content.series?.id}
           postId={content.id}
           showSeries={false}
+          take={3}
         />
       </div>
       <PostController post={content} />

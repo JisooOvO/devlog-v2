@@ -27,10 +27,14 @@ const LikeContainer: React.FC<Props> = ({ size, post }) => {
               body: JSON.stringify({ postId: post?.id }),
             });
 
+            const jsonData = await response.json();
+
             switch (response.status) {
               case 200:
-                const jsonData = await response.json();
                 setLike(jsonData["likes"]);
+                break;
+              case 401:
+                alert("로그인 후 이용 가능합니다.");
             }
           };
 
