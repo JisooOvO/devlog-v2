@@ -58,7 +58,6 @@ const PostPage: React.FC<{ params: Params }> = async ({ params }) => {
           name: true,
           email: true,
           image: true,
-          role: true,
         },
       },
       topic: {
