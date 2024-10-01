@@ -67,7 +67,7 @@ const TopicContainer: React.FC<TopicProps> = ({ topicName, topics }) => {
           <Link
             className={`topic ${topicName === topic.name ? "highlight" : ""}`}
             key={`topic-${index}`}
-            href={`/topic/${topic.name}`}
+            href={`/topic/${topic.name.replaceAll(" ", "-")}`}
           >
             {topic.name}
           </Link>
@@ -100,7 +100,7 @@ const SeriesContainer: React.FC<TopicProps> = ({
                   seriesName === s.name ? "series-highlight" : ""
                 }`}
                 key={`series-${i}`}
-                href={`/series/${s.name}`}
+                href={`/series/${s.name.replaceAll(" ", "-")}`}
               >
                 <p># {s.name}</p>
               </Link>
