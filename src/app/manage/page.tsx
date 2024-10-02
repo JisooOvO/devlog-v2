@@ -1,11 +1,16 @@
 import prisma from "@/lib/prisma";
-import { Post, Series, Thumbnail, Topic } from "@prisma/client";
+import { Post, Series, Thumbnail, Topic, User } from "@prisma/client";
 import "@/style/manage.css";
 import { Fragment } from "react";
 import UpdateAndDelete from "./component/updateAndDelete";
 
 const ManagePage = async () => {
-  const [topics, series, thumbnails, posts] = await prisma.$transaction([
+  const [user, topics, series, thumbnails, posts] = await prisma.$transaction([
+    prisma.user.findMany({
+      orderBy: {
+        name: "asc",
+      },
+    }),
     prisma.topic.findMany({
       orderBy: {
         name: "asc",
@@ -30,6 +35,12 @@ const ManagePage = async () => {
 
   return (
     <div>
+      <ManageConatiner
+        model={user}
+        modelName="Users"
+        canUpdate={false}
+        canDelete={false}
+      />
       <ManageConatiner
         model={topics}
         modelName="Topics"
@@ -60,7 +71,7 @@ const ManagePage = async () => {
 
 // --------------------------------------------------------------------------
 
-export type Item = Topic | Series | Thumbnail | Post;
+export type Item = User | Topic | Series | Thumbnail | Post;
 
 interface Props {
   model: Array<Item> | undefined | null;

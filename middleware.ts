@@ -3,7 +3,8 @@ import { MiddlewareConfig, NextRequest, NextResponse } from "next/server";
 import checkAuth from "@/lib/func/checkAuth";
 
 const middleware = async (req: NextRequest) => {
-  if (req.nextUrl.pathname.startsWith("/api/auth")) {
+  const nextUrl = req.nextUrl.pathname;
+  if (nextUrl.startsWith("/api/auth")) {
     return NextResponse.next();
   }
 
@@ -27,7 +28,15 @@ const middleware = async (req: NextRequest) => {
 };
 
 export const config: MiddlewareConfig = {
-  matcher: ["/api/:path*", "/manage/:path*", "/write/:path*"],
+  matcher: [
+    "/api/post",
+    "/api/series",
+    "/api/topics",
+    "/api/thumbnails",
+    "/api/upload",
+    "/manage/:path*",
+    "/write/:path*",
+  ],
 };
 
 // const middleware = () => {};

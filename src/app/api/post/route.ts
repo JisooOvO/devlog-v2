@@ -3,7 +3,9 @@ import prisma from "@/lib/prisma";
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 import checkPost from "./func/checkPost";
-import { Prisma } from "@prisma/client";
+import { Post, Prisma } from "@prisma/client";
+import updateLike from "./func/updateLike";
+import updatePost from "./func/updatePost";
 
 interface Props {
   post: Content;
@@ -141,60 +143,11 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json({ message: "인증 실패" }, { status: 401 });
   }
 
-  try {
-    const { id } = await prisma.user.findFirstOrThrow({
-      where: {
-        email: token.email,
-      },
-      select: {
-        id: true,
-      },
-    });
-    const { postId } = await req.json();
+  const { post }: { post: Post } = await req.clone().json();
 
-    const like = await prisma.likes.findFirst({
-      where: {
-        userId: id,
-        postId: postId,
-      },
-    });
+  if (post) return updatePost(post);
 
-    let prismaLikeClient = !like
-      ? prisma.likes.create({
-          data: {
-            userId: id,
-            postId: postId,
-          },
-        })
-      : prisma.likes.delete({
-          where: {
-            postId_userId: {
-              userId: id,
-              postId: postId,
-            },
-          },
-        });
-
-    const [_, post] = await prisma.$transaction([
-      prismaLikeClient,
-      prisma.post.findFirst({
-        where: {
-          id: postId,
-        },
-        select: {
-          _count: {
-            select: {
-              likes: true,
-            },
-          },
-        },
-      }),
-    ]);
-
-    return NextResponse.json({ likes: post?._count.likes }, { status: 200 });
-  } catch (error) {
-    return NextResponse.json({ error }, { status: 500 });
-  }
+  return updateLike(token, req);
 }
 
 //----------------------------------------------------------

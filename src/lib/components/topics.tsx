@@ -91,25 +91,27 @@ const SeriesContainer: React.FC<TopicProps> = ({
       <IconButton description="">
         <DownRightArrowIcon width={size} height={size} />
       </IconButton>
-      {topics?.map((topic, index) => {
-        if (topic.name === topicName) {
-          return topic.series.map((s, i) => {
-            return (
-              <Link
-                className={`series ${
-                  seriesName === s.name ? "series-highlight" : ""
-                }`}
-                key={`series-${i}`}
-                href={`/series/${s.name.replaceAll(" ", "-")}`}
-              >
-                <p># {s.name}</p>
-              </Link>
-            );
-          });
-        } else {
-          return <Fragment key={index}></Fragment>;
-        }
-      })}
+      <div className="series-list">
+        {topics?.map((topic, index) => {
+          if (topic.name === topicName) {
+            return topic.series.map((s, i) => {
+              return (
+                <Link
+                  className={`series ${
+                    seriesName === s.name ? "series-highlight" : ""
+                  }`}
+                  key={`series-${i}`}
+                  href={`/series/${s.name.replaceAll(" ", "-")}`}
+                >
+                  <p># {s.name}</p>
+                </Link>
+              );
+            });
+          } else {
+            return <Fragment key={index}></Fragment>;
+          }
+        })}
+      </div>
     </div>
   );
 };

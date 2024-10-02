@@ -5,6 +5,7 @@
 .topic-container {
   margin-bottom: 0.5rem;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
 }
@@ -30,6 +31,11 @@
   gap: 0.5rem;
 }
 
+.series-list {
+  flex-wrap: wrap;
+  display: flex;
+}
+
 .series {
   display: block;
   padding: 1rem 0.5rem;
@@ -44,3 +50,9 @@
   color: var(--highlight-color);
   border-bottom: 1px solid var(--highlight-color);
 }
+
+/* @media (max-width : 600px){
+  .series-container > .icon-button-container {
+    display: none;
+  }
+} */

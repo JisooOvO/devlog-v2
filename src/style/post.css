@@ -141,3 +141,9 @@
   justify-content: center;
   gap: 1rem;
 }
+
+@media (max-width: 1200px) {
+  .post-controller {
+    right: 2rem;
+  }
+}

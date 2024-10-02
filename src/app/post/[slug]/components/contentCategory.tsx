@@ -15,7 +15,10 @@ const ContentCategory: React.FC<Props> = ({ size, post }) => {
   return (
     <div className="content-category">
       {post?.topic?.name ? (
-        <Link href={`/topic/${post.topic.name}`}># {post.topic.name}</Link>
+        <Link href={`/topic/${post.topic.name}`}>
+          <p>#</p>
+          <p>{post.topic.name}</p>
+        </Link>
       ) : (
         <p># 주제</p>
       )}
@@ -24,7 +27,10 @@ const ContentCategory: React.FC<Props> = ({ size, post }) => {
         <RightArrowIcon width={size} height={size} />
       </IconButton>
       {post?.series?.name ? (
-        <Link href={`/series/${post.series.name}`}># {post.series.name}</Link>
+        <Link href={`/series/${post.series.name}`}>
+          <p>#</p>
+          <p>{post.series.name}</p>
+        </Link>
       ) : (
         <p># 시리즈</p>
       )}
