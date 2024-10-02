@@ -73,14 +73,17 @@ input,
 textarea,
 select {
   font-family: "Pretendard-Regular", sans-serif;
+  font-size: 1rem;
 }
 
 input::placeholder {
   font-family: "Pretendard-Regular", sans-serif;
+  font-size: 1rem;
 }
 
 textarea::placeholder {
   font-family: "Pretendard-Regular", sans-serif;
+  font-size: 1rem;
 }
 
 textarea:focus-visible,

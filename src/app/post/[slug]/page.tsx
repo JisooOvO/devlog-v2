@@ -8,6 +8,7 @@ import Link from "next/link";
 import IconButton from "@/lib/components/iconButton";
 import RightArrowIcon from "@/lib/icons/rightArrow";
 import LeftArrowIcon from "@/lib/icons/leftArrow";
+import CommentContainer from "./components/commentContainer";
 
 export const revalidate = 10;
 export const dynamicParams = true;
@@ -83,6 +84,7 @@ const PostPage: React.FC<{ params: Params }> = async ({ params }) => {
     <>
       <ContentsView post={content} />
       <LinkToOtherPost currentPost={content} />
+      <CommentContainer postId={content.id} />
       <div className="post-another-series">
         <Posts
           seriesName={content.series?.name}

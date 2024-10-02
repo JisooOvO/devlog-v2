@@ -45,9 +45,10 @@ model User {
   roleId        String?
   role          Role?     @relation(fields: [roleId], references: [id])
   posts         Post[]
-  Likes         Likes[]
+  likes         Likes[]
   accounts      Account[]
   sessions      Session[]
+  comment       Comment[]
 }
 
 model Role {
@@ -57,6 +58,8 @@ model Role {
   createdAt DateTime  @default(now()) @map(name: "created_at")
   updatedAt DateTime  @default(now()) @map(name: "updated_at")
   deletedAt DateTime? @map(name: "deleted_at")
+
+  @@index([name])
 }
 
 model VerificationToken {
@@ -83,11 +86,26 @@ model Post {
   seriesId    String?
   series      Series?    @relation(fields: [seriesId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   likes       Likes[]
+  comment     Comment[]
   createdAt   DateTime   @default(now()) @map(name: "created_at")
   updatedAt   DateTime   @default(now()) @map(name: "updated_at")
   deletedAt   DateTime?  @map(name: "deleted_at")
 
   @@index([id])
+}
+
+model Comment {
+  id        String    @id @default(cuid())
+  content   String
+  userId    String
+  user      User      @relation(fields: [userId], references: [id])
+  postId    String
+  post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt DateTime  @default(now()) @map(name: "created_at")
+  updatedAt DateTime  @default(now()) @map(name: "updated_at")
+  deletedAt DateTime? @map(name: "deleted_at")
+
+  @@index([postId])
 }
 
 model Likes {
@@ -106,17 +124,6 @@ model Thumbnail {
   name      String
   path      String    @unique
   posts     Post[]
-  createdAt DateTime  @default(now()) @map(name: "created_at")
-  updatedAt DateTime  @default(now()) @map(name: "updated_at")
-  deletedAt DateTime? @map(name: "deleted_at")
-
-  @@index([path])
-}
-
-model Image {
-  id        String    @id @default(cuid())
-  name      String
-  path      String    @unique
   createdAt DateTime  @default(now()) @map(name: "created_at")
   updatedAt DateTime  @default(now()) @map(name: "updated_at")
   deletedAt DateTime? @map(name: "deleted_at")

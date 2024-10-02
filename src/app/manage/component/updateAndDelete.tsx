@@ -104,6 +104,7 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
             <div key={propsKey}>
               <p className="update-key">{key}</p>
               <textarea
+                spellCheck={false}
                 className="update-input"
                 value={target[key as keyof Item]?.toString()}
                 onChange={(event) => {

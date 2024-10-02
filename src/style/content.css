@@ -1,78 +1,82 @@
 .content-meta {
-    margin: 2rem 0 1rem 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
+  margin: 2rem 0 1rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
 }
 
 .content-author-updated {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
 }
 
 .content-author {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
 }
 
 .content-author img {
-    width: 1.5rem;
-    height: 1.5rem;
-    border-radius: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
 }
 
 .content-updated-at::before {
-    content: " • ";
+  content: " • ";
 }
 
-.content-likes{
-    display: flex;
-    align-items: center;
-    gap: 0.2rem;
+.content-likes {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
 }
 
 .content-category {
-    margin: 2rem 0;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-style: italic;
+  margin: 2rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-style: italic;
 }
 
 .content-category a {
-    padding: 0.5rem 1rem 0.5rem 0.75rem;
-    border : 1px solid var(--bgColor-neutral-muted);
-    border-radius: 0.75rem;
-    box-shadow: var(--shadow-sm);
+  padding: 0.5rem 1rem 0.5rem 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid var(--bgColor-neutral-muted);
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-sm);
 }
 
 .content-category a:hover {
-    color: var(--highlight-color);
+  color: var(--highlight-color);
 }
 
 .content-thumbnail {
-    margin-bottom: 2rem;
-    position: relative;
-    height: 25rem;
+  margin-bottom: 2rem;
+  position: relative;
+  height: 25rem;
 }
 
 .content-main {
-    min-height: 30rem;
-    margin-bottom: 2rem;
+  min-height: 30rem;
+  margin-bottom: 2rem;
 }
 
-.content-main img{
-    margin: 1rem 0;
-    width: 100%;
-    height: 25rem;
+.content-main img {
+  margin: 1rem 0;
+  width: 100%;
+  height: 25rem;
 }
 
 @media (max-width: 600px) {
-    .content-updated-at {
-      display: none;
-    }
+  .content-updated-at {
+    display: none;
   }
+}
