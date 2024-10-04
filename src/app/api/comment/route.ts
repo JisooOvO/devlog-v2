@@ -56,7 +56,10 @@ export async function POST(req: NextRequest) {
   const token = await getToken({ req });
 
   if (token === null) {
-    return NextResponse.json({ message: "인증 실패" }, { status: 401 });
+    return NextResponse.json(
+      { message: "로그인 후 이용 가능합니다." },
+      { status: 401 }
+    );
   }
 
   if (!comment) {
@@ -122,7 +125,10 @@ export async function PUT(req: NextRequest) {
   const token = await getToken({ req });
 
   if (token === null) {
-    return NextResponse.json({ message: "인증 실패" }, { status: 401 });
+    return NextResponse.json(
+      { message: "로그인 후 이용 가능합니다." },
+      { status: 401 }
+    );
   }
 
   if (token.email !== comment.user.email) {
@@ -163,7 +169,10 @@ export async function DELETE(req: NextRequest) {
   const token = await getToken({ req });
 
   if (token === null) {
-    return NextResponse.json({ message: "인증 실패" }, { status: 401 });
+    return NextResponse.json(
+      { message: "로그인 후 이용 가능합니다." },
+      { status: 401 }
+    );
   }
 
   if (!(await checkAuth(token.email))) {
