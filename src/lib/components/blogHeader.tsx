@@ -26,7 +26,8 @@ export default function BlogHeader() {
   return (
     <header>
       <Link className="title" href={"/"}>
-        기술블로그
+        <p>Jisoo.</p>
+        <p>기술블로그</p>
       </Link>
       <nav>
         <LoginButton session={session} status={status} />
@@ -120,5 +121,5 @@ const ManageButton: React.FC<NextAuthStatus> = ({ session, status }) => {
 //     document.querySelector("body")?.classList.toggle("dark");
 //   };
 
-//   return <HighLightButton onClick={toggleDarkMode} title="DARK" />;
+//   return <button onClick={toggleDarkMode}>다크</button>;
 // };

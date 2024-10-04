@@ -83,6 +83,10 @@
   justify-content: space-between;
 }
 
+.post-detail p{
+  margin: 0;
+}
+
 .post-author {
   padding: 0 1rem;
   margin-bottom: 1rem;
@@ -90,6 +94,10 @@
   align-items: center;
   gap: 0.5rem;
   text-align: end;
+}
+
+.post-author p {
+  margin: 0;
 }
 
 .post-author-img {

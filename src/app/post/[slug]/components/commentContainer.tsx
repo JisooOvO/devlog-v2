@@ -39,19 +39,21 @@ const CommentContainer: React.FC<CommentProps> = ({ postId }) => {
   const [page, setPage] = useState<number>(1);
   const [maximum, setMaximum] = useState<number>(0);
 
-  if (!postId) return null;
-
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(`/api/comment?page=${page}`);
-      const jsonData = await response.json();
-      const comments: Array<Comment> = jsonData["comments"];
-      setCommentList(comments);
-      setMaximum(jsonData["maximum"]);
-    };
+    if (postId) {
+      const fetchData = async () => {
+        const response = await fetch(`/api/comment?page=${page}`);
+        const jsonData = await response.json();
+        const comments: Array<Comment> = jsonData["comments"];
+        setCommentList(comments);
+        setMaximum(jsonData["maximum"]);
+      };
 
-    fetchData();
-  }, [page]);
+      fetchData();
+    }
+  }, [page, postId]);
+
+  if (!postId) return null;
 
   return (
     <div className="comment-layout">
@@ -142,7 +144,7 @@ const CommentList: React.FC<CommentListProps> = ({
 
       setHasNewContent(false);
     }
-  }, [hasNewContent]);
+  }, [hasNewContent, setHasNewContent]);
 
   useEffect(() => {
     const commentsElements = commentList.map((comment, index) => {
@@ -278,7 +280,7 @@ const CommentList: React.FC<CommentListProps> = ({
     });
 
     setComments(commentsElements);
-  }, [commentList]);
+  }, [commentList, data?.user?.email, isClick, isOwner, setCommentList]);
 
   return <div className="comment-list">{comments}</div>;
 };

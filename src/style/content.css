@@ -69,6 +69,14 @@
   margin-bottom: 2rem;
 }
 
+.content-main a {
+  color: var(--highlight-color);
+}
+
+.content-main a:hover {
+  text-decoration: underline;
+}
+
 .content-main img {
   margin: 1rem 0;
   width: 100%;
