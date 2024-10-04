@@ -6,6 +6,10 @@
   gap: 2rem;
 }
 
+.content-meta p {
+  margin: 0;
+}
+
 .content-author-updated {
   display: flex;
   gap: 1rem;
