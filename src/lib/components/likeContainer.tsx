@@ -33,7 +33,7 @@ const LikeContainer: React.FC<Props> = ({ size, post }) => {
               case 200:
                 setLike(jsonData["likes"]);
                 break;
-              case 401:
+              default:
                 alert("로그인 후 이용 가능합니다.");
             }
           };

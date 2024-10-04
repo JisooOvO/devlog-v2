@@ -27,6 +27,14 @@ nav {
   color: var(--highlight-color);
 }
 
+.title p {
+  margin: 0;
+}
+
+.title p:first-child {
+  font-size: 0.75rem;
+}
+
 .header-line {
   box-shadow: var(--shadow-sm);
 }
@@ -43,8 +51,8 @@ nav {
 
 .heaeder-user-info {
   position: relative;
-  width: 2rem;
-  height: 2rem;
+  width: 1.5rem;
+  height: 1.5rem;
   border-radius: 50%;
   border: 1px solid var(--bgColor-neutral-muted);
 }

@@ -16,6 +16,7 @@
 }
 
 .icon-button-description {
+  margin: 0;
   visibility: hidden;
   position: absolute;
   bottom: -15px;

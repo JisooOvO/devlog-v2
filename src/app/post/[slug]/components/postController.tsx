@@ -43,7 +43,7 @@ const PostController: React.FC<Props> = ({ post }) => {
     };
 
     fetchData();
-  }, []);
+  }, [data?.user?.email]);
 
   return (
     <div className="post-controller">

@@ -2,8 +2,12 @@
   margin-bottom: 3rem;
 }
 
+.manage-table-container p {
+  margin: 0;
+}
+
 .manage-table-title {
-  margin-bottom: 1rem;
+  margin-bottom: 1rem !important;
   font-size: 1.25rem;
   font-weight: 700;
 }
