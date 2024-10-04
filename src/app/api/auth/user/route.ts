@@ -13,6 +13,12 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   const { email } = await req.json();
 
+  if (!email)
+    return NextResponse.json(
+      { message: "로그인 후 이용 가능합니다." },
+      { status: 400 }
+    );
+
   try {
     const user = await prisma.user.findFirst({
       where: {

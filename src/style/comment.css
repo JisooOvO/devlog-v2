@@ -2,6 +2,10 @@
   margin-top: 2rem;
 }
 
+.comment-layout p {
+  margin: 0;
+}
+
 .comment-write {
   margin-bottom: 2rem;
   padding: 2rem 1rem;
