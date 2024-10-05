@@ -1,15 +1,19 @@
 const getDateKoreanString = (date: Date | undefined, showTime?: boolean) => {
   if (date === undefined) return "";
 
-  let result = `${date.getFullYear()}년 ${
-    date.getMonth() + 1
-  }월 ${date.getDate()}일`;
+  const koDate = date.toLocaleString("ko-KR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour12: false,
+    ...(showTime && {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    }),
+  });
 
-  if (showTime) {
-    result += ` ${date.getHours()}시 ${date.getMinutes()}분 ${date.getSeconds()}초`;
-  }
-
-  return result;
+  return koDate;
 };
 
 export default getDateKoreanString;
