@@ -16,6 +16,7 @@ interface Props {
   showSeries: boolean;
   take?: number;
   page?: number;
+  orderRule?: "asc" | "desc";
 }
 
 const size = "1rem";
@@ -28,6 +29,7 @@ const Posts: React.FC<Props> = async ({
   showSeries,
   take,
   page,
+  orderRule,
 }) => {
   const posts: Array<Content> = await prisma.post.findMany({
     where: {
@@ -43,7 +45,7 @@ const Posts: React.FC<Props> = async ({
       }),
     },
     orderBy: {
-      createdAt: "desc",
+      createdAt: orderRule ? orderRule : "desc",
     },
     skip: (take ?? 9) * ((page ?? 1) - 1),
     take: (take ?? 9) * (page ?? 1),
