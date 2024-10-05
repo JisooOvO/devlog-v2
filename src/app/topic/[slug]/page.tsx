@@ -54,6 +54,7 @@ const TopicPage: React.FC<TopicProps> = async ({ params }) => {
                 seriesId={s.id}
                 showSeries={true}
                 take={6}
+                orderRule="asc"
               />
             );
           })}
