@@ -10,7 +10,7 @@
   align-items: center;
   z-index: 1000;
 }
-  
+
 .modal-container {
   background-color: white;
   padding: 2rem 3rem;
@@ -19,6 +19,10 @@
   width: 100%;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
   z-index: 1001;
+}
+
+.modal-container p {
+  margin: 0;
 }
 
 .modal-container h2 {
