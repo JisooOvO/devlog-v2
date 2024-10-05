@@ -168,7 +168,10 @@ const ButtonConatiner: React.FC<ButtonProps> = ({
               case 200:
                 setIsOpen(false);
                 dispatch({ type: PostActionType.CLEAR });
-                window.location.href = `/post/${jsonData["title"]}`;
+                window.location.href = `/post/${jsonData["title"].replaceAll(
+                  " ",
+                  "-",
+                )}`;
                 break;
             }
 

@@ -4,15 +4,15 @@ import { PostAction, PostActionType } from "@/lib/store/postReducer";
 import { Dispatch } from "@reduxjs/toolkit";
 import changeTopic from "../func/changeTopic";
 import { Topic } from "../page";
-import { Content } from "@/lib/constant/postProps";
 import { Series } from "@prisma/client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface TopicProps {
   title: string;
   dispatch: Dispatch<PostAction>;
   actionType: PostActionType.SET_TOPIC | PostActionType.SET_SERIES;
   topics: Array<Topic> | Array<Series> | undefined;
+  target: string | undefined;
 }
 
 const ADDTOPIC = "add-topic";
@@ -22,25 +22,32 @@ const TopicContainer: React.FC<TopicProps> = ({
   dispatch,
   actionType,
   topics,
+  target,
 }) => {
   const selectRef = useRef<HTMLSelectElement | null>(null);
+  const [inputValue, setInputValue] = useState<string>("");
 
   useEffect(() => {
+    const inputTag = selectRef.current?.nextElementSibling;
+
     if (topics === undefined && selectRef.current) {
       selectRef.current.value = ADDTOPIC;
-      const inputTag = selectRef.current?.nextElementSibling;
       inputTag?.classList.remove("hidden");
+    } else {
+      inputTag?.classList.add("hidden");
     }
   }, [topics]);
 
   useEffect(() => {
     const selectValue = selectRef.current?.value;
+    const inputTag = selectRef.current?.nextElementSibling;
 
-    if (selectValue === ADDTOPIC) {
-      const inputTag = selectRef.current?.nextElementSibling;
+    if (selectValue === ADDTOPIC || selectValue === "") {
       inputTag?.classList.remove("hidden");
+    } else {
+      inputTag?.classList.add("hidden");
     }
-  }, [selectRef]);
+  }, [selectRef.current?.value]);
 
   return (
     <div>
@@ -48,6 +55,7 @@ const TopicContainer: React.FC<TopicProps> = ({
       <div className="topic-selector">
         <select
           ref={selectRef}
+          value={inputValue ? ADDTOPIC : target}
           onChange={(event) => {
             const inputTag = event.target.nextElementSibling;
 
@@ -62,6 +70,7 @@ const TopicContainer: React.FC<TopicProps> = ({
                 break;
               default:
                 inputTag?.classList.add("hidden");
+                setInputValue("");
                 changeTopic({
                   topicName: event.target.value,
                   actionType,
@@ -84,9 +93,14 @@ const TopicContainer: React.FC<TopicProps> = ({
         <input
           type="text"
           className="hidden"
-          onChange={(event) =>
-            changeTopic({ topicName: event.target.value, actionType, dispatch })
-          }
+          onChange={(event) => {
+            setInputValue(event.target.value);
+            changeTopic({
+              topicName: event.target.value,
+              actionType,
+              dispatch,
+            });
+          }}
           placeholder={`${title}를 입력하세요.`}
           spellCheck={false}
         />
