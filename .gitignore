@@ -2,6 +2,8 @@
 .env
 .env.prod
 
+/public
+
 /prisma/migrations
 
 # dependencies
