@@ -55,7 +55,7 @@ const ContentsView: React.FC<Props> = ({ post }) => {
             src={post.thumbnail.path}
             alt="썸네일"
             fill
-            sizes="100%,20rem"
+            sizes="100%,100%"
             placeholder="blur"
             blurDataURL={PLACEHOLDER}
           />

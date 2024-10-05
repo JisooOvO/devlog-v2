@@ -205,12 +205,14 @@ const TopicSection: React.FC<TopicProps> = ({ post, dispatch }) => {
         dispatch={dispatch}
         actionType={PostActionType.SET_TOPIC}
         topics={topics}
+        target={post?.topic?.name}
       />
       <TopicContainer
         title="시리즈"
         dispatch={dispatch}
         actionType={PostActionType.SET_SERIES}
         topics={topics[index]?.series}
+        target={post?.series?.name}
       />
     </>
   );
