@@ -2,6 +2,7 @@ const getDateKoreanString = (date: Date | undefined, showTime?: boolean) => {
   if (date === undefined) return "";
 
   const koDate = date.toLocaleString("ko-KR", {
+    timeZone: "Asia/Seoul",
     year: "numeric",
     month: "long",
     day: "numeric",
