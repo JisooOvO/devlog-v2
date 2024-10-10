@@ -13,6 +13,12 @@ interface Props {
 }
 
 export async function POST(req: NextRequest) {
+  const token = await getToken({ req });
+
+  if (token === null) {
+    return NextResponse.json({ message: "인증 실패" }, { status: 401 });
+  }
+
   const { post, published }: Props = await req.json();
 
   const [missingItem, flag] = checkPost(post);

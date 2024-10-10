@@ -42,7 +42,9 @@ const PostController: React.FC<Props> = ({ post }) => {
       }
     };
 
-    fetchData();
+    if (data?.user?.email) {
+      fetchData();
+    }
   }, [data?.user?.email]);
 
   return (
@@ -59,7 +61,7 @@ const PostController: React.FC<Props> = ({ post }) => {
         <UpArrowIcon width={size} height={size} />
       </IconButton>
 
-      {role === "owner" || data?.user?.email === post?.author?.email ? (
+      {role === "owner" ? (
         <>
           <IconButton
             description="수정하기"

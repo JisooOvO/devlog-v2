@@ -8,19 +8,27 @@ export async function GET(req: NextRequest) {
   const referer = req.headers.get("referer");
 
   if (referer) {
-    const urlPostId = referer.split("/").pop();
+    const urlPostTitle = referer.split("/").pop();
+
     const { searchParams } = new URL(req.url);
     const page = parseInt(searchParams.get("page") ?? "1");
 
-    if (urlPostId) {
+    if (urlPostTitle) {
       const post = await prisma.post.findFirst({
         where: {
-          title: decodeURIComponent(urlPostId.replace("-", " ")),
+          title: decodeURIComponent(urlPostTitle.replaceAll("-", " ")),
         },
         select: {
           id: true,
         },
       });
+
+      if (!post) {
+        return NextResponse.json(
+          { message: "댓글 요청에 실패하였습니다." },
+          { status: 500 }
+        );
+      }
 
       const comments = await prisma.comment.findMany({
         where: {
