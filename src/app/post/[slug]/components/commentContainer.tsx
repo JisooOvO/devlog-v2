@@ -147,7 +147,7 @@ const CommentList: React.FC<CommentListProps> = ({
   }, [hasNewContent, setHasNewContent]);
 
   useEffect(() => {
-    const commentsElements = commentList.map((comment, index) => {
+    const commentsElements = commentList?.map((comment, index) => {
       if (!comment?.user) return;
       return (
         <div

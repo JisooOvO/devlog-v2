@@ -29,7 +29,6 @@ const middleware = async (req: NextRequest) => {
 
 export const config: MiddlewareConfig = {
   matcher: [
-    "/api/post",
     "/api/series",
     "/api/topics",
     "/api/thumbnails",
