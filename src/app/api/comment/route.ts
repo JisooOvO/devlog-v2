@@ -16,7 +16,10 @@ export async function GET(req: NextRequest) {
     if (urlPostTitle) {
       const post = await prisma.post.findFirst({
         where: {
-          title: decodeURIComponent(urlPostTitle.replaceAll("-", " ")),
+          title: {
+            equals: decodeURIComponent(urlPostTitle.replaceAll("-", " ")),
+            mode: "insensitive",
+          },
         },
         select: {
           id: true,

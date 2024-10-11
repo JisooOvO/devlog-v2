@@ -3,8 +3,6 @@ import prisma from "../prisma";
 import "@/style/topic.css";
 import { Topic } from "@prisma/client";
 import { Fragment } from "react";
-import IconButton from "./iconButton";
-import DownRightArrowIcon from "../icons/downRightArrow";
 
 interface TopicProps {
   topicName?: string;
@@ -88,9 +86,6 @@ const SeriesContainer: React.FC<TopicProps> = ({
 }) => {
   return (
     <div className="series-container">
-      <IconButton description="">
-        <DownRightArrowIcon width={size} height={size} />
-      </IconButton>
       <div className="series-list">
         {topics?.map((topic, index) => {
           if (topic.name === topicName) {

@@ -15,7 +15,7 @@ const ContentCategory: React.FC<Props> = ({ size, post }) => {
   return (
     <div className="content-category">
       {post?.topic?.name ? (
-        <Link href={`/topic/${post.topic.name}`}>
+        <Link href={`/topic/${post.topic.name.replaceAll(" ", "-")}`}>
           <p>#</p>
           <p>{post.topic.name}</p>
         </Link>
@@ -27,7 +27,7 @@ const ContentCategory: React.FC<Props> = ({ size, post }) => {
         <RightArrowIcon width={size} height={size} />
       </IconButton>
       {post?.series?.name ? (
-        <Link href={`/series/${post.series.name}`}>
+        <Link href={`/series/${post.series.name.replaceAll(" ", "-")}`}>
           <p>#</p>
           <p>{post.series.name}</p>
         </Link>
