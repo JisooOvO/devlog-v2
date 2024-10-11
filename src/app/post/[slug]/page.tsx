@@ -9,13 +9,11 @@ import IconButton from "@/lib/components/iconButton";
 import RightArrowIcon from "@/lib/icons/rightArrow";
 import LeftArrowIcon from "@/lib/icons/leftArrow";
 import CommentContainer from "./components/commentContainer";
+import { Metadata, ResolvingMetadata } from "next";
+import getPostByTitle from "./func/getPostByTitle";
 
 export const revalidate = 10;
 export const dynamicParams = true;
-
-interface Params {
-  slug: string;
-}
 
 export async function generateStaticParams() {
   const posts = await prisma.post.findMany({
@@ -29,52 +27,44 @@ export async function generateStaticParams() {
   }));
 }
 
+interface Params {
+  slug: string;
+}
+
+type MetaProps = {
+  params: Params;
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export async function generateMetadata(
+  { params }: MetaProps,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const slug = params.slug;
+
+  const post = await getPostByTitle(
+    decodeURIComponent(params.slug.replace(/-/g, " "))
+  );
+
+  const previousImages = (await parent).openGraph?.images || [];
+
+  return {
+    title: post?.title,
+    openGraph: {
+      title: post?.title,
+      type: "article",
+      siteName: "남지수 기술 블로그",
+      description: post?.description,
+      images: [post?.thumbnail?.path ?? "", ...previousImages],
+      url: `/post/${post?.title}`,
+    },
+  };
+}
+
 const PostPage: React.FC<{ params: Params }> = async ({ params }) => {
-  const content: Content = await prisma.post.findFirst({
-    where: {
-      title: {
-        equals: decodeURIComponent(params.slug.replace(/-/g, " ")),
-        mode: "insensitive",
-      },
-    },
-    select: {
-      id: true,
-      title: true,
-      description: true,
-      content: true,
-      createdAt: true,
-      updatedAt: true,
-      _count: {
-        select: {
-          likes: true,
-        },
-      },
-      thumbnail: {
-        select: {
-          path: true,
-        },
-      },
-      author: {
-        select: {
-          name: true,
-          email: true,
-          image: true,
-        },
-      },
-      topic: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-      series: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-    },
-  });
+  const content: Content = await getPostByTitle(
+    decodeURIComponent(params.slug.replace(/-/g, " "))
+  );
 
   if (!content) {
     notFound();
