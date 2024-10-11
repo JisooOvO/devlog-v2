@@ -11,6 +11,7 @@ import LeftArrowIcon from "@/lib/icons/leftArrow";
 import CommentContainer from "./components/commentContainer";
 import { Metadata, ResolvingMetadata } from "next";
 import getPostByTitle from "./func/getPostByTitle";
+import { metadata } from "@/app/layout";
 
 export const revalidate = 10;
 export const dynamicParams = true;
@@ -49,11 +50,10 @@ export async function generateMetadata(
   const previousImages = (await parent).openGraph?.images || [];
 
   return {
+    ...metadata,
     title: post?.title,
     openGraph: {
       title: post?.title,
-      type: "article",
-      siteName: "남지수 기술 블로그",
       description: post?.description,
       images: [post?.thumbnail?.path ?? "", ...previousImages],
       url: `/post/${post?.title}`,
