@@ -1,11 +1,11 @@
-import { Content } from "@/lib/constants/postProps";
+import { Content } from "@/lib/utils/constants/postProps";
 import { PostAction, PostActionType } from "@/lib/utils/reducers/postReducer";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import handleKeyUp from "../../../functions/handleKeyUp";
-import handleKeyDown from "../../../functions/handleKeyDown";
+import handleKeyUp from "../../../utils/functions/handleKeyUp";
+import handleKeyDown from "../../../utils/functions/handleKeyDown";
 import dragEndCallback, {
   MARKDOWNAREA,
-} from "../../../functions/dragEndCallback";
+} from "../../../utils/functions/dragEndCallback";
 
 interface mardownProps {
   post: Content;

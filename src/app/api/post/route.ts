@@ -1,11 +1,11 @@
-import { Content } from "@/lib/constants/postProps";
+import { Content } from "@/lib/utils/constants/postProps";
 import prisma from "@/lib/utils/prisma";
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
-import checkPost from "../../../lib/functions/checkPost";
+import checkPost from "../../../lib/utils/functions/checkPost";
 import { Post, Prisma } from "@prisma/client";
-import updateLike from "../../../lib/functions/updateLike";
-import updatePost from "../../../lib/functions/updatePost";
+import updateLike from "../../../lib/utils/functions/updateLike";
+import updatePost from "../../../lib/utils/functions/updatePost";
 
 interface Props {
   post: Content;

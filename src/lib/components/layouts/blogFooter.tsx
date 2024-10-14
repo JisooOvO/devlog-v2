@@ -1,10 +1,10 @@
 import "@/style/blogFooter.css";
-import GithubIcon from "../icons/github";
-import MailIcon from "../icons/mail";
+import GithubIcon from "../../icons/github";
+import MailIcon from "../../icons/mail";
 import Image from "next/image";
-import IconButton from "./iconButton";
-import { PLACEHOLDER } from "@/lib/constants/imageProps";
-import CcIcon from "../icons/cc";
+import IconButton from "../iconButton";
+import { PLACEHOLDER } from "@/lib/utils/constants/imageProps";
+import CcIcon from "../../icons/cc";
 
 const size = "2rem";
 

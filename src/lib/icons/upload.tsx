@@ -1,4 +1,4 @@
-import IconProps from "../constants/imageProps";
+import IconProps from "../utils/constants/imageProps";
 
 const UploadIcon: React.FC<IconProps> = ({ width, height }) => {
   return (

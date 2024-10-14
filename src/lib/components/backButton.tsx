@@ -1,6 +1,6 @@
 "use client";
 
-import checkAuth from "@/lib/functions/checkAuth";
+import checkAuth from "@/lib/utils/functions/checkAuth";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";

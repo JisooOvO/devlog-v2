@@ -1,4 +1,4 @@
-import { Content } from "@/lib/constants/postProps";
+import { Content } from "@/lib/utils/constants/postProps";
 import ContentsView from "@/lib/components/contentsView";
 import prisma from "@/lib/utils/prisma";
 import { notFound } from "next/navigation";
@@ -10,7 +10,7 @@ import RightArrowIcon from "@/lib/icons/rightArrow";
 import LeftArrowIcon from "@/lib/icons/leftArrow";
 import CommentContainer from "../../../lib/components/pages/post/commentContainer";
 import { Metadata, ResolvingMetadata } from "next";
-import getPostByTitle from "../../../lib/functions/getPostByTitle";
+import getPostByTitle from "../../../lib/utils/functions/getPostByTitle";
 import { metadata } from "@/app/layout";
 
 export const revalidate = 10;

@@ -7,11 +7,11 @@ import Image from "next/image";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { notFound } from "next/navigation";
-import { Content } from "@/lib/constants/postProps";
-import { PLACEHOLDER } from "@/lib/constants/imageProps";
+import { Content } from "@/lib/utils/constants/postProps";
+import { PLACEHOLDER } from "@/lib/utils/constants/imageProps";
 import ContentCategory from "@/lib/components/pages/post/contentCategory";
 import LikeContainer from "@/lib//components/likeContainer";
-import getDateKoreanString from "@/lib/functions/getDateKoreanString";
+import getDateKoreanString from "@/lib/utils/functions/getDateKoreanString";
 
 interface Props {
   post: Content;
