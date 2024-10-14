@@ -1,6 +1,6 @@
 import { getToken } from "next-auth/jwt";
 import { MiddlewareConfig, NextRequest, NextResponse } from "next/server";
-import checkAuth from "@/lib/functions/checkAuth";
+import checkAuth from "@/lib/utils/functions/checkAuth";
 
 const middleware = async (req: NextRequest) => {
   const nextUrl = req.nextUrl.pathname;

@@ -4,7 +4,7 @@ import IconButton from "@/lib/components/iconButton";
 import "@/style/content.css";
 import Link from "next/link";
 import RightArrowIcon from "@/lib/icons/rightArrow";
-import { Content } from "@/lib/constants/postProps";
+import { Content } from "@/lib/utils/constants/postProps";
 
 interface Props {
   size: string;

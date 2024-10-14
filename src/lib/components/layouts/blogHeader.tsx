@@ -9,8 +9,8 @@ import IconButton from "@/lib/components/iconButton";
 import LoginIcon from "@/lib/icons/login";
 import WriteIcon from "@/lib/icons/write";
 import "@/style/blogHeader.css";
-import SettingIcon from "../icons/setting";
-import checkAuth from "../functions/checkAuth";
+import SettingIcon from "../../icons/setting";
+import checkAuth from "../../utils/functions/checkAuth";
 import { useEffect, useState } from "react";
 
 const size = "2rem";

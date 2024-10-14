@@ -1,5 +1,5 @@
 import { Comment } from "@/lib/components/pages/post/commentContainer";
-import checkAuth from "@/lib/functions/checkAuth";
+import checkAuth from "@/lib/utils/functions/checkAuth";
 import prisma from "@/lib/utils/prisma";
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";

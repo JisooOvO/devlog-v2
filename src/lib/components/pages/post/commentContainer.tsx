@@ -4,7 +4,7 @@ import "@/style/comment.css";
 import CommentWrite from "./commentWrite";
 import { User } from "@prisma/client";
 import Image from "next/image";
-import { PLACEHOLDER } from "@/lib/constants/imageProps";
+import { PLACEHOLDER } from "@/lib/utils/constants/imageProps";
 import {
   Dispatch,
   ReactNode,
@@ -13,14 +13,14 @@ import {
   useRef,
   useState,
 } from "react";
-import getDateKoreanString from "@/lib/functions/getDateKoreanString";
+import getDateKoreanString from "@/lib/utils/functions/getDateKoreanString";
 import IconButton from "@/lib/components/iconButton";
 import DeleteIcon from "@/lib/icons/delete";
 import EditIcon from "@/lib/icons/edit";
 import LeftArrowIcon from "@/lib/icons/leftArrow";
 import RightArrowIcon from "@/lib/icons/rightArrow";
 import { useSession } from "next-auth/react";
-import checkAuth from "@/lib/functions/checkAuth";
+import checkAuth from "@/lib/utils/functions/checkAuth";
 
 interface CommentProps {
   postId: string | undefined;

@@ -1,6 +1,6 @@
 "use client";
 
-import { Content } from "@/lib/constants/postProps";
+import { Content } from "@/lib/utils/constants/postProps";
 import IconButton from "@/lib/components/iconButton";
 import DeleteIcon from "@/lib/icons/delete";
 import EditIcon from "@/lib/icons/edit";

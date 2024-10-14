@@ -1,4 +1,4 @@
-import IconProps from "@/lib/constants/imageProps";
+import IconProps from "@/lib/utils/constants/imageProps";
 
 const MailIcon: React.FC<IconProps> = ({ width, height }) => {
   return (

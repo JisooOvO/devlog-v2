@@ -2,7 +2,7 @@
 
 import { PostAction, PostActionType } from "@/lib/utils/reducers/postReducer";
 import { Dispatch } from "@reduxjs/toolkit";
-import changeTopic from "../../../functions/changeTopic";
+import changeTopic from "../../../utils/functions/changeTopic";
 import { Topic } from "../../../../app/write/page";
 import { Series } from "@prisma/client";
 import { useEffect, useRef, useState } from "react";
