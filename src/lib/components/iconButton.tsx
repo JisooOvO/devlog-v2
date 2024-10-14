@@ -16,27 +16,24 @@ const IconButton: React.FC<Props> = ({
   onClick,
   href,
 }) => {
-  const isRouter = href !== undefined;
   return (
     <div className="icon-button-container">
-      {description.length === 0 ? (
-        children
-      ) : (
-        <button
-          className="icon-button"
-          onClick={
-            isRouter
-              ? () => {
-                  window.open(href);
-                }
-              : onClick
-          }
-        >
-          {children}
+      <button
+        className="icon-button"
+        onClick={
+          href
+            ? () => {
+                window.open(href);
+              }
+            : onClick
+        }
+      >
+        {children}
+        {description && (
           <p className="icon-button-description">{description}</p>
-        </button>
-      )}
-      {isRouter ? <div className="icon-signal-green"></div> : null}
+        )}
+      </button>
+      {href ? <div className="icon-signal-green"></div> : null}
     </div>
   );
 };

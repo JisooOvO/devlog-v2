@@ -1,8 +1,8 @@
-import prisma from "@/lib/prisma";
-import { Post, Series, Thumbnail, Topic, User } from "@prisma/client";
 import "@/style/manage.css";
+import prisma from "@/lib/prisma";
+import UpdateAndDelete from "../../lib/components/pages/manage/updateAndDelete";
+import { Post, Series, Thumbnail, Topic, User } from "@prisma/client";
 import { Fragment } from "react";
-import UpdateAndDelete from "./component/updateAndDelete";
 
 const ManagePage = async () => {
   const [user, topics, series, thumbnails, posts] = await prisma.$transaction([

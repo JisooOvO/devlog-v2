@@ -1,4 +1,4 @@
-import BackButton from "./unauthorized/components/backButton";
+import BackButton from "../lib/components/backButton";
 import "@/style/unauthorized.css";
 
 const NotFound = () => {

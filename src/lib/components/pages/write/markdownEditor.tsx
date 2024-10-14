@@ -1,9 +1,9 @@
 import { Content } from "@/lib/constant/postProps";
 import { PostAction, PostActionType } from "@/lib/store/postReducer";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import handleKeyUp from "../func/handleKeyUp";
-import handleKeyDown from "../func/handleKeyDown";
-import dragEndCallback, { MARKDOWNAREA } from "../func/dragEndCallback";
+import handleKeyUp from "../../../func/handleKeyUp";
+import handleKeyDown from "../../../func/handleKeyDown";
+import dragEndCallback, { MARKDOWNAREA } from "../../../func/dragEndCallback";
 
 interface mardownProps {
   post: Content;
@@ -36,7 +36,7 @@ const MarkdownEditor: React.FC<mardownProps> = ({
 
   useEffect(() => {
     const textarea = document.querySelector(
-      `#${MARKDOWNAREA}`,
+      `#${MARKDOWNAREA}`
     ) as HTMLTextAreaElement;
 
     if (img.length !== 0) {

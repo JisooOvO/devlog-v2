@@ -1,10 +1,9 @@
 "use client";
 
-import { notFound, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import LeftArrowIcon from "../icons/leftArrow";
 import RightArrowIcon from "../icons/rightArrow";
 import IconButton from "./iconButton";
-import { useEffect } from "react";
 
 interface Props {
   page: number | undefined;

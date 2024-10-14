@@ -1,4 +1,4 @@
-import { Comment } from "@/app/post/[slug]/components/commentContainer";
+import { Comment } from "@/lib/components/pages/post/commentContainer";
 import checkAuth from "@/lib/func/checkAuth";
 import prisma from "@/lib/prisma";
 import { getToken } from "next-auth/jwt";

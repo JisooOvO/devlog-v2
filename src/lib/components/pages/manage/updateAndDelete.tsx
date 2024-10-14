@@ -3,7 +3,7 @@
 import IconButton from "@/lib/components/iconButton";
 import DeleteIcon from "@/lib/icons/delete";
 import "@/style/manage.css";
-import { Item } from "../page";
+import { Item } from "../../../../app/manage/page";
 import EditIcon from "@/lib/icons/edit";
 import CustomModal from "@/lib/components/customModal";
 import { Dispatch, Fragment, SetStateAction, useState } from "react";
