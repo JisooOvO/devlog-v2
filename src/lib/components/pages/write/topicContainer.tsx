@@ -1,8 +1,8 @@
 "use client";
 
-import { PostAction, PostActionType } from "@/lib/store/postReducer";
+import { PostAction, PostActionType } from "@/lib/utils/reducers/postReducer";
 import { Dispatch } from "@reduxjs/toolkit";
-import changeTopic from "../../../func/changeTopic";
+import changeTopic from "../../../functions/changeTopic";
 import { Topic } from "../../../../app/write/page";
 import { Series } from "@prisma/client";
 import { useEffect, useRef, useState } from "react";

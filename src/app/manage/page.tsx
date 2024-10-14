@@ -1,5 +1,5 @@
 import "@/style/manage.css";
-import prisma from "@/lib/prisma";
+import prisma from "@/lib/utils/prisma";
 import UpdateAndDelete from "../../lib/components/pages/manage/updateAndDelete";
 import { Post, Series, Thumbnail, Topic, User } from "@prisma/client";
 import { Fragment } from "react";

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import prisma from "../prisma";
+import prisma from "../utils/prisma";
 import "@/style/topic.css";
 import { Topic } from "@prisma/client";
 import { Fragment } from "react";

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
-import prisma from "@/lib/prisma";
+import prisma from "@/lib/utils/prisma";
 
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     const filePath = path.join(
       process.cwd(),
       `public/${directory}`,
-      image.name,
+      image.name
     );
     const arrayBuffer = await image.arrayBuffer();
     const uin8Array = new Uint8Array(arrayBuffer);
@@ -35,18 +35,18 @@ export async function POST(request: NextRequest) {
         {
           path: `/${directory}/${image.name}`,
         },
-        { status: 200 },
+        { status: 200 }
       );
     } catch (err) {
       return NextResponse.json(
         { message: "파일 저장에 실패하였습니다.", err },
-        { status: 500 },
+        { status: 500 }
       );
     }
   }
 
   return NextResponse.json(
     { message: "파일이 형식에 맞지 않거나 없습니다." },
-    { status: 400 },
+    { status: 400 }
   );
 }

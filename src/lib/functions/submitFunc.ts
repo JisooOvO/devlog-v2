@@ -1,5 +1,5 @@
-import { Content } from "@/lib/constant/postProps";
-import { PostAction, PostActionType } from "@/lib/store/postReducer";
+import { Content } from "@/lib/constants/postProps";
+import { PostAction, PostActionType } from "@/lib/utils/reducers/postReducer";
 import { Dispatch } from "@reduxjs/toolkit";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { Dispatch as SetState, SetStateAction } from "react";

@@ -1,4 +1,4 @@
-import IconProps from "../constant/imageProps";
+import IconProps from "../constants/imageProps";
 
 const SettingIcon: React.FC<IconProps> = ({ width, height }) => {
   return (

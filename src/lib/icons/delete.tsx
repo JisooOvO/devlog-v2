@@ -1,4 +1,4 @@
-import IconProps from "@/lib/constant/imageProps";
+import IconProps from "@/lib/constants/imageProps";
 
 const DeleteIcon: React.FC<IconProps> = ({ width, height }) => {
   return (

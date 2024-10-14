@@ -1,14 +1,14 @@
 "use client";
 
-import { RootState } from "@/lib/store";
-import { PostAction, PostActionType } from "@/lib/store/postReducer";
+import { RootState } from "@/lib/utils/store";
+import { PostAction, PostActionType } from "@/lib/utils/reducers/postReducer";
 import { Dispatch } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { Dispatch as SetState, SetStateAction } from "react";
-import { Content } from "@/lib/constant/postProps";
+import { Content } from "@/lib/constants/postProps";
 import Image from "next/image";
-import handleOnChange from "../../../func/uploadThumbnailFunc";
+import handleOnChange from "../../../functions/uploadThumbnailFunc";
 import "@/style/writeModal.css";
 import IconButton from "@/lib/components/iconButton";
 import UploadIcon from "@/lib/icons/upload";
