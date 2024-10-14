@@ -37,7 +37,7 @@ const BlogFooter: React.FC = () => {
           </div>
         </div>
         <div className="blog-footer-cc">
-          <IconButton description="">
+          <IconButton>
             <CcIcon width={"1.5rem"} height={"1.5rem"}></CcIcon>
           </IconButton>
           <p>{new Date().getFullYear()}. All rights reserved.</p>

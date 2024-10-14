@@ -30,12 +30,14 @@ const ContentsView: React.FC<Props> = ({ post }) => {
       <div className="content-meta">
         <div className="content-author-updated">
           <div className="content-author">
-            <ImageContainer
-              width="1.5rem"
-              height="1.5rem"
-              src={post.author?.image}
-              alt="글쓴이"
-            />
+            {post.author?.image && (
+              <ImageContainer
+                width="1.5rem"
+                height="1.5rem"
+                src={post.author?.image}
+                alt="글쓴이"
+              />
+            )}
             <p>{post.author?.name ? post.author.name : "저자"}</p>
           </div>
           {post.updatedAt ? (
