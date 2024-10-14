@@ -1,10 +1,9 @@
 import "@/style/blogFooter.css";
 import GithubIcon from "../../icons/github";
 import MailIcon from "../../icons/mail";
-import Image from "next/image";
 import IconButton from "../iconButton";
-import { PLACEHOLDER } from "@/lib/utils/constants/imageProps";
 import CcIcon from "../../icons/cc";
+import ImageContainer from "../imageContainer";
 
 const size = "2rem";
 
@@ -13,13 +12,11 @@ const BlogFooter: React.FC = () => {
     <div className="blog-footer-container">
       <div className="blog-footer-content">
         <div className="blog-footer-image">
-          <Image
+          <ImageContainer
+            width="8rem"
+            height="8rem"
             src={"/profile/profile.jpeg"}
             alt="프로필"
-            fill
-            sizes="100%, 100%"
-            placeholder="blur"
-            blurDataURL={PLACEHOLDER}
           />
         </div>
         <div className="blog-footer-description">

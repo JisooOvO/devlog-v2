@@ -1,12 +1,11 @@
 import Link from "next/link";
 import prisma from "../utils/prisma";
-import Image from "next/image";
 import "@/style/post.css";
 import getDateKoreanString from "@/lib/utils/functions/getDateKoreanString";
 import LikeContainer from "@/lib/components/likeContainer";
 import { Content } from "@/lib/utils/constants/postProps";
-import { PLACEHOLDER } from "@/lib/utils/constants/imageProps";
 import PostPageButton from "./postPageButton";
+import ImageContainer from "./imageContainer";
 
 interface Props {
   topicId?: string | undefined;
@@ -145,17 +144,11 @@ const PostContainer: React.FC<PostContainerProps> = ({ posts }) => {
           <div key={`post-${index}`} className="post">
             <Link className="post-link" href={`/post/${formattedTitle}`}>
               <div className="post-thumbnail">
-                <Image
-                  src={
-                    typeof post?.thumbnail?.path === "string"
-                      ? post?.thumbnail?.path
-                      : PLACEHOLDER
-                  }
+                <ImageContainer
+                  width="100%"
+                  height="10rem"
+                  src={post?.thumbnail?.path}
                   alt={`썸네일-${index}`}
-                  fill
-                  sizes="100%, 10rem"
-                  placeholder="blur"
-                  blurDataURL={PLACEHOLDER}
                 />
               </div>
               <div className="post-contents">
@@ -168,14 +161,12 @@ const PostContainer: React.FC<PostContainerProps> = ({ posts }) => {
                 <LikeContainer size={size} post={post} />
               </div>
               <div className="post-author">
-                <div className="post-author-img">
-                  <Image
-                    src={post?.author?.image as string}
-                    alt={`글쓴이-${index}`}
-                    fill
-                    sizes="100% 100%"
-                  />
-                </div>
+                <ImageContainer
+                  width="1.5rem"
+                  height="1.5rem"
+                  src={post?.author?.image as string}
+                  alt={`글쓴이-${index}`}
+                />
                 <p>by {post?.author?.name}</p>
               </div>
             </Link>

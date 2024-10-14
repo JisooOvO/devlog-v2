@@ -6,23 +6,21 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 interface Props {
-  flag?: boolean;
+  isCheckUser?: boolean;
 }
 
-const BackButton: React.FC<Props> = ({ flag = true }) => {
+const BackButton: React.FC<Props> = ({ isCheckUser = true }) => {
   const router = useRouter();
   const { data } = useSession();
 
   useEffect(() => {
     const checkUser = async () => {
-      if (data?.user) {
-        if (await checkAuth(data.user?.email)) {
-          router.back();
-        }
+      if (await checkAuth(data?.user?.email)) {
+        router.back();
       }
     };
-    if (flag) checkUser();
-  }, [data?.user, router, flag]);
+    if (isCheckUser) checkUser();
+  }, [data?.user, router, isCheckUser]);
 
   return (
     <button className="back-button" onClick={() => router.back()}>

@@ -3,15 +3,14 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
-import Image from "next/image";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { notFound } from "next/navigation";
 import { Content } from "@/lib/utils/constants/postProps";
-import { PLACEHOLDER } from "@/lib/utils/constants/imageProps";
 import ContentCategory from "@/lib/components/pages/post/contentCategory";
 import LikeContainer from "@/lib//components/likeContainer";
 import getDateKoreanString from "@/lib/utils/functions/getDateKoreanString";
+import ImageContainer from "./imageContainer";
 
 interface Props {
   post: Content;
@@ -30,13 +29,12 @@ const ContentsView: React.FC<Props> = ({ post }) => {
       <hr />
       <div className="content-meta">
         <div className="content-author-updated">
-          {post.author?.name?.length !== 0}
           <div className="content-author">
-            <Image
-              src={post.author?.image ? post.author.image : PLACEHOLDER}
-              alt={`글쓴이`}
-              width={100}
-              height={100}
+            <ImageContainer
+              width="1.5rem"
+              height="1.5rem"
+              src={post.author?.image}
+              alt="글쓴이"
             />
             <p>{post.author?.name ? post.author.name : "저자"}</p>
           </div>
@@ -49,18 +47,16 @@ const ContentsView: React.FC<Props> = ({ post }) => {
         <LikeContainer size={size} post={post} />
       </div>
       <ContentCategory size={size} post={post} />
-      {post.thumbnail?.path ? (
+      {post.thumbnail?.path && (
         <div className="content-thumbnail">
-          <Image
+          <ImageContainer
+            width="100%"
+            height="25rem"
             src={post.thumbnail.path}
             alt="썸네일"
-            fill
-            sizes="100%,100%"
-            placeholder="blur"
-            blurDataURL={PLACEHOLDER}
           />
         </div>
-      ) : null}
+      )}
       <div className="content-main">
         <MarkdownRender post={post} />
       </div>

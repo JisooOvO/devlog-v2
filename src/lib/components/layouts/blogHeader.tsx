@@ -4,7 +4,6 @@ import { Session } from "next-auth";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import IconButton from "@/lib/components/iconButton";
 import LoginIcon from "@/lib/icons/login";
 import WriteIcon from "@/lib/icons/write";
@@ -12,6 +11,7 @@ import "@/style/blogHeader.css";
 import SettingIcon from "../../icons/setting";
 import checkAuth from "../../utils/functions/checkAuth";
 import { useEffect, useState } from "react";
+import ImageContainer from "../imageContainer";
 
 const size = "2rem";
 
@@ -48,11 +48,11 @@ const LoginButton: React.FC<NextAuthStatus> = ({ session, status }) => {
           <div className="header-user-container">
             {session?.user?.image ? (
               <div className="heaeder-user-info">
-                <Image
+                <ImageContainer
+                  width="1.75rem"
+                  height="1.75rem"
                   src={session?.user?.image}
-                  alt="user image"
-                  fill
-                  sizes="100% 100%"
+                  alt="유저 이미지"
                 />
               </div>
             ) : (
