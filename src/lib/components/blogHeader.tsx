@@ -10,7 +10,7 @@ import LoginIcon from "@/lib/icons/login";
 import WriteIcon from "@/lib/icons/write";
 import "@/style/blogHeader.css";
 import SettingIcon from "../icons/setting";
-import checkAuth from "../func/checkAuth";
+import checkAuth from "../functions/checkAuth";
 import { useEffect, useState } from "react";
 
 const size = "2rem";

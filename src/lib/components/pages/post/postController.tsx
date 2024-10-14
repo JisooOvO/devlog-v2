@@ -1,11 +1,11 @@
 "use client";
 
-import { Content } from "@/lib/constant/postProps";
+import { Content } from "@/lib/constants/postProps";
 import IconButton from "@/lib/components/iconButton";
 import DeleteIcon from "@/lib/icons/delete";
 import EditIcon from "@/lib/icons/edit";
 import UpArrowIcon from "@/lib/icons/upArrow";
-import { PostAction, PostActionType } from "@/lib/store/postReducer";
+import { PostAction, PostActionType } from "@/lib/utils/reducers/postReducer";
 import "@/style/post.css";
 import { Dispatch } from "@reduxjs/toolkit";
 import { useSession } from "next-auth/react";

@@ -1,4 +1,4 @@
-import prisma from "@/lib/prisma";
+import prisma from "@/lib/utils/prisma";
 
 const getPostByTitle = async (title: string) => {
   return prisma.post.findFirst({

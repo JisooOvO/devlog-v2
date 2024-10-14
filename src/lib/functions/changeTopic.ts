@@ -1,4 +1,4 @@
-import { PostAction, PostActionType } from "@/lib/store/postReducer";
+import { PostAction, PostActionType } from "@/lib/utils/reducers/postReducer";
 import { Dispatch } from "@reduxjs/toolkit";
 
 interface Props {

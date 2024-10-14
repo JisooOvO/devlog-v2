@@ -1,11 +1,11 @@
 import Link from "next/link";
-import prisma from "../prisma";
+import prisma from "../utils/prisma";
 import Image from "next/image";
 import "@/style/post.css";
-import getDateKoreanString from "@/lib/func/getDateKoreanString";
+import getDateKoreanString from "@/lib/functions/getDateKoreanString";
 import LikeContainer from "@/lib/components/likeContainer";
-import { Content } from "@/lib/constant/postProps";
-import { PLACEHOLDER } from "@/lib/constant/imageProps";
+import { Content } from "@/lib/constants/postProps";
+import { PLACEHOLDER } from "@/lib/constants/imageProps";
 import PostPageButton from "./postPageButton";
 
 interface Props {

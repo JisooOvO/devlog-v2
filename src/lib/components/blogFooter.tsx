@@ -3,7 +3,7 @@ import GithubIcon from "../icons/github";
 import MailIcon from "../icons/mail";
 import Image from "next/image";
 import IconButton from "./iconButton";
-import { PLACEHOLDER } from "@/lib/constant/imageProps";
+import { PLACEHOLDER } from "@/lib/constants/imageProps";
 import CcIcon from "../icons/cc";
 
 const size = "2rem";

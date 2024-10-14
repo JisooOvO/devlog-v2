@@ -1,4 +1,4 @@
-import { Content } from "@/lib/constant/postProps";
+import { Content } from "@/lib/constants/postProps";
 
 const checkPost = (post: Content): [string, boolean] => {
   for (const key in post) {

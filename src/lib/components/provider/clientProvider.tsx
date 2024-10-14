@@ -1,7 +1,7 @@
 "use client";
 
 import { Provider } from "react-redux";
-import store from "../../store";
+import store from "../../utils/store";
 import BlogHeader from "../blogHeader";
 import ClientScrollProvider from "./clientScrollProvider";
 import { RootLayoutProps } from "@/app/layout";

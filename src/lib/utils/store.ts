@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import postReducer from "./store/postReducer";
+import postReducer from "./reducers/postReducer";
 
 const rootReducer = combineReducers({
   post: postReducer,

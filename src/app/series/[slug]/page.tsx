@@ -1,7 +1,7 @@
 import NotFoundRouter from "@/lib/components/notFoundRouter";
 import Posts from "@/lib/components/posts";
 import Topics from "@/lib/components/topics";
-import prisma from "@/lib/prisma";
+import prisma from "@/lib/utils/prisma";
 
 interface SeriesProps {
   params: {
