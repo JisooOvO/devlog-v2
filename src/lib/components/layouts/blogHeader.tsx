@@ -1,16 +1,16 @@
 "use client";
 
-import { Session } from "next-auth";
-import { signIn, signOut, useSession } from "next-auth/react";
+import "@/style/blogHeader.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Session } from "next-auth";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 import IconButton from "@/lib/components/iconButton";
 import LoginIcon from "@/lib/icons/login";
 import WriteIcon from "@/lib/icons/write";
-import "@/style/blogHeader.css";
 import SettingIcon from "../../icons/setting";
 import checkAuth from "../../utils/functions/checkAuth";
-import { useEffect, useState } from "react";
 import ImageContainer from "../imageContainer";
 
 const size = "2rem";
@@ -46,7 +46,7 @@ const LoginButton: React.FC<NextAuthStatus> = ({ session, status }) => {
       return (
         <>
           <div className="header-user-container">
-            {session?.user?.image ? (
+            {session?.user?.image && (
               <div className="heaeder-user-info">
                 <ImageContainer
                   width="1.75rem"
@@ -55,8 +55,6 @@ const LoginButton: React.FC<NextAuthStatus> = ({ session, status }) => {
                   alt="유저 이미지"
                 />
               </div>
-            ) : (
-              <></>
             )}
             <p>{session?.user?.name}</p>
           </div>

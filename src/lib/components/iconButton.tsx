@@ -5,7 +5,7 @@ import { MouseEventHandler, ReactElement } from "react";
 
 interface Props {
   children: ReactElement;
-  description: string;
+  description?: string;
   onClick?: MouseEventHandler;
   href?: string;
 }

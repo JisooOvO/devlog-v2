@@ -76,9 +76,12 @@ const Posts: React.FC<Props> = async ({
     },
   });
 
+  // const posts: Content[] = [];
+  // const maximum = 0;
+
   return posts.length !== 0 ? (
     <div className="post-layout">
-      <PostTitle
+      <PostSectionTitle
         showSeries={showSeries}
         seriesName={seriesName}
         topicId={topicId}
@@ -97,7 +100,7 @@ const Posts: React.FC<Props> = async ({
 
 // --------------------------------------------------------------------------
 
-const PostTitle: React.FC<Props & { maximum: number }> = ({
+const PostSectionTitle: React.FC<Props & { maximum: number }> = ({
   showSeries,
   seriesName,
   topicId,

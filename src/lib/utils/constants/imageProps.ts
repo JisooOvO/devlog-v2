@@ -1,4 +1,4 @@
-export const PLACEHOLDER = "/placeholder/placeholder.jpg";
+export const PLACEHOLDER = "/placeholder/placeholder.webp";
 
 export default interface IconProps {
   width: string;
