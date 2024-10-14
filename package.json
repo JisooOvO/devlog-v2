@@ -25,7 +25,8 @@
     "rehype-raw": "^7.0.0",
     "rehype-sanitize": "^6.0.0",
     "remark-gfm": "^4.0.0",
-    "styled-components": "^6.1.12"
+    "styled-components": "^6.1.12",
+    "vercel": "^37.8.0"
   },
   "devDependencies": {
     "@types/node": "^20",
