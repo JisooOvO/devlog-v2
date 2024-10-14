@@ -3,8 +3,6 @@
 import "@/style/comment.css";
 import CommentWrite from "./commentWrite";
 import { User } from "@prisma/client";
-import Image from "next/image";
-import { PLACEHOLDER } from "@/lib/utils/constants/imageProps";
 import {
   Dispatch,
   ReactNode,
@@ -21,6 +19,7 @@ import LeftArrowIcon from "@/lib/icons/leftArrow";
 import RightArrowIcon from "@/lib/icons/rightArrow";
 import { useSession } from "next-auth/react";
 import checkAuth from "@/lib/utils/functions/checkAuth";
+import ImageContainer from "../../imageContainer";
 
 interface CommentProps {
   postId: string | undefined;
@@ -158,11 +157,11 @@ const CommentList: React.FC<CommentListProps> = ({
           <div className="comment-user-container">
             <div className="comment-user-info">
               <div className="comment-user-image">
-                <Image
-                  src={comment.user?.image ?? PLACEHOLDER}
-                  alt="user image"
-                  fill
-                  sizes="100% 100%"
+                <ImageContainer
+                  width="1.5rem"
+                  height="1.5rem"
+                  src={comment.user?.image}
+                  alt="유저 이미지"
                 />
               </div>
               <p>{comment.user.name ?? ""}</p>

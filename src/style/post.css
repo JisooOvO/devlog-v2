@@ -42,10 +42,7 @@
 }
 
 .post-thumbnail {
-  width: 100%;
-  height: 10rem;
   margin-bottom: 1rem;
-  position: relative;
   display: flex;
   flex-direction: column;
 }
@@ -53,7 +50,9 @@
 .post-thumbnail img {
   border-top-left-radius: 0.75rem;
   border-top-right-radius: 0.75rem;
-  object-fit: cover;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  object-fit: fill;
 }
 
 .post-contents {
@@ -83,7 +82,7 @@
   justify-content: space-between;
 }
 
-.post-detail p{
+.post-detail p {
   margin: 0;
 }
 
@@ -98,12 +97,6 @@
 
 .post-author p {
   margin: 0;
-}
-
-.post-author-img {
-  position: relative;
-  width: 1.5rem;
-  height: 1.5rem;
 }
 
 .post-author img {

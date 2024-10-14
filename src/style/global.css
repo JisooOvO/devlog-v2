@@ -206,6 +206,10 @@ select:hover {
   display: none !important;
 }
 
+.relative {
+  position: relative;
+}
+
 .not-found {
   flex-grow: 1;
   display: flex;

@@ -1,5 +1,6 @@
 "use client";
 
+import "@/style/writeModal.css";
 import { RootState } from "@/lib/utils/store";
 import { PostAction, PostActionType } from "@/lib/utils/reducers/postReducer";
 import { Dispatch } from "@reduxjs/toolkit";
@@ -7,11 +8,10 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { Dispatch as SetState, SetStateAction } from "react";
 import { Content } from "@/lib/utils/constants/postProps";
-import Image from "next/image";
 import handleOnChange from "../../../utils/functions/uploadThumbnailFunc";
-import "@/style/writeModal.css";
 import IconButton from "@/lib/components/iconButton";
 import UploadIcon from "@/lib/icons/upload";
+import ImageContainer from "../../imageContainer";
 
 interface ModalWriteProps {
   setIsOpen: SetState<SetStateAction<boolean>>;
@@ -80,11 +80,11 @@ const ThumbnailContainer: React.FC<ThumbProps> = ({
       </div>
       <div className="thumbnail-preview">
         {post?.thumbnail?.path ? (
-          <Image
-            className="post-thumbnail"
+          <ImageContainer
+            width="100%"
+            height="100%"
             src={post.thumbnail.path}
-            alt="Thumbnail"
-            fill
+            alt="썸네일"
           />
         ) : (
           <>

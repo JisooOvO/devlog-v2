@@ -6,7 +6,7 @@ const NotFound = () => {
     <div className="not-found">
       <h1>404 | Page Not Found</h1>
       <p>요청하신 페이지를 찾을 수 없습니다</p>
-      <BackButton flag={false} />
+      <BackButton isCheckUser={false} />
     </div>
   );
 };

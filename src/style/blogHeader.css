@@ -48,11 +48,3 @@ nav {
 .header-user-container img {
   border-radius: 50%;
 }
-
-.heaeder-user-info {
-  position: relative;
-  width: 1.5rem;
-  height: 1.5rem;
-  border-radius: 50%;
-  border: 1px solid var(--bgColor-neutral-muted);
-}
