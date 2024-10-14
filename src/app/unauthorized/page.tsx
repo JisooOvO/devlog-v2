@@ -1,5 +1,5 @@
 import "@/style/unauthorized.css";
-import BackButton from "./components/backButton";
+import BackButton from "../../lib/components/backButton";
 
 const UnauthorizedPage = () => {
   return (

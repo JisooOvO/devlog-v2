@@ -7,23 +7,23 @@ import {
   useEffect,
   useRef,
 } from "react";
-import MarkdownEditor from "./components/markdownEditor";
+import MarkdownEditor from "../../lib/components/pages/write/markdownEditor";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
 import { PostAction, PostActionType } from "@/lib/store/postReducer";
 import { Dispatch } from "@reduxjs/toolkit";
-import handleSubmit from "./func/submitFunc";
+import handleSubmit from "../../lib/func/submitFunc";
 import CustomModal from "@/lib/components/customModal";
 import ContentsView from "@/lib/components/contentsView";
 import { useSession } from "next-auth/react";
-import TopicContainer from "./components/topicContainer";
+import TopicContainer from "../../lib/components/pages/write/topicContainer";
 import { Content } from "@/lib/constant/postProps";
 import { Series, Thumbnail } from "@prisma/client";
-import ModalWrite from "./components/modalWrite";
+import ModalWrite from "../../lib/components/pages/write/modalWrite";
 import "@/style/write.css";
-import changeTopic from "./func/changeTopic";
+import changeTopic from "../../lib/func/changeTopic";
 
 const WritePage = () => {
   const newPost = useSelector((state: RootState) => state.post);
@@ -62,7 +62,7 @@ const WritePage = () => {
       const thumbs: Array<Thumbnail> = data.thumbnails ?? [];
       setThumbnails(
         (prev) =>
-          new Set([...Array.from(prev), ...thumbs?.map((thumb) => thumb.path)]),
+          new Set([...Array.from(prev), ...thumbs?.map((thumb) => thumb.path)])
       );
     };
 

@@ -2,15 +2,15 @@ import { Content } from "@/lib/constant/postProps";
 import ContentsView from "@/lib/components/contentsView";
 import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
-import PostController from "./components/postController";
+import PostController from "../../../lib/components/pages/post/postController";
 import Posts from "@/lib/components/posts";
 import Link from "next/link";
 import IconButton from "@/lib/components/iconButton";
 import RightArrowIcon from "@/lib/icons/rightArrow";
 import LeftArrowIcon from "@/lib/icons/leftArrow";
-import CommentContainer from "./components/commentContainer";
+import CommentContainer from "../../../lib/components/pages/post/commentContainer";
 import { Metadata, ResolvingMetadata } from "next";
-import getPostByTitle from "./func/getPostByTitle";
+import getPostByTitle from "../../../lib/func/getPostByTitle";
 import { metadata } from "@/app/layout";
 
 export const revalidate = 10;

@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { Dispatch as SetState, SetStateAction } from "react";
 import { Content } from "@/lib/constant/postProps";
 import Image from "next/image";
-import handleOnChange from "../func/uploadThumbnailFunc";
+import handleOnChange from "../../../func/uploadThumbnailFunc";
 import "@/style/writeModal.css";
 import IconButton from "@/lib/components/iconButton";
 import UploadIcon from "@/lib/icons/upload";
@@ -170,7 +170,7 @@ const ButtonConatiner: React.FC<ButtonProps> = ({
                 dispatch({ type: PostActionType.CLEAR });
                 window.location.href = `/post/${jsonData["title"].replaceAll(
                   " ",
-                  "-",
+                  "-"
                 )}`;
                 break;
             }
