@@ -48,3 +48,9 @@ nav {
 .header-user-container img {
   border-radius: 50%;
 }
+
+@media (max-width: 1200px) {
+  header {
+    padding: var(--default-y-margin) var(--mobile-x-margin);
+  }
+}

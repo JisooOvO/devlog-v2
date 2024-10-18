@@ -20,6 +20,8 @@ interface Props {
 
 const size = "1rem";
 
+const defaultTake = 12;
+
 const Posts: React.FC<Props> = async ({
   topicId,
   seriesName,
@@ -46,8 +48,8 @@ const Posts: React.FC<Props> = async ({
     orderBy: {
       createdAt: orderRule ? orderRule : "desc",
     },
-    skip: (take ?? 9) * ((page ?? 1) - 1),
-    take: (take ?? 9) * (page ?? 1),
+    skip: (take ?? defaultTake) * ((page ?? 1) - 1),
+    take: (take ?? defaultTake) * (page ?? 1),
     include: {
       _count: {
         select: {
@@ -90,7 +92,11 @@ const Posts: React.FC<Props> = async ({
       />
       <PostContainer posts={posts} />
       {page ? (
-        <PostPageButton page={page} take={take ?? 9} maximum={maximum} />
+        <PostPageButton
+          page={page}
+          take={take ?? defaultTake}
+          maximum={maximum}
+        />
       ) : null}
     </div>
   ) : (
