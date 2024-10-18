@@ -12,6 +12,7 @@ import CommentContainer from "../../../lib/components/pages/post/commentContaine
 import { Metadata, ResolvingMetadata } from "next";
 import getPostByTitle from "../../../lib/utils/functions/getPostByTitle";
 import { metadata } from "@/app/layout";
+import PostIndexer from "@/lib/components/pages/post/postIndexer";
 
 export const revalidate = 10;
 export const dynamicParams = true;
@@ -92,6 +93,7 @@ const PostPage: React.FC<{ params: Params }> = async ({ params }) => {
         />
       </div>
       <PostController post={content} />
+      <PostIndexer />
     </>
   );
 };

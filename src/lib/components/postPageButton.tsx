@@ -32,7 +32,7 @@ const PostPageButton: React.FC<Props> = ({ page, take, maximum }) => {
         <div style={{ width: arrowSize, height: arrowSize }}></div>
       )}
       <span>{pageNumber}</span>
-      {pageNumber * take <= maximum ? (
+      {pageNumber * take < maximum ? (
         <IconButton
           description="다음"
           onClick={() => {

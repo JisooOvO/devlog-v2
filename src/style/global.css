@@ -169,7 +169,7 @@ select:hover {
   padding: 0.2rem 0.4rem;
   white-space: break-spaces;
   background-color: var(--bgColor-soft-grey);
-  color : var(--highlight-color);
+  color: var(--highlight-color);
   border-radius: 6px;
   font-family: "Pretendard-Regular", sans-serif;
   font-weight: 600;
@@ -226,10 +226,6 @@ select:hover {
         var(--default-y-margin)
     );
     width: var(--available-mobile-width);
-  }
-
-  header {
-    padding: var(--default-y-margin) var(--mobile-x-margin);
   }
 }
 
