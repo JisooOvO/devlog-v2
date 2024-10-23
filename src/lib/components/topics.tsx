@@ -18,9 +18,7 @@ const Topics: React.FC<TopicProps> = async ({
   seriesName,
   showSeries,
 }) => {
-  const topics: (Topic & {
-    series: { name: string }[];
-  })[] = await prisma.topic.findMany({
+  const topics = await prisma.topic.findMany({
     where: {
       name: {
         not: "",
@@ -76,8 +74,6 @@ const TopicContainer: React.FC<TopicProps> = ({ topicName, topics }) => {
 };
 
 // --------------------------------------------------------------------------
-
-const size = "1.5rem";
 
 const SeriesContainer: React.FC<TopicProps> = ({
   topicName,

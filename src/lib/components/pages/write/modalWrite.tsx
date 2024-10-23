@@ -21,6 +21,7 @@ interface ModalWriteProps {
 const ModalWrite: React.FC<ModalWriteProps> = ({ setIsOpen, thumbnails }) => {
   const post = useSelector((state: RootState) => state.post);
   const dispatch: Dispatch<PostAction> = useDispatch();
+
   return (
     <div>
       <h2>글 저장하기</h2>
@@ -55,7 +56,8 @@ const ThumbnailContainer: React.FC<ThumbProps> = ({
       <p>썸네일</p>
       <div className="thumbnail-selector">
         <select
-          value={post?.thumbnail?.path}
+          id="thumbnail-select"
+          value={post?.thumbnail?.path ?? ""}
           onChange={(e) => {
             dispatch({
               type: PostActionType.SET_THUMBNAIL,

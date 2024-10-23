@@ -15,7 +15,7 @@ const BlogFooter: React.FC = () => {
           <ImageContainer
             width="8rem"
             height="8rem"
-            src={"/profile/profile.jpeg"}
+            src={"/profile/profile.webp"}
             alt="프로필"
           />
         </div>

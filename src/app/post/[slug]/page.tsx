@@ -42,8 +42,6 @@ export async function generateMetadata(
   { params }: MetaProps,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const slug = params.slug;
-
   const post = await getPostByTitle(
     decodeURIComponent(params.slug.replace(/-/g, " "))
   );
@@ -54,6 +52,7 @@ export async function generateMetadata(
     ...metadata,
     title: post?.title,
     openGraph: {
+      ...metadata.openGraph,
       title: post?.title,
       description: post?.description,
       images: [post?.thumbnail?.path ?? "", ...previousImages],
