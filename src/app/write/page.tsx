@@ -147,7 +147,7 @@ const TitleInput: React.FC<TitleProps> = ({ title, dispatch, setIsWrite }) => {
             setIsWrite(false);
           }
         }}
-        pattern="[a-zA-Z0-9ㄱ-ㅣ가-힣\s,.?!@#$%^&\(\)\{\}\[\]]{2,30}$"
+        pattern="[a-zA-Z0-9ㄱ-ㅣ가-힣\s,.!@#$%^&\(\)\{\}\[\]]{2,30}$"
         spellCheck={false}
       />
     </>

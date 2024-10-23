@@ -1,8 +1,8 @@
 import Posts from "@/lib/components/posts";
 import Topics from "@/lib/components/topics";
+import isValidPage from "@/lib/utils/functions/isValidPage";
 
-export const revalidate = 10;
-export const dynamicParams = true;
+export const revalidate = 60;
 
 interface Props {
   searchParams: { [key: string]: string | undefined };
@@ -10,10 +10,6 @@ interface Props {
 
 const HomePage: React.FC<Props> = async ({ searchParams }) => {
   const pageParam = searchParams["page"];
-
-  const isValidPage = (param: string | undefined): boolean => {
-    return !isNaN(Number(param)) && Number(param) > 0;
-  };
 
   const page = pageParam && isValidPage(pageParam) ? parseInt(pageParam) : 1;
 

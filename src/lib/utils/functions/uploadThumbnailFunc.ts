@@ -33,9 +33,17 @@ const handleOnChange = async ({ event, dispatch }: Props) => {
         dispatch({
           type: PostActionType.SET_THUMBNAIL,
           payload: {
-            thumbnail: path,
+            thumbnail: {
+              path: path,
+            },
           },
         });
+
+        const select = document.querySelector(
+          "#thumbnail-select"
+        ) as HTMLSelectElement;
+
+        select.value = path;
         break;
       default:
         const jsonData = await response.json();

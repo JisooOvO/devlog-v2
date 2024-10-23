@@ -1,0 +1,14 @@
+# *
+User-agent: *
+Allow: /
+Allow: /topic/*
+Allow: /post/*
+Disallow: /unauthorized
+Disallow: /manage
+Disallow: /write
+
+# Host
+Host: https://jisoo-devlog.vercel.app/
+
+# Sitemaps
+Sitemap: https://jisoo-devlog.vercel.app/sitemap.xml

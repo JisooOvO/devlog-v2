@@ -103,6 +103,8 @@ const MarkdownRender: React.FC<Props> = ({ post }) => {
               "blockquote",
               "hr",
               "del",
+              "sup",
+              "sub",
             ],
           },
         ],
