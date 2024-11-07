@@ -56,7 +56,6 @@ const updateLike = async (token: JWT, req: NextRequest) => {
 
     return NextResponse.json({ likes: post?._count.likes }, { status: 200 });
   } catch (error) {
-    console.log(error);
     return NextResponse.json(
       { message: "수정에 실패하였습니다", error },
       { status: 500 }

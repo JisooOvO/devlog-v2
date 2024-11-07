@@ -1,7 +1,6 @@
-import { Content } from "@/lib/utils/constants/postProps";
+import Content from "@/lib/types/content";
 import ContentsView from "@/lib/components/contentsView";
 import prisma from "@/lib/utils/prisma";
-import { notFound } from "next/navigation";
 import PostController from "../../../lib/components/pages/post/postController";
 import Posts from "@/lib/components/posts";
 import Link from "next/link";
@@ -9,12 +8,12 @@ import IconButton from "@/lib/components/iconButton";
 import RightArrowIcon from "@/lib/icons/rightArrow";
 import LeftArrowIcon from "@/lib/icons/leftArrow";
 import CommentContainer from "../../../lib/components/pages/post/commentContainer";
-import { Metadata, ResolvingMetadata } from "next";
 import getPostByTitle from "../../../lib/utils/functions/getPostByTitle";
-import { metadata } from "@/app/layout";
 import PostIndexer from "@/lib/components/pages/post/postIndexer";
+import { notFound } from "next/navigation";
+import { Metadata, ResolvingMetadata } from "next";
+import { metadata } from "@/app/layout";
 
-export const revalidate = 10;
 export const dynamicParams = true;
 
 export async function generateStaticParams() {

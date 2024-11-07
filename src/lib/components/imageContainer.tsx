@@ -1,6 +1,6 @@
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import Image from "next/image";
-import { PLACEHOLDER } from "../utils/constants/imageProps";
+import { PLACEHOLDER } from "../types/icon";
 
 interface Props {
   width: string;

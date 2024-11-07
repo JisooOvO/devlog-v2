@@ -1,25 +1,20 @@
 "use client";
 
 import "@/style/comment.css";
-import CommentWrite from "./commentWrite";
-import { User } from "@prisma/client";
-import {
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import getDateKoreanString from "@/lib/utils/functions/getDateKoreanString";
 import IconButton from "@/lib/components/iconButton";
 import DeleteIcon from "@/lib/icons/delete";
 import EditIcon from "@/lib/icons/edit";
 import LeftArrowIcon from "@/lib/icons/leftArrow";
 import RightArrowIcon from "@/lib/icons/rightArrow";
-import { useSession } from "next-auth/react";
-import checkAuth from "@/lib/utils/functions/checkAuth";
 import ImageContainer from "../../imageContainer";
+import useFetchData from "@/lib/hooks/useFetchData";
+import CommentWrite from "./commentWrite";
+import { User } from "@prisma/client";
+import { useSession } from "next-auth/react";
+import { Session } from "next-auth";
+import { defaultCommentTake } from "@/lib/constants/constants";
 
 interface CommentProps {
   postId: string | undefined;
@@ -32,68 +27,114 @@ export interface Comment {
   createdAt: string;
 }
 
+export type keyCommnad = "delete" | "update" | "add" | "";
+
 const CommentContainer: React.FC<CommentProps> = ({ postId }) => {
-  const [commentList, setCommentList] = useState<Array<Comment>>([]);
-  const [hasNewContent, setHasNewContent] = useState<boolean>(false);
+  const [comments, setComments] = useState<Map<string, Comment>>(new Map());
+  const [changedKey, setChangedKey] = useState<[keyCommnad, Comment | null]>([
+    "",
+    null,
+  ]);
+  const [maximum, setMaximum] = useState<number>(defaultCommentTake);
   const [page, setPage] = useState<number>(1);
-  const [maximum, setMaximum] = useState<number>(0);
+
+  const { data, fetchData } = useFetchData(
+    `/api/public/comments`,
+    {
+      comments: new Array<Comment>(),
+      maximum: 0,
+    },
+    false
+  );
 
   useEffect(() => {
     if (postId) {
-      const fetchData = async () => {
-        const response = await fetch(`/api/comment?page=${page}`);
-        const jsonData = await response.json();
-        const comments: Array<Comment> = jsonData["comments"];
-        setCommentList(comments);
-        setMaximum(jsonData["maximum"]);
-      };
-
-      fetchData();
+      fetchData({ method: "get" }, { page, postId });
     }
   }, [page, postId]);
+
+  useEffect(() => {
+    if (data?.comments) {
+      setComments((prev) => {
+        const newComments = new Map(prev);
+        for (let i = 0; i < data.comments.length; i++) {
+          const targetComment = data.comments[i];
+          if (!newComments.has(data.comments[i].id)) {
+            newComments.set(targetComment.id, targetComment);
+          }
+        }
+
+        const sortedComments = new Map(
+          Array.from(newComments).sort((a, b) => a[0].localeCompare(b[0]))
+        );
+
+        return sortedComments;
+      });
+    }
+
+    setMaximum(data?.maximum ?? 0);
+  }, [data]);
+
+  // 댓글 추가, 삭제
+  useEffect(() => {
+    if (changedKey) {
+      setComments((prev) => {
+        const newComments = new Map(prev);
+        const commentKey = changedKey[0];
+        const targetComment = changedKey[1];
+
+        if (targetComment) {
+          switch (commentKey) {
+            case "add":
+              newComments.set(targetComment.id, targetComment);
+              setMaximum((prev) => prev + 1);
+              break;
+            case "delete":
+              newComments.delete(targetComment.id);
+              setMaximum((prev) => prev - 1);
+              break;
+            case "update":
+              const updatedComment = newComments.get(targetComment.id);
+
+              if (updatedComment) {
+                updatedComment.content = targetComment.content;
+              }
+              break;
+          }
+        }
+
+        return newComments;
+      });
+    }
+  }, [changedKey, setMaximum]);
+
+  // 댓글 페이지 자동 이동
+  useEffect(() => {
+    let targetPage = Math.ceil(maximum / defaultCommentTake);
+
+    if (targetPage < 1) {
+      targetPage = 1;
+    }
+
+    setPage(targetPage);
+  }, [maximum, defaultCommentTake, setPage]);
 
   if (!postId) return null;
 
   return (
     <div className="comment-layout">
-      <CommentWrite
-        postId={postId}
-        setCommentList={setCommentList}
-        setHasNewContent={setHasNewContent}
-      />
+      <CommentWrite postId={postId} setChangedKey={setChangedKey} />
       <CommentList
-        commentList={commentList}
-        setCommentList={setCommentList}
-        hasNewContent={hasNewContent}
-        setHasNewContent={setHasNewContent}
+        page={page}
+        commentList={comments}
+        changedKey={changedKey}
+        setChangedKey={setChangedKey}
       />
-      <div className="comment-page-container">
-        {page > 1 ? (
-          <IconButton
-            description="이전"
-            onClick={() => {
-              setPage(page > 1 ? page - 1 : 1);
-            }}
-          >
-            <LeftArrowIcon width={size} height={size} />
-          </IconButton>
-        ) : (
-          <div></div>
-        )}
-        <p>{page}</p>
-        {page * 10 < maximum ? (
-          <IconButton
-            description="다음"
-            onClick={() => {
-              setPage(page + 1);
-            }}
-          >
-            <RightArrowIcon width={size} height={size} />
-          </IconButton>
-        ) : (
-          <div></div>
-        )}
-      </div>
+      <CommentPagingContainer
+        page={page}
+        maximum={maximum ?? 0}
+        setPage={setPage}
+      />
       <hr />
     </div>
   );
@@ -101,38 +142,86 @@ const CommentContainer: React.FC<CommentProps> = ({ postId }) => {
 
 // --------------------------------------------------------------------------
 
+interface CommentPagingContainerProps {
+  page: number;
+  maximum: number;
+  setPage: Dispatch<SetStateAction<number>>;
+}
+
+const CommentPagingContainer: React.FC<CommentPagingContainerProps> = ({
+  page,
+  maximum,
+  setPage,
+}) => {
+  return (
+    <div className="comment-page-container">
+      {page > 1 ? (
+        <IconButton
+          description="이전"
+          onClick={() => {
+            setPage(page > 1 ? page - 1 : 1);
+          }}
+        >
+          <LeftArrowIcon width={size} height={size} />
+        </IconButton>
+      ) : (
+        <div></div>
+      )}
+      <p>{page}</p>
+      {page * defaultCommentTake < maximum ? (
+        <IconButton
+          description="다음"
+          onClick={() => {
+            setPage(page + 1);
+          }}
+        >
+          <RightArrowIcon width={size} height={size} />
+        </IconButton>
+      ) : (
+        <div></div>
+      )}
+    </div>
+  );
+};
+
+// --------------------------------------------------------------------------
+
 interface CommentListProps {
-  commentList: Array<Comment>;
-  setCommentList: Dispatch<SetStateAction<Array<Comment>>>;
-  hasNewContent: boolean;
-  setHasNewContent: Dispatch<SetStateAction<boolean>>;
+  page: number;
+  commentList?: Map<string, Comment>;
+  changedKey: [keyCommnad, Comment | null];
+  setChangedKey: Dispatch<SetStateAction<[keyCommnad, Comment | null]>>;
 }
 
 const size = "1.5rem";
 
 const CommentList: React.FC<CommentListProps> = ({
+  page,
   commentList,
-  setCommentList,
-  hasNewContent,
-  setHasNewContent,
+  changedKey,
+  setChangedKey,
 }) => {
-  const [comments, setComments] = useState<ReactNode>(null);
-  const [isClick, setIsClick] = useState<boolean>(false);
-  const [isOwner, setIsOwner] = useState<boolean>(false);
   const newCommentRef = useRef<HTMLDivElement | null>(null);
 
-  const { data } = useSession();
+  const { data: session } = useSession();
+
+  const { data: role, fetchData } = useFetchData(
+    "/api/auth/users",
+    "guest",
+    false
+  );
 
   useEffect(() => {
-    const checkEmail = async () => {
-      if (await checkAuth(data?.user?.email)) setIsOwner(true);
-    };
-
-    checkEmail();
-  }, [data]);
+    if (session?.user?.email) {
+      fetchData({
+        method: "POST",
+        body: JSON.stringify({ email: session?.user?.email }),
+      });
+    }
+  }, [session?.user?.email]);
 
   useEffect(() => {
-    if (newCommentRef.current) {
+    if (newCommentRef.current && changedKey[0] === "add") {
       const commentPosition =
         newCommentRef.current.getBoundingClientRect().top + window.scrollY;
 
@@ -140,148 +229,201 @@ const CommentList: React.FC<CommentListProps> = ({
         top: commentPosition - 8 * 16,
         behavior: "instant",
       });
-
-      setHasNewContent(false);
     }
-  }, [hasNewContent, setHasNewContent]);
+  }, [changedKey, newCommentRef]);
+
+  const pagingCommentList = Array.from(commentList?.values()!).slice(
+    (page - 1) * 10,
+    page * 10
+  );
+
+  return (
+    <div className="comment-list">
+      {pagingCommentList.map((comment, index) => {
+        if (!comment?.user) return;
+
+        return (
+          <div
+            className="comment"
+            key={`comment${index}`}
+            ref={index === pagingCommentList.length - 1 ? newCommentRef : null}
+          >
+            <CommentHeader
+              commentList={commentList}
+              comment={comment}
+              session={session}
+              role={role}
+              index={index}
+              setChangedKey={setChangedKey}
+            />
+            <p id={`comment${index}`} className="comment-content">
+              {comment.content}
+            </p>
+            <div id={`commentEdit${index}`} className="comment-edit hidden">
+              <textarea
+                spellCheck={false}
+                className="comment-content"
+                placeholder={comment.content}
+                onFocus={(e) => {
+                  e.target.value = comment.content;
+                }}
+                onChange={(e) => {
+                  comment.content = e.target.value;
+                }}
+              />
+              <CommentRegisterButton
+                comment={comment}
+                index={index}
+                setChangedKey={setChangedKey}
+              />
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+//----------------------------------------------------------
+
+interface CommentHeaderProps {
+  commentList: Map<string, Comment> | undefined;
+  comment: Comment;
+  session: Session | null;
+  role: string | null;
+  index: number;
+  setChangedKey: Dispatch<SetStateAction<[keyCommnad, Comment | null]>>;
+}
+
+const CommentHeader: React.FC<CommentHeaderProps> = ({
+  comment,
+  session,
+  role,
+  index,
+  setChangedKey,
+}) => {
+  const {
+    data: deletedComment,
+    isLoading,
+    fetchData,
+  } = useFetchData("/api/user/comments", null, false);
 
   useEffect(() => {
-    const commentsElements = commentList?.map((comment, index) => {
-      if (!comment?.user) return;
-      return (
-        <div
-          className="comment"
-          key={`comment${index}`}
-          ref={index === commentList.length - 1 ? newCommentRef : null}
-        >
-          <div className="comment-user-container">
-            <div className="comment-user-info">
-              <div className="comment-user-image">
-                <ImageContainer
-                  width="1.5rem"
-                  height="1.5rem"
-                  src={comment.user?.image}
-                  alt="유저 이미지"
-                />
-              </div>
-              <p>{comment.user.name ?? ""}</p>
-              <p className="comment-date">
-                {getDateKoreanString(new Date(comment.createdAt), true)}
-              </p>
-            </div>
-            <div className="comment-controller">
-              {data?.user?.email === comment.user.email ? (
-                <IconButton
-                  description="수정하기"
-                  onClick={() => {
-                    const p = document.querySelector(`#comment${index}`);
-                    const textarea = document.querySelector(
-                      `#commentEdit${index}`
-                    ) as HTMLTextAreaElement;
-                    p?.classList.toggle("hidden");
-                    textarea.classList.toggle("hidden");
-                  }}
-                >
-                  <EditIcon width={size} height={size} />
-                </IconButton>
-              ) : (
-                <div></div>
-              )}
-              {isOwner || data?.user?.email === comment.user.email ? (
-                <IconButton
-                  description="삭제하기"
-                  onClick={() => {
-                    const fetchData = async () => {
-                      const response = await fetch("/api/comment", {
-                        method: "DELETE",
-                        body: JSON.stringify({ comment }),
-                      });
+    if (deletedComment) {
+      setChangedKey(() => ["delete", deletedComment]);
+    }
+  }, [deletedComment]);
 
-                      const jsonData = await response.json();
-
-                      switch (response.status) {
-                        case 200:
-                          setCommentList((prev) => {
-                            return [...prev.filter((c) => c.id !== comment.id)];
-                          });
-                          break;
-                        default:
-                          alert(jsonData["message"]);
-                          break;
-                      }
-                    };
-
-                    if (confirm("정말로 삭제하시겠습니까?")) fetchData();
-                  }}
-                >
-                  <DeleteIcon width={size} height={size} />
-                </IconButton>
-              ) : (
-                <div></div>
-              )}
-            </div>
-          </div>
-          <p id={`comment${index}`} className="comment-content">
-            {comment.content}
-          </p>
-          <div id={`commentEdit${index}`} className="comment-edit hidden">
-            <textarea
-              spellCheck={false}
-              className="comment-content"
-              placeholder={comment.content}
-              onFocus={(e) => {
-                e.target.value = comment.content;
-              }}
-              onChange={(e) => {
-                comment.content = e.target.value;
-              }}
-            />
-            <button
-              className="custom-button"
-              onClick={() => {
-                const fetchData = async () => {
-                  if (comment.content.length <= 0 || isClick) return;
-
-                  setIsClick(true);
-
-                  const response = await fetch("/api/comment", {
-                    method: "PUT",
-                    body: JSON.stringify({ comment }),
-                  });
-
-                  const jsonData = await response.json();
-
-                  switch (response.status) {
-                    case 200:
-                      setCommentList((prev) => [...prev]);
-                      const p = document.querySelector(`#comment${index}`);
-                      const textarea = document.querySelector(
-                        `#commentEdit${index}`
-                      );
-                      p?.classList.remove("hidden");
-                      textarea?.classList.add("hidden");
-                      break;
-                    default:
-                      alert(jsonData["message"]);
-                  }
-
-                  setIsClick(false);
-                };
-
-                fetchData();
-              }}
-            >
-              등록
-            </button>
-          </div>
+  return (
+    <div className="comment-user-container">
+      <div className="comment-user-info">
+        <div className="comment-user-image">
+          <ImageContainer
+            width="1.5rem"
+            height="1.5rem"
+            src={comment.user?.image}
+            alt="유저 이미지"
+          />
         </div>
-      );
-    });
+        <p>{comment.user.name ?? ""}</p>
+        <p className="comment-date">
+          {getDateKoreanString(new Date(comment.createdAt), true)}
+        </p>
+      </div>
+      <div className="comment-controller">
+        {session?.user?.email === comment.user.email ? (
+          <IconButton
+            description="수정하기"
+            onClick={() => {
+              const p = document.querySelector(`#comment${index}`);
+              const textarea = document.querySelector(`#commentEdit${index}`);
 
-    setComments(commentsElements);
-  }, [commentList, data?.user?.email, isClick, isOwner, setCommentList]);
+              p?.classList.toggle("hidden");
+              textarea?.classList.toggle("hidden");
+            }}
+          >
+            <EditIcon width={size} height={size} />
+          </IconButton>
+        ) : (
+          <div></div>
+        )}
+        {role === "owner" || session?.user?.email === comment.user.email ? (
+          <IconButton
+            description="삭제하기"
+            onClick={() => {
+              if (!confirm("정말로 삭제하시겠습니까?")) return;
 
-  return <div className="comment-list">{comments}</div>;
+              if (!isLoading) {
+                fetchData({
+                  method: "DELETE",
+                  body: JSON.stringify({
+                    comment,
+                    email: session?.user?.email,
+                  }),
+                });
+              }
+            }}
+          >
+            <DeleteIcon width={size} height={size} />
+          </IconButton>
+        ) : (
+          <div></div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+//----------------------------------------------------------
+
+interface CommentRegisterProps {
+  comment: Comment;
+  index: number;
+  setChangedKey: Dispatch<SetStateAction<[keyCommnad, Comment | null]>>;
+}
+
+const CommentRegisterButton: React.FC<CommentRegisterProps> = ({
+  comment,
+  index,
+  setChangedKey,
+}) => {
+  const {
+    data: updatedComment,
+    isLoading,
+    fetchData,
+  } = useFetchData("/api/user/comments", null, false);
+
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (updatedComment) {
+      const p = document.querySelector(`#comment${index}`);
+      const textarea = document.querySelector(`#commentEdit${index}`);
+
+      p?.classList.remove("hidden");
+      textarea?.classList.add("hidden");
+
+      setChangedKey(() => ["update", updatedComment]);
+    }
+  }, [updatedComment]);
+
+  return (
+    <button
+      className="custom-button"
+      onClick={() => {
+        if (comment.content.length <= 0) return;
+
+        if (!isLoading) {
+          fetchData({
+            method: "put",
+            body: JSON.stringify({ comment, email: session?.user?.email }),
+          });
+        }
+      }}
+    >
+      등록
+    </button>
+  );
 };
 
 export default CommentContainer;

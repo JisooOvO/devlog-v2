@@ -2,11 +2,12 @@
 
 import IconButton from "@/lib/components/iconButton";
 import DeleteIcon from "@/lib/icons/delete";
-import "@/style/manage.css";
-import { Item } from "../../../../app/manage/page";
 import EditIcon from "@/lib/icons/edit";
 import CustomModal from "@/lib/components/customModal";
-import { Dispatch, Fragment, SetStateAction, useState } from "react";
+import useFetchData from "@/lib/hooks/useFetchData";
+import { Item } from "../../../../app/admin/manage/page";
+import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
+import "@/style/manage.css";
 
 const size = "1.5rem";
 
@@ -23,11 +24,24 @@ const UpdateAndDelete: React.FC<Props> = ({
   item,
   modelName,
 }) => {
+  const lowerModelName = modelName.toLocaleLowerCase();
   const [isOpen, setIsOpen] = useState(false);
+  const {
+    data: deletedItemKey,
+    isLoading,
+    fetchData,
+  } = useFetchData(`/api/admin/${lowerModelName}`, "", false);
+
+  useEffect(() => {
+    if (deletedItemKey) {
+      window.location.reload();
+    }
+  }, [deletedItemKey]);
+
   return (
     <>
       <>
-        {canUpdate ? (
+        {canUpdate && (
           <IconButton
             description="수정하기"
             onClick={() => {
@@ -36,39 +50,24 @@ const UpdateAndDelete: React.FC<Props> = ({
           >
             <EditIcon width={size} height={size} />
           </IconButton>
-        ) : null}
-        {canDelete ? (
+        )}
+        {canDelete && (
           <IconButton
             description="삭제하기"
             onClick={() => {
-              const lowerModelName = modelName.toLocaleLowerCase();
-              if (confirm("정말로 삭제하시겠습니까?")) {
-                const fetchData = async () => {
-                  const response = await fetch(`/api/${lowerModelName}`, {
-                    method: "DELETE",
-                    body: JSON.stringify({
-                      [lowerModelName]: { ...item },
-                    }),
-                  });
-
-                  const jsonData = await response.json();
-
-                  alert(jsonData["message"]);
-
-                  switch (response.status) {
-                    case 200:
-                      window.location.reload();
-                      break;
-                  }
-                };
-
-                fetchData();
+              if (confirm("정말로 삭제하시겠습니까?") && !isLoading) {
+                fetchData({
+                  method: "DELETE",
+                  body: JSON.stringify({
+                    [lowerModelName]: { ...item },
+                  }),
+                });
               }
             }}
           >
             <DeleteIcon width={size} height={size} />
           </IconButton>
-        ) : null}
+        )}
       </>
       <CustomModal isOpen={isOpen}>
         <UpdateModal item={item} modelName={modelName} setIsOpen={setIsOpen} />
@@ -91,6 +90,19 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
   setIsOpen,
 }) => {
   const [target, setTarget] = useState<Item>(item);
+  const lowerModelName = modelName.toLocaleLowerCase();
+  const { data, isLoading, fetchData } = useFetchData(
+    `/api/admin/${lowerModelName}`,
+    "",
+    false
+  );
+
+  useEffect(() => {
+    if (data) {
+      setIsOpen(false);
+      window.location.reload();
+    }
+  }, [data, setIsOpen]);
 
   return (
     <div>
@@ -98,8 +110,9 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
       <div className="update-container">
         {Object.keys(item).map((key, idx) => {
           const propsKey = `${key}${idx}`;
-          if (key.toLocaleLowerCase().includes("id") || key.includes("At"))
+          if (key.toLocaleLowerCase().includes("id") || key.includes("At")) {
             return <Fragment key={propsKey}></Fragment>;
+          }
           return (
             <div key={propsKey}>
               <p className="update-key">{key}</p>
@@ -108,18 +121,13 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
                 className="update-input"
                 value={target[key as keyof Item]?.toString()}
                 onChange={(event) => {
-                  if (typeof item[key as keyof Item] === "string") {
-                    setTarget((prev) => {
-                      const updatedValue = event.target.value;
-                      return {
-                        ...prev,
-                        [key]:
-                          typeof prev[key as keyof Item] === "string"
-                            ? updatedValue
-                            : prev[key as keyof Item],
-                      };
-                    });
-                  }
+                  setTarget((prev) => {
+                    const updatedValue = event.target.value;
+                    return {
+                      ...prev,
+                      [key]: updatedValue,
+                    };
+                  });
                 }}
               />
             </div>
@@ -138,27 +146,14 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
         <button
           className="custom-button"
           onClick={() => {
-            const lowerModelName = modelName.toLocaleLowerCase();
-            const fetchData = async () => {
-              const response = await fetch(`/api/${lowerModelName}`, {
+            if (!isLoading) {
+              fetchData({
                 method: "PUT",
                 body: JSON.stringify({
                   [lowerModelName]: { ...target },
                 }),
               });
-
-              const jsonData = await response.json();
-
-              alert(jsonData["message"]);
-
-              switch (response.status) {
-                case 200:
-                  window.location.reload();
-                  break;
-              }
-            };
-
-            fetchData();
+            }
           }}
         >
           수정

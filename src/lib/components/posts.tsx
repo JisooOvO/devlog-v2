@@ -1,11 +1,12 @@
 import Link from "next/link";
 import prisma from "../utils/prisma";
-import "@/style/post.css";
 import getDateKoreanString from "@/lib/utils/functions/getDateKoreanString";
 import LikeContainer from "@/lib/components/likeContainer";
-import { Content } from "@/lib/utils/constants/postProps";
-import PostPageButton from "./postPageButton";
+import Content from "@/lib/types/content";
+import PostPageButton from "./pages/post/postPageButton";
 import ImageContainer from "./imageContainer";
+import { defaultTake } from "../constants/constants";
+import "@/style/post.css";
 
 interface Props {
   topicId?: string | undefined;
@@ -20,8 +21,6 @@ interface Props {
 
 const size = "1rem";
 
-const defaultTake = 12;
-
 const Posts: React.FC<Props> = async ({
   topicId,
   seriesName,
@@ -34,10 +33,10 @@ const Posts: React.FC<Props> = async ({
 }) => {
   const posts: Array<Content> = await prisma.post.findMany({
     where: {
-      ...(topicId !== undefined && { topicId: topicId }),
+      ...(topicId && { topicId: topicId }),
       published: true,
-      ...(postId !== undefined && { id: { not: postId } }),
-      ...(seriesId !== undefined && {
+      ...(postId && { id: { not: postId } }),
+      ...(seriesId && {
         OR: [
           {
             seriesId: topicId ? { not: seriesId } : seriesId,
@@ -77,9 +76,6 @@ const Posts: React.FC<Props> = async ({
       ...(seriesId && { seriesId: seriesId }),
     },
   });
-
-  // const posts: Content[] = [];
-  // const maximum = 0;
 
   return posts.length !== 0 ? (
     <div className="post-layout">

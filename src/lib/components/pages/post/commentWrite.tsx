@@ -1,21 +1,29 @@
 "use client";
 
-import { Dispatch, SetStateAction, useState } from "react";
-import { Comment } from "./commentContainer";
-
+import useFetchData from "@/lib/hooks/useFetchData";
+import { useSession } from "next-auth/react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Comment, keyCommnad } from "./commentContainer";
 interface Props {
   postId: string | undefined;
-  setCommentList: Dispatch<SetStateAction<Array<Comment>>>;
-  setHasNewContent: Dispatch<SetStateAction<boolean>>;
+  setChangedKey: Dispatch<SetStateAction<[keyCommnad, Comment | null]>>;
 }
 
-const CommentWrite: React.FC<Props> = ({
-  postId,
-  setCommentList,
-  setHasNewContent,
-}) => {
+const CommentWrite: React.FC<Props> = ({ postId, setChangedKey }) => {
   const [comment, setComment] = useState<string>("");
-  const [isClick, setIsClick] = useState<boolean>(false);
+  const { data: session } = useSession();
+  const {
+    data: newComment,
+    isLoading,
+    fetchData,
+  } = useFetchData("/api/user/comments", null, false);
+
+  useEffect(() => {
+    if (newComment) {
+      setChangedKey(() => ["add", newComment]);
+      setComment("");
+    }
+  }, [newComment]);
 
   return (
     <div className="comment-write">
@@ -31,34 +39,16 @@ const CommentWrite: React.FC<Props> = ({
           onClick={(e) => {
             e.preventDefault();
 
-            const fetchData = async () => {
-              if (comment.length <= 0 || isClick) return;
+            if (comment.length <= 0 || isLoading) return;
 
-              setIsClick(true);
-
-              const response = await fetch("/api/comment", {
-                method: "POST",
-                body: JSON.stringify({ comment, postId }),
-              });
-
-              const jsonData = await response.json();
-
-              switch (response.status) {
-                case 200:
-                  setComment("");
-                  setHasNewContent(true);
-                  setCommentList((prev) => {
-                    return [...prev, jsonData["newComment"]];
-                  });
-                  break;
-                default:
-                  alert(jsonData["message"]);
-              }
-
-              setIsClick(false);
-            };
-
-            fetchData();
+            fetchData({
+              method: "POST",
+              body: JSON.stringify({
+                comment,
+                postId,
+                email: session?.user?.email,
+              }),
+            });
           }}
         >
           등록
