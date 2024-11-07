@@ -1,11 +1,11 @@
-import { Content } from "@/lib/utils/constants/postProps";
+import Content from "@/lib/types/content";
 import { PostAction, PostActionType } from "@/lib/utils/reducers/postReducer";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import handleKeyUp from "../../../utils/functions/handleKeyUp";
 import handleKeyDown from "../../../utils/functions/handleKeyDown";
-import dragEndCallback, {
-  MARKDOWNAREA,
-} from "../../../utils/functions/dragEndCallback";
+import useFetchData from "@/lib/hooks/useFetchData";
+
+const MARKDOWNAREA = "markdown-area";
 
 interface mardownProps {
   post: Content;
@@ -20,11 +20,41 @@ const MarkdownEditor: React.FC<mardownProps> = ({
   post,
   dispatch,
 }) => {
-  const [img, setImg] = useState<string>("");
+  const { data, isLoading, fetchData } = useFetchData(
+    "/api/admin/upload",
+    "",
+    false
+  );
 
   useEffect(() => {
-    const handleDrop = (event: Event) =>
-      dragEndCallback(event as DragEvent, setImg);
+    const handleDrop = async (event: DragEvent) => {
+      event.preventDefault();
+
+      const targetElement = event.target as HTMLElement;
+
+      if (targetElement.id !== MARKDOWNAREA) return;
+
+      const fileList = event.dataTransfer?.files;
+
+      if (fileList && fileList.length > 0) {
+        const targetFile = fileList[0];
+
+        if (!targetFile.type.startsWith("image/")) return;
+
+        const formData = new FormData();
+
+        formData.append("image", targetFile);
+        formData.append("directory", "images");
+
+        if (!isLoading) {
+          fetchData({
+            method: "POST",
+            body: formData,
+          });
+        }
+      }
+    };
+
     const handleDragover = (event: Event) => event.preventDefault();
 
     window.addEventListener("drop", handleDrop);
@@ -34,22 +64,21 @@ const MarkdownEditor: React.FC<mardownProps> = ({
       window.removeEventListener("drop", handleDrop);
       window.removeEventListener("dragover", handleDragover);
     };
-  }, []);
+  }, [fetchData, isLoading]);
 
   useEffect(() => {
     const textarea = document.querySelector(
       `#${MARKDOWNAREA}`
     ) as HTMLTextAreaElement;
 
-    if (img.length !== 0) {
-      textarea.value += `<img src="${img}" alt="글 이미지"/>`;
+    if (data) {
+      textarea.value += `<img src="${data}" alt="글 이미지"/>`;
       dispatch({
         type: PostActionType.SET_CONTENTS,
         payload: { content: textarea.value },
       });
-      setImg("");
     }
-  }, [img, dispatch]);
+  }, [data, dispatch]);
 
   return (
     <div className="markdown">

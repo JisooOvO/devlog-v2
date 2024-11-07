@@ -1,8 +1,8 @@
 import Link from "next/link";
 import prisma from "../utils/prisma";
-import "@/style/topic.css";
 import { Topic } from "@prisma/client";
 import { Fragment } from "react";
+import "@/style/topic.css";
 
 interface TopicProps {
   topicName?: string;
@@ -36,13 +36,13 @@ const Topics: React.FC<TopicProps> = async ({
   return (
     <div className="topic-layout">
       <TopicContainer topicName={topicName} topics={topics} />
-      {showSeries ? (
+      {showSeries && (
         <SeriesContainer
           topicName={topicName}
           seriesName={seriesName}
           topics={topics}
         />
-      ) : null}
+      )}
     </div>
   );
 };

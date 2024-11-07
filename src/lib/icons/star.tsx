@@ -1,4 +1,4 @@
-import IconProps from "@/lib/utils/constants/imageProps";
+import IconProps from "@/lib/types/icon";
 
 const StarIcon: React.FC<IconProps> = ({ width, height, fill }) => {
   return (

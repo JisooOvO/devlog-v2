@@ -3,7 +3,7 @@
 import { PostAction, PostActionType } from "@/lib/utils/reducers/postReducer";
 import { Dispatch } from "@reduxjs/toolkit";
 import changeTopic from "../../../utils/functions/changeTopic";
-import { Topic } from "../../../../app/write/page";
+import { Topic } from "../../../../app/admin/write/page";
 import { Series } from "@prisma/client";
 import { useEffect, useRef, useState } from "react";
 
@@ -11,7 +11,7 @@ interface TopicProps {
   title: string;
   dispatch: Dispatch<PostAction>;
   actionType: PostActionType.SET_TOPIC | PostActionType.SET_SERIES;
-  topics: Array<Topic> | Array<Series> | undefined;
+  topics: Array<Topic> | Array<Series> | undefined | null;
   target: string | undefined;
 }
 
@@ -30,7 +30,7 @@ const TopicContainer: React.FC<TopicProps> = ({
   useEffect(() => {
     const inputTag = selectRef.current?.nextElementSibling;
 
-    if (topics === undefined && selectRef.current) {
+    if (selectRef.current) {
       selectRef.current.value = ADDTOPIC;
       inputTag?.classList.remove("hidden");
     } else {

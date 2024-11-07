@@ -11,7 +11,7 @@ interface Props {
 const HomePage: React.FC<Props> = async ({ searchParams }) => {
   const pageParam = searchParams["page"];
 
-  const page = pageParam && isValidPage(pageParam) ? parseInt(pageParam) : 1;
+  const page = isValidPage(pageParam) ? parseInt(pageParam!) : 1;
 
   return (
     <>

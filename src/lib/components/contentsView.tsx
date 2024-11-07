@@ -3,15 +3,14 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { vscDarkPlus } from "react-syntax-highlighter/dist/cjs/styles/prism";
-import { notFound } from "next/navigation";
-import { Content } from "@/lib/utils/constants/postProps";
+import Content from "@/lib/types/content";
 import ContentCategory from "@/lib/components/pages/post/contentCategory";
 import LikeContainer from "@/lib//components/likeContainer";
 import getDateKoreanString from "@/lib/utils/functions/getDateKoreanString";
 import ImageContainer from "./imageContainer";
-
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { vscDarkPlus } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import { notFound } from "next/navigation";
 interface Props {
   post: Content;
 }
@@ -40,11 +39,18 @@ const ContentsView: React.FC<Props> = ({ post }) => {
             )}
             <p>{post.author?.name ? post.author.name : "저자"}</p>
           </div>
-          {post.updatedAt ? (
-            <p className="content-updated-at">
-              {getDateKoreanString(post.updatedAt!, true)}
-            </p>
-          ) : null}
+          <div>
+            {post.createdAt && (
+              <p className="content-updated-at">
+                등록 : {getDateKoreanString(post.createdAt!, true)}
+              </p>
+            )}
+            {post.updatedAt && (
+              <p className="content-updated-at">
+                수정 : {getDateKoreanString(post.updatedAt!, true)}
+              </p>
+            )}
+          </div>
         </div>
         <LikeContainer size={size} post={post} />
       </div>

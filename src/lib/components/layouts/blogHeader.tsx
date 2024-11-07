@@ -89,13 +89,13 @@ const ManageButton: React.FC<NextAuthStatus> = ({ session, status }) => {
               <>
                 <IconButton
                   description="글 쓰기"
-                  onClick={() => router.push("/write")}
+                  onClick={() => router.push("/admin/write")}
                 >
                   <WriteIcon width={size} height={size} />
                 </IconButton>
                 <IconButton
                   description="블로그 관리"
-                  onClick={() => router.push("/manage")}
+                  onClick={() => router.push("/admin/manage")}
                 >
                   <SettingIcon width={size} height={size} />
                 </IconButton>

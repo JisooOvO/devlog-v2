@@ -5,7 +5,7 @@ const getDateKoreanString = (date: Date | undefined, showTime?: boolean) => {
     timeZone: "Asia/Seoul",
     year: "numeric",
     month: "long",
-    day: "numeric",
+    day: "2-digit",
     hour12: false,
     ...(showTime && {
       hour: "2-digit",

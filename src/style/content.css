@@ -86,6 +86,14 @@
   object-fit: fill;
 }
 
+.content-spinner {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @media (max-width: 600px) {
   .content-updated-at {
     display: none;
