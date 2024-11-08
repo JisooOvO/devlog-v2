@@ -6,7 +6,7 @@ type Content =
         likes: number;
       } | null;
       thumbnail?: Pick<Thumbnail, "path"> | null;
-      author?: Pick<User, "name" | "email" | "image"> | null;
+      author?: Partial<Pick<User, "name" | "email" | "image">> | null;
       topic?: {
         id?: string;
         name: string;

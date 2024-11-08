@@ -150,6 +150,7 @@ export async function PUT(req: NextRequest) {
         },
         data: {
           ...posts,
+          published: posts.published.toString() === "false" ? false : true,
           updatedAt: new Date(),
         },
       });
@@ -162,7 +163,8 @@ export async function PUT(req: NextRequest) {
         },
         { status: 200 }
       );
-    } catch {
+    } catch (e) {
+      console.log(e);
       return customResponse(
         { success: false, message: "글 수정에 실패하였습니다." },
         { status: 500 }

@@ -23,7 +23,7 @@ const CommentWrite: React.FC<Props> = ({ postId, setChangedKey }) => {
       setChangedKey(() => ["add", newComment]);
       setComment("");
     }
-  }, [newComment]);
+  }, [newComment, setChangedKey]);
 
   return (
     <div className="comment-write">

@@ -46,11 +46,13 @@ const LikeContainer: React.FC<Props> = ({ size, post }) => {
           }
         }}
       >
-        <StarIcon width={size} height={size} fill={"#ffa500"} />
+        <>
+          <StarIcon width={size} height={size} fill={"#ffa500"} />
+          <div className="content-spinner">
+            {isLoading ? <Spinner /> : <p>{data}</p>}
+          </div>
+        </>
       </IconButton>
-      <div className="content-spinner">
-        {isLoading ? <Spinner /> : <p>{data}</p>}
-      </div>
     </div>
   );
 };
