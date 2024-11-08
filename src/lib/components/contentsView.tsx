@@ -11,6 +11,8 @@ import ImageContainer from "./imageContainer";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { notFound } from "next/navigation";
+import "@/style/content.css";
+
 interface Props {
   post: Content;
 }
@@ -23,7 +25,7 @@ const ContentsView: React.FC<Props> = ({ post }) => {
   }
 
   return (
-    <div>
+    <div className="content-view">
       <h1>{post.title?.length !== 0 ? post.title : "제목"}</h1>
       <hr />
       <div className="content-meta">

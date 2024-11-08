@@ -3,7 +3,7 @@ import { Dispatch, KeyboardEvent, SetStateAction } from "react";
 const handleKeyUp = (
   event: KeyboardEvent<HTMLTextAreaElement>,
   isWrite: boolean,
-  setIsWrite: Dispatch<SetStateAction<boolean>>,
+  setIsWrite: Dispatch<SetStateAction<boolean>>
 ) => {
   const textarea = event.target as HTMLTextAreaElement;
 
@@ -20,10 +20,10 @@ const handleKeyUp = (
     const afterCursor = value.substring(end);
 
     switch (event.shiftKey) {
-      case true:
-        textarea.value = beforeCursor.replace(/\t([^]*)$/, "$1") + afterCursor;
-        textarea.selectionStart = textarea.selectionEnd = start - 1;
-        break;
+      // case true:
+      //   textarea.value = beforeCursor.replace(/\t([^]*)$/, "$1") + afterCursor;
+      //   textarea.selectionStart = textarea.selectionEnd = start - 1;
+      //   break;
       case false:
         textarea.value = beforeCursor + "\t" + afterCursor;
         textarea.selectionStart = textarea.selectionEnd = start + 1;

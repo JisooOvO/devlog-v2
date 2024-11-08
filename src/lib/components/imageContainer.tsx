@@ -12,14 +12,16 @@ interface Props {
 const ImageContainer: React.FC<Props> = ({ width, height, src, alt }) => {
   return (
     <div className="relative" style={{ width, height }}>
-      <Image
-        src={src ?? PLACEHOLDER}
-        alt={alt}
-        fill
-        sizes="100% 100%"
-        placeholder="blur"
-        blurDataURL={PLACEHOLDER}
-      />
+      {src && (
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          sizes="100% 100%"
+          placeholder="blur"
+          blurDataURL={PLACEHOLDER}
+        />
+      )}
     </div>
   );
 };

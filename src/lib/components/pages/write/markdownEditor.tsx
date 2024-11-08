@@ -91,6 +91,7 @@ const MarkdownEditor: React.FC<mardownProps> = ({
         onKeyDown={(event) => handleKeyDown(event, isWrite)}
         onKeyUp={(event) => handleKeyUp(event, isWrite, setIsWrite)}
         onChange={(e) => {
+          localStorage.setItem(post?.title ?? "temp", e.target.value);
           dispatch({
             type: PostActionType.SET_CONTENTS,
             payload: { content: e.target.value },
