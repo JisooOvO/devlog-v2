@@ -1,10 +1,10 @@
 "use client";
 
-import IconButton from "@/lib/components/iconButton";
 import "@/style/content.css";
+import IconButton from "@/lib/components/iconButton";
 import Link from "next/link";
 import RightArrowIcon from "@/lib/icons/rightArrow";
-import { Content } from "@/lib/types/content";
+import Content from "@/lib/types/content";
 
 interface Props {
   size: string;

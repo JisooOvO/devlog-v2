@@ -51,7 +51,7 @@ const CommentContainer: React.FC<CommentProps> = ({ postId }) => {
     if (postId) {
       fetchData({ method: "get" }, { page, postId });
     }
-  }, [page, postId]);
+  }, [page, postId, fetchData]);
 
   useEffect(() => {
     if (data?.comments) {
@@ -117,7 +117,7 @@ const CommentContainer: React.FC<CommentProps> = ({ postId }) => {
     }
 
     setPage(targetPage);
-  }, [maximum, defaultCommentTake, setPage]);
+  }, [maximum, setPage]);
 
   if (!postId) return null;
 
@@ -218,7 +218,7 @@ const CommentList: React.FC<CommentListProps> = ({
         body: JSON.stringify({ email: session?.user?.email }),
       });
     }
-  }, [session?.user?.email]);
+  }, [fetchData, session?.user?.email]);
 
   useEffect(() => {
     if (newCommentRef.current && changedKey[0] === "add") {
@@ -312,7 +312,7 @@ const CommentHeader: React.FC<CommentHeaderProps> = ({
     if (deletedComment) {
       setChangedKey(() => ["delete", deletedComment]);
     }
-  }, [deletedComment]);
+  }, [deletedComment, setChangedKey]);
 
   return (
     <div className="comment-user-container">
@@ -405,7 +405,7 @@ const CommentRegisterButton: React.FC<CommentRegisterProps> = ({
 
       setChangedKey(() => ["update", updatedComment]);
     }
-  }, [updatedComment]);
+  }, [index, setChangedKey, updatedComment]);
 
   return (
     <button
