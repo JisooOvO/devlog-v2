@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import IconButton from "../../iconButton";
-import DeleteIcon from "@/lib/icons/delete";
 
 const PostIndexer: React.FC = () => {
   const [content, setContent] = useState<Array<JSX.Element>>([]);
@@ -44,19 +42,8 @@ const PostIndexer: React.FC = () => {
   }, []);
 
   return (
-    <div className="post-indexer-layout relative">
+    <div className="post-indexer-layout">
       <div className="post-indexer-container">{content.map((e) => e)}</div>
-      <div className="post-indexer-toggle">
-        <IconButton
-          onClick={() => {
-            document
-              .querySelector(".post-indexer-container")
-              ?.classList.toggle("hidden");
-          }}
-        >
-          <DeleteIcon width="2rem" height="2rem" />
-        </IconButton>
-      </div>
     </div>
   );
 };

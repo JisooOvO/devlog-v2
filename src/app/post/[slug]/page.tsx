@@ -13,6 +13,7 @@ import PostIndexer from "@/lib/components/pages/post/postIndexer";
 import { notFound } from "next/navigation";
 import { Metadata, ResolvingMetadata } from "next";
 import { metadata } from "@/app/layout";
+import "@/style/content.css";
 
 export const dynamicParams = true;
 
@@ -71,7 +72,10 @@ const PostPage: React.FC<{ params: Params }> = async ({ params }) => {
 
   return (
     <>
-      <ContentsView post={content} />
+      <div className="content-layout relative">
+        <ContentsView post={content} />
+        <PostIndexer />
+      </div>
       <LinkToOtherPost currentPost={content} />
       <CommentContainer postId={content.id} />
       <div className="post-another-series">
@@ -91,7 +95,6 @@ const PostPage: React.FC<{ params: Params }> = async ({ params }) => {
         />
       </div>
       <PostController post={content} />
-      <PostIndexer />
     </>
   );
 };
