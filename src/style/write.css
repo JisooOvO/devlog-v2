@@ -78,7 +78,7 @@
   font-size: 1rem;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1024px) {
   .preview {
     display: none !important;
   }

@@ -218,7 +218,7 @@ select:hover {
   align-items: center;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1024px) {
   body {
     margin: 0 var(--mobile-x-margin);
     margin-top: calc(
