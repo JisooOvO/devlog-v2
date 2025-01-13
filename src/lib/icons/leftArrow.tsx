@@ -5,9 +5,10 @@ const LeftArrowIcon: React.FC<IconProps> = ({ width, height }) => {
     <svg
       width={width}
       height={height}
-      viewBox="0 0 24 24"
+      viewBox="7 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="xMinYMin meet"
     >
       <path
         d="M15 7L10 12L15 17"

@@ -1,4 +1,5 @@
 .content-layout {
+  margin-bottom: 5rem;
   display: flex;
   gap: 2rem;
 }
