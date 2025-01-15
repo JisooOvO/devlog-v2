@@ -142,6 +142,10 @@ blockquote p {
   margin: 0;
 }
 
+pre {
+  width: calc(var(--available-width) * 0.8 - 2rem);
+}
+
 .token {
   font-family: "Pretendard-Regular", sans-serif;
 }
@@ -225,6 +229,10 @@ select:hover {
       calc(var(--header-height) + var(--header-margin-bottom)) +
         var(--default-y-margin)
     );
+    width: var(--available-mobile-width);
+  }
+
+  pre {
     width: var(--available-mobile-width);
   }
 }
